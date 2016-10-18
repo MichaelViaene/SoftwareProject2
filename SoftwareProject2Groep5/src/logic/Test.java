@@ -7,5 +7,12 @@ public class Test {
 	//Jentonic!
 	//Bruno?
 	//max?
-	//ilias ok
+	
+	
+	
+	public static void main(String[] args) {
+		DBConnect connect = new DBConnect();
+		connect.getData();
+	}
+	
 }

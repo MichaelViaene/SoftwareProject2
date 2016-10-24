@@ -1,7 +1,7 @@
 package logic;
 
 import java.sql.*;
-
+//Jordan
 public class DBConnect {
 
 	private Statement st;

@@ -8,7 +8,7 @@ public class Database {
 	private static ResultSet rs;
 	private static Connection con = null;
 
-	public static void OpenDatabase() {
+	public static void openDatabase() {
 
 		if (con == null) {
 			try {
@@ -30,6 +30,10 @@ public class Database {
 				System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			}
 		}
+	}
+	
+	public static Connection getConnection() {
+		return con;
 	}
 
 	/*

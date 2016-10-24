@@ -36,13 +36,5 @@ public class Database {
 		return con;
 	}
 
-	/*
-	 * public void getData() { try { String query = "select * from name"; rs =
-	 * st.executeQuery(query); System.out.println("INFORMATIE UIT DB"); while
-	 * (rs.next()) { String prenom = rs.getString("first"); String nom =
-	 * rs.getString("last"); System.out.println("Voornaam: " + prenom +
-	 * "   Achternaam: " + nom); } }
-	 * 
-	 * catch (Exception ex) { System.out.println(ex); } }
-	 */
+	
 }

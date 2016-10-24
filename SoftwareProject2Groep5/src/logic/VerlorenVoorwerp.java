@@ -11,8 +11,8 @@ public class VerlorenVoorwerp {
 	
 	@Override
 	public String toString() {
-		return "VerlorenVoorwerp [voorwerpid=" + voorwerpid + ", naam=" + naam + ", omschrijving=" + omschrijving
-				+ ", datum=" + datum + ", persoonid=" + persoonid + ", aanwezig=" + aanwezig + "]";
+		return "VerlorenVoorwerp voorwerpid=" + voorwerpid + ", naam=" + naam + ", omschrijving=" + omschrijving
+				+ ", datum=" + datum + ", persoonid=" + persoonid + ", aanwezig=" + aanwezig ;
 	}
 	public VerlorenVoorwerp(){
 	}

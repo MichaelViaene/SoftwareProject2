@@ -103,7 +103,7 @@ public class VerlorenVoorwerpDAO {
 			con.commit();
 			return true;
 		} catch (SQLException e) {
-			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			System.err.println(e.getClass().getName() + " : " + e.getMessage());
 			System.exit(1);
 		}
 

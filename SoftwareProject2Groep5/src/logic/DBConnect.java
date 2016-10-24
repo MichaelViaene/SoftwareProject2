@@ -5,8 +5,9 @@ import java.sql.*;
 public class DBConnect {
 
 	private Statement st;
-	private ResultSet rs;
-
+	//private ResultSet rs;
+	
+	
 	public DBConnect()
 	{
 		Connection con = null;

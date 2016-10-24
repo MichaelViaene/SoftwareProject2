@@ -20,7 +20,7 @@ public class DBConnect {
 		}
 	
 	}
-
+/*
 	public void getData() {
 		try {
 			String query = "select * from name";
@@ -37,4 +37,5 @@ public class DBConnect {
 			System.out.println(ex);
 		}
 	}
+*/
 }

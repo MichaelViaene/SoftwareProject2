@@ -6,24 +6,24 @@ public class VerlorenVoorwerp {
 	private String naam;
 	private String omschrijving;
 	private String datum;
-	private int persoonid;
+	private String station;
 	private boolean aanwezig;
 	
 	@Override
 	public String toString() {
 		return "VerlorenVoorwerp voorwerpid=" + voorwerpid + ", naam=" + naam + ", omschrijving=" + omschrijving
-				+ ", datum=" + datum + ", persoonid=" + persoonid + ", aanwezig=" + aanwezig ;
+				+ ", datum=" + datum + ", persoonnaam=" + station + ", aanwezig=" + aanwezig ;
 	}
 	public VerlorenVoorwerp(){
 	}
-	public VerlorenVoorwerp(int voorwerpid, String naam, String omschrijving, String datum, int persoonid,
+	public VerlorenVoorwerp(int voorwerpid, String naam, String omschrijving, String datum, String station,
 			boolean aanwezig) {
 		super();
 		this.voorwerpid = voorwerpid;
 		this.naam = naam;
 		this.omschrijving = omschrijving;
 		this.datum = datum;
-		this.persoonid = persoonid;
+		this.station= station;
 		this.aanwezig = aanwezig;
 	}
 	public int getVoorwerpid() {
@@ -50,11 +50,11 @@ public class VerlorenVoorwerp {
 	public void setDatum(String datum) {
 		this.datum = datum;
 	}
-	public int getPersoonid() {
-		return persoonid;
+	public String getStation() {
+		return station;
 	}
-	public void setPersoonid(int persoonid) {
-		this.persoonid = persoonid;
+	public void setStation(String station) {
+		this.station= station;
 	}
 	public boolean isAanwezig() {
 		return aanwezig;

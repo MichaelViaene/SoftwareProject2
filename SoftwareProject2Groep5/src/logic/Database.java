@@ -4,8 +4,6 @@ import java.sql.*;
 
 public class Database {
 
-	private static Statement st;
-	private static ResultSet rs;
 	private static Connection con = null;
 
 	public static void openDatabase() {

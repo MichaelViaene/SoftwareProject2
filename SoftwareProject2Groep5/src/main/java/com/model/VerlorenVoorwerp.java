@@ -1,4 +1,4 @@
-package logic;
+package com.model;
 
 public class VerlorenVoorwerp {
 

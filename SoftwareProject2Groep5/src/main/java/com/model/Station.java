@@ -1,7 +1,7 @@
 /**
  * 
  */
-package logic;
+package com.model;
 
 /**
  * @author Vik Mortier

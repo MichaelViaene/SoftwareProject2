@@ -1,10 +1,11 @@
-package view;
+package com.ehbrail;
+
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.scene.Scene;
+import javafx.fxml.FXMLLoader;
 
 /**
 *
@@ -16,16 +17,12 @@ public class SoftwareProject extends Application {
    
    @Override
    public void start(Stage stage) throws Exception {
-       Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
-       
+       Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));       
        Scene scene = new Scene(root);
-       
        stage.setScene(scene);
        stage.setTitle("TreinSoftware User Auth");
        stage.setResizable(false);
-       stage.show();
-       
-       
+       stage.show();            
    }
 
    /**

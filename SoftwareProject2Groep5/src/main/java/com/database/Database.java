@@ -1,4 +1,4 @@
-package logic;
+package com.database;
 
 import java.sql.*;
 

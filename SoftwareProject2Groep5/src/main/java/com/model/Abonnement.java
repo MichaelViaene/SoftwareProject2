@@ -1,7 +1,7 @@
 /**
  * 
  */
-package logic;
+package com.model;
 
 import java.util.Date;
 

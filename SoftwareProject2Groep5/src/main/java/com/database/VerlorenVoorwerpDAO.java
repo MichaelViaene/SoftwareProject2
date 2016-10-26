@@ -1,7 +1,8 @@
-package logic;
+package com.database;
 
 import java.sql.*;
 import java.util.ArrayList;
+import com.model.*;
 
 public class VerlorenVoorwerpDAO {
 

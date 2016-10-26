@@ -25,6 +25,10 @@ import java.time.format.DateTimeFormatter;
 
 /**
  * Created by jorda on 26/10/2016.
+ * Bij Errors over "Could not generate DH keypair"  moet je Java Cryptography Extension (JCE) Unlimited Strength downloaden
+ * en in uw jre folder zetten.
+ * voor de huidige versie Java8         http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html
+ *
  */
 public class WerknemerController implements Initializable{
 

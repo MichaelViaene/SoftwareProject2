@@ -3,7 +3,7 @@ package com.ehbrail;
 /**
  *
  * @author Vik Mortier
- */
+ **/
 import com.database.LoginDAO;
 import com.model.Login;
 import javafx.fxml.FXML;
@@ -58,6 +58,17 @@ public class LoginController implements Initializable {
                     adminController.setUser(login.getUsername());
                     stage.show();
                 }
+                if (login.getBevoegdheid() == Login.Bevoegdheid.WERKNEMER) {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("Werknemer.fxml"));
+                    root = (Region) loader.load();
+                    stage.setTitle("EhB-Rail  |  WERKNEMER");
+                    Scene scene = new Scene(root);
+                    stage.setScene(scene);
+                    WerknemerController werknemerController = loader.getController();
+                    werknemerController.setUser(login.getUsername());
+                    stage.show();
+                }
+
                 //TODO Create WERKNEMER fxml / controller etc.
 
             }

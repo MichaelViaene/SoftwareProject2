@@ -11,6 +11,9 @@ import javafx.fxml.FXMLLoader;
 *
 * @author Vik Mortier
 * voor javaFX toe te voegen gebruik: https://www.eclipse.org/efxclipse/install.html#for-the-lazy
+* Hier zit de void Main();
+* in Eclipse -> Rechtermuis op Project -> run as Maven Build -> Type in goals -> jfx:run
+* Veel makkelijker en overzichtelijker in IntelliJ.
 */
 
 public class SoftwareProject extends Application {

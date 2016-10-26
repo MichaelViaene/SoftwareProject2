@@ -5,6 +5,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -38,6 +40,15 @@
                               <TextField fx:id="treinID" layoutX="93.0" layoutY="48.0" />
                               <Text layoutX="33.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TreinID" wrappingWidth="51.13671875" />
                               <Button fx:id="search" layoutX="269.0" layoutY="48.0" mnemonicParsing="false" onAction="#searchAction" text="Search" />
+                              <TableView fx:id="tableView" layoutX="33.0" layoutY="122.0" prefHeight="545.0" prefWidth="614.0">
+                                <columns>
+                                  <TableColumn fx:id="stopID" prefWidth="88.0" text="StopID" />
+                                  <TableColumn fx:id="station" prefWidth="240.0" text="Station" />
+                                    <TableColumn fx:id="time" prefWidth="149.0" text="DepartureTime" />
+                                    <TableColumn fx:id="platform" prefWidth="126.0" text="Platform" />
+                                </columns>
+                              </TableView>
+                              <Label fx:id="totalStops" layoutX="33.0" layoutY="84.0" prefHeight="25.0" prefWidth="142.0" text="Totalstops" />
                            </children></AnchorPane>
                   </content>
                 </Tab>

@@ -21,6 +21,8 @@ import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
+
+import javax.net.ssl.HttpsURLConnection;
 import java.time.format.DateTimeFormatter;
 
 
@@ -33,9 +35,10 @@ import java.time.format.DateTimeFormatter;
  */
 public class WerknemerController implements Initializable{
 
-    public static int getHTTPResponseCode(URL url) throws IOException {
-        HttpURLConnection http = (HttpURLConnection)url.openConnection();
-        int statusCode = http.getResponseCode();
+    public static int getHTTPSResponseCode(URL url) throws IOException {
+        HttpsURLConnection https = (HttpsURLConnection)url.openConnection();
+        https.setRequestMethod("GET");
+        int statusCode = https.getResponseCode();
         System.out.println(statusCode);
         return statusCode;
     }
@@ -88,9 +91,10 @@ public class WerknemerController implements Initializable{
     @FXML
     private void searchAction(ActionEvent event) throws IOException {
         try {
-            //vb treinID = IC545
+            //vb treinID = IC545    S23671
+            errorRequestLabel.setText("");
             URL url = new URL("https://api.irail.be/vehicle/?id=BE.NMBS."+treinID.getText()+"&format=xml");
-            int responseCode = getHTTPResponseCode(url);
+            int responseCode = getHTTPSResponseCode(url);
             if (responseCode == 200){
                 SAXReader reader = new SAXReader();
                 Document document = reader.read(url);

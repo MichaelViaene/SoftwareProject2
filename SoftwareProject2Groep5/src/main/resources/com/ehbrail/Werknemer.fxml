@@ -49,6 +49,7 @@
                                 </columns>
                               </TableView>
                               <Label fx:id="totalStops" layoutX="33.0" layoutY="84.0" prefHeight="25.0" prefWidth="142.0" text="Totalstops" />
+                              <Label fx:id="errorRequestLabel" layoutX="33.0" layoutY="14.0" prefHeight="17.0" prefWidth="289.0" textFill="RED" />
                            </children></AnchorPane>
                   </content>
                 </Tab>

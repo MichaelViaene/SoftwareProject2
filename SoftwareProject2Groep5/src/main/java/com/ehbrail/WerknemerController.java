@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
@@ -32,6 +33,13 @@ import java.time.format.DateTimeFormatter;
  */
 public class WerknemerController implements Initializable{
 
+    public static int getHTTPResponseCode(URL url) throws IOException {
+        HttpURLConnection http = (HttpURLConnection)url.openConnection();
+        int statusCode = http.getResponseCode();
+        System.out.println(statusCode);
+        return statusCode;
+    }
+
     String user;
 
     public void setUser(String user) {
@@ -44,6 +52,8 @@ public class WerknemerController implements Initializable{
 
     @FXML
     Label usernameWerknemer;
+    @FXML
+    Label errorRequestLabel;
     @FXML
     private Label totalStops;
     @FXML
@@ -78,23 +88,29 @@ public class WerknemerController implements Initializable{
     @FXML
     private void searchAction(ActionEvent event) throws IOException {
         try {
-            treinID.getText();
-            SAXReader reader = new SAXReader();
             //vb treinID = IC545
-            Document document = reader.read("https://api.irail.be/vehicle/?id=BE.NMBS."+treinID.getText()+"&format=xml");
-            //Element classElement = document.getRootElement();
-            List<Node> nodes = document.selectNodes("vehicleinformation/stops/stop[@id]");
-            Node totalStopNode = document.selectSingleNode("vehicleinformation/stops[@number]");
-            totalStops.setText("Total stops: " + totalStopNode.valueOf("@number"));
-            ObservableList<TrainInfo> data = FXCollections.observableArrayList();
-            for (Node node: nodes){
-                data.add(new TrainInfo(Integer.parseInt(node.valueOf("@id")),
-                        node.selectSingleNode("station").getText(),
-                        convertISO8601(node.selectSingleNode("time").valueOf("@formatted")),
-                        node.selectSingleNode("platform").getText()
-                ));
+            URL url = new URL("https://api.irail.be/vehicle/?id=BE.NMBS."+treinID.getText()+"&format=xml");
+            int responseCode = getHTTPResponseCode(url);
+            if (responseCode == 200){
+                SAXReader reader = new SAXReader();
+                Document document = reader.read(url);
+
+                List<Node> nodes = document.selectNodes("vehicleinformation/stops/stop[@id]");
+                Node totalStopNode = document.selectSingleNode("vehicleinformation/stops[@number]");
+                totalStops.setText("Total stops: " + totalStopNode.valueOf("@number"));
+                ObservableList<TrainInfo> data = FXCollections.observableArrayList();
+                for (Node node: nodes){
+                    data.add(new TrainInfo(Integer.parseInt(node.valueOf("@id")),
+                            node.selectSingleNode("station").getText(),
+                            convertISO8601(node.selectSingleNode("time").valueOf("@formatted")),
+                            node.selectSingleNode("platform").getText()
+                    ));
+                }
+                tableView.setItems(data);
             }
-            tableView.setItems(data);
+            else{
+                errorRequestLabel.setText("Error occured, response code: "+responseCode + ". TreinID bestaat niet");
+            }
         }
         catch (Exception e){
             e.printStackTrace();

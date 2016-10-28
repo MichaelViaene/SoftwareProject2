@@ -91,6 +91,7 @@ public class TicketDAO {
                 }
                 resultSet.close();
                 preparedStatement.close();
+                con.close();
             }
 
         } catch (Exception ex) {

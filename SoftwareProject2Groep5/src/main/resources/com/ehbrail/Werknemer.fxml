@@ -31,31 +31,16 @@
             </Pane>
          </top>
          <center>
-            <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+            <TabPane fx:id="wtabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
               <tabs>
-                <Tab text="Train Info">
+                <Tab fx:id="wTrainInfoTab" text="Train Info">
                   <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <TextField fx:id="treinID" layoutX="93.0" layoutY="48.0" />
-                              <Text layoutX="33.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TreinID" wrappingWidth="51.13671875" />
-                              <Button fx:id="search" layoutX="269.0" layoutY="48.0" mnemonicParsing="false" onAction="#searchAction" text="Search" />
-                              <TableView fx:id="tableView" layoutX="33.0" layoutY="122.0" prefHeight="545.0" prefWidth="614.0">
-                                <columns>
-                                  <TableColumn fx:id="stopID" prefWidth="88.0" text="StopID" />
-                                  <TableColumn fx:id="station" prefWidth="240.0" text="Station" />
-                                    <TableColumn fx:id="time" prefWidth="149.0" text="DepartureTime" />
-                                    <TableColumn fx:id="platform" prefWidth="126.0" text="Platform" />
-                                </columns>
-                              </TableView>
-                              <Label fx:id="totalStops" layoutX="33.0" layoutY="84.0" prefHeight="25.0" prefWidth="142.0" text="Totalstops" />
-                              <Label fx:id="errorRequestLabel" layoutX="33.0" layoutY="14.0" prefHeight="17.0" prefWidth="289.0" textFill="RED" />
-                           </children></AnchorPane>
+                      <fx:include fx:id="wTrainInfoTabPage" source="wTrainInfoTabPage.fxml"/>
                   </content>
                 </Tab>
-                <Tab text="Route Info">
+                <Tab fx:id="wRouteInfoTab" text="Route Info">
                   <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                      <fx:include fx:id="wRouteInfoTabPage" source="wRouteInfoTabPage.fxml"/>
                   </content>
                 </Tab>
               </tabs>

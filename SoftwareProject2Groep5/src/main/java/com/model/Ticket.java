@@ -1,9 +1,11 @@
 /**
- * 
+ *
  */
 package com.model;
 
-import java.util.Date;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * @author Vik Mortier
@@ -11,26 +13,33 @@ import java.util.Date;
  */
 
 public class Ticket {
-	
+
+	private String vertrekStation;
+	private String eindStation;
+
 	private int ticket_id;
 	private int klasse;
 	private int type;
 	private double prijs;
 
-	private Date datumAankoop;
-	private Date datumHeen;
-	private Date datumTerug;
-	
-	private Route route;
-	
-	
+	private LocalDateTime datumAankoop;
+	private LocalDate datumHeen;
+	private LocalDate datumTerug;
+
+	/*
+		Voorbeeld localDate, LocaldateTime (present)
+		LocalDate todayLocalDate = LocalDate.now(ZoneId.of( "Europe/Brussels" ) );
+		LocalDateTime todayLocalDateTime = LocalDateTime.now(ZoneId.of( "Europe/Brussels" ));
+
+	 */
+
 	public Ticket() {
 		super();
 	}
 
-	public Ticket(int ticket_id, int klasse, int type, double prijs, Date datumAankoop, Date datumHeen, Date datumTerug,
-			Route route) {
-		super();
+	public Ticket(String vertrekStation, String eindStation, int ticket_id, int klasse, int type, double prijs, LocalDateTime datumAankoop, LocalDate datumHeen, LocalDate datumTerug) {
+		this.vertrekStation = vertrekStation;
+		this.eindStation = eindStation;
 		this.ticket_id = ticket_id;
 		this.klasse = klasse;
 		this.type = type;
@@ -38,31 +47,22 @@ public class Ticket {
 		this.datumAankoop = datumAankoop;
 		this.datumHeen = datumHeen;
 		this.datumTerug = datumTerug;
-		this.route = route;
 	}
 
-	public Date getDatumAankoop() {
-		return datumAankoop;
+	public String getVertrekStation() {
+		return vertrekStation;
 	}
 
-	public void setDatumAankoop(Date datumAankoop) {
-		this.datumAankoop = datumAankoop;
+	public void setVertrekStation(String vertrekStation) {
+		this.vertrekStation = vertrekStation;
 	}
 
-	public Date getDatumHeen() {
-		return datumHeen;
+	public String getEindStation() {
+		return eindStation;
 	}
 
-	public void setDatumHeen(Date datumHeen) {
-		this.datumHeen = datumHeen;
-	}
-
-	public Date getDatumTerug() {
-		return datumTerug;
-	}
-
-	public void setDatumTerug(Date datumTerug) {
-		this.datumTerug = datumTerug;
+	public void setEindStation(String eindStation) {
+		this.eindStation = eindStation;
 	}
 
 	public int getTicket_id() {
@@ -97,22 +97,42 @@ public class Ticket {
 		this.prijs = prijs;
 	}
 
-	public Route getRoute() {
-		return route;
+	public LocalDateTime getDatumAankoop() {
+		return datumAankoop;
 	}
 
-	public void setRoute(Route route) {
-		this.route = route;
+	public void setDatumAankoop(LocalDateTime datumAankoop) {
+		this.datumAankoop = datumAankoop;
+	}
+
+	public LocalDate getDatumHeen() {
+		return datumHeen;
+	}
+
+	public void setDatumHeen(LocalDate datumHeen) {
+		this.datumHeen = datumHeen;
+	}
+
+	public LocalDate getDatumTerug() {
+		return datumTerug;
+	}
+
+	public void setDatumTerug(LocalDate datumTerug) {
+		this.datumTerug = datumTerug;
 	}
 
 	@Override
 	public String toString() {
-		return "Ticket [ticket_id=" + ticket_id + ", klasse=" + klasse + ", type=" + type + ", prijs=" + prijs
-				+ ", datumAankoop=" + datumAankoop + ", datumHeen=" + datumHeen + ", datumTerug=" + datumTerug
-				+ ", route=" + route + "]";
+		return "Ticket{" +
+				"vertrekStation='" + vertrekStation + '\'' +
+				", eindStation='" + eindStation + '\'' +
+				", ticket_id=" + ticket_id +
+				", klasse=" + klasse +
+				", type=" + type +
+				", prijs=" + prijs +
+				", datumAankoop=" + datumAankoop +
+				", datumHeen=" + datumHeen +
+				", datumTerug=" + datumTerug +
+				'}';
 	}
-
-	
-	
-	
 }

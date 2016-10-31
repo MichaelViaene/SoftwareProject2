@@ -1,6 +1,32 @@
 package com.model;
+import org.mindrot.jbcrypt.BCrypt;
 
+import java.security.SecureRandom;
+
+/**
+ * https://github.com/defuse/password-hashing
+ * er werd aangeraden om iets anders te kiezen vb BCrypt
+ * Gebruik JBCrypt, geen salt nodig in DB.
+ * https://paragonie.com/blog/2016/02/how-safely-store-password-in-2016
+ * http://www.mindrot.org/projects/jBCrypt/
+**/
 public class Login {
+
+	public static String createHash(String password){
+		String hash = BCrypt.hashpw(password,BCrypt.gensalt());
+		return hash;
+	}
+	public static boolean verifyPassword(String pass, String correctHash){
+		if (BCrypt.checkpw(pass,correctHash)){
+			//System.out.println("Passwoord is correct");
+			return true;
+		}
+		else {
+			//System.out.println("Paswoord is fout");
+			return false;
+		}
+	}
+
 	//login_id(int11),username(vchar45),passwoord(vchar45),bevoegdheid(int11),salt(vchar45)
 
 	public enum Bevoegdheid{
@@ -13,25 +39,37 @@ public class Login {
 	private String username;
 	private String password;
 	private Bevoegdheid bevoegdheid;
-	private String salt;
-	
+	private int medewerker_id;
+
 	@Override
 	public String toString() {
-		return "Login [login_id=" + login_id + ", username=" + username + ", password=" + password + ", bevoegdheid="
-				+ bevoegdheid + ", salt=" + salt + "]";
+		return "Login{" +
+				"login_id=" + login_id +
+				", username='" + username + '\'' +
+				", password='" + password + '\'' +
+				", bevoegdheid=" + bevoegdheid +
+				", medewerker_id=" + medewerker_id +
+				'}';
 	}
-	
+
 	public Login() {
 		super();
 	}
 
-	public Login(int login_id, String username, String password, Bevoegdheid bevoegdheid, String salt) {
-		super();
+	public Login(int login_id, String username, String password, Bevoegdheid bevoegdheid, int medewerker_id) {
 		this.login_id = login_id;
 		this.username = username;
 		this.password = password;
 		this.bevoegdheid = bevoegdheid;
-		this.salt = salt;
+		this.medewerker_id = medewerker_id;
+	}
+
+	public int getMedewerker_id() {
+		return medewerker_id;
+	}
+
+	public void setMedewerker_id(int medewerker_id) {
+		this.medewerker_id = medewerker_id;
 	}
 
 	public int getLogin_id() {
@@ -73,54 +111,28 @@ public class Login {
 		}
 	}
 
-	public String getSalt() {
-		return salt;
-	}
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
 
-	public void setSalt(String salt) {
-		this.salt = salt;
+		Login login = (Login) o;
+
+		if (getLogin_id() != login.getLogin_id()) return false;
+		if (getMedewerker_id() != login.getMedewerker_id()) return false;
+		if (!getUsername().equals(login.getUsername())) return false;
+		if (!getPassword().equals(login.getPassword())) return false;
+		return getBevoegdheid() == login.getBevoegdheid();
+
 	}
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((bevoegdheid == null) ? 0 : bevoegdheid.hashCode());
-		result = prime * result + login_id;
-		result = prime * result + ((password == null) ? 0 : password.hashCode());
-		result = prime * result + ((salt == null) ? 0 : salt.hashCode());
-		result = prime * result + ((username == null) ? 0 : username.hashCode());
+		int result = getLogin_id();
+		result = 31 * result + getUsername().hashCode();
+		result = 31 * result + getPassword().hashCode();
+		result = 31 * result + getBevoegdheid().hashCode();
+		result = 31 * result + getMedewerker_id();
 		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Login other = (Login) obj;
-		if (bevoegdheid != other.bevoegdheid)
-			return false;
-		if (login_id != other.login_id)
-			return false;
-		if (password == null) {
-			if (other.password != null)
-				return false;
-		} else if (!password.equals(other.password))
-			return false;
-		if (salt == null) {
-			if (other.salt != null)
-				return false;
-		} else if (!salt.equals(other.salt))
-			return false;
-		if (username == null) {
-			if (other.username != null)
-				return false;
-		} else if (!username.equals(other.username))
-			return false;
-		return true;
 	}
 }

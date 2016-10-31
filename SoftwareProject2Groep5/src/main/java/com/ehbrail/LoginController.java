@@ -71,7 +71,7 @@ public class LoginController implements Initializable {
                     Scene scene = new Scene(root);
                     stage.setScene(scene);
                     WerknemerController werknemerController = loader.getController();
-                    werknemerController.setUser(login.getUsername());
+                    werknemerController.setLogin(login);
                     stage.show();
                 }
             }

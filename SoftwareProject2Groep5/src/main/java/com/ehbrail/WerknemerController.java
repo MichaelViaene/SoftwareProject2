@@ -1,5 +1,6 @@
 package com.ehbrail;
 
+import com.model.Login;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -34,8 +35,19 @@ public class WerknemerController implements Initializable{
         return dateTime;
     }
 
+    Login login;
     String user;
     @FXML Label usernameWerknemer;
+
+
+    public Login getLogin() {
+        return login;
+    }
+
+    public void setLogin(Login login) {
+        this.login = login;
+        usernameWerknemer.setText("Welcome, " + login.getUsername() + " met bevoegdheid:"+ login.getBevoegdheid());
+    }
 
     public void setUser(String user) {
         this.user = user;

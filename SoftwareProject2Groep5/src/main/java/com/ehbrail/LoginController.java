@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static com.model.Login.verifyPassword;
+
 /** Controls the login screen interactions **/
 public class LoginController implements Initializable {
 
@@ -42,7 +44,8 @@ public class LoginController implements Initializable {
         Login login = logindao.getLoginByUsername(username.getText());
 
         if (login.getUsername() != null){
-            if(username.getText().equals(login.getUsername()) && password.getText().equals(login.getPassword()))
+            //TODO check of medewerker op medewerker_id actief is, Anders Label output dat het offline is.
+            if(username.getText().equals(login.getUsername()) && verifyPassword(password.getText(),login.getPassword()))
             {
                 ((Node)event.getSource()).getScene().getWindow().hide();
                 Stage stage = new Stage();
@@ -51,6 +54,7 @@ public class LoginController implements Initializable {
                 if (login.getBevoegdheid() == Login.Bevoegdheid.ADMIN) {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("Admin.fxml"));
                     root = (Region) loader.load();
+                    stage.setMaximized(true);
                     stage.setTitle("EhB-Rail  |  ADMIN");
                     Scene scene = new Scene(root);
                     stage.setScene(scene);
@@ -61,6 +65,8 @@ public class LoginController implements Initializable {
                 if (login.getBevoegdheid() == Login.Bevoegdheid.WERKNEMER) {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("Werknemer.fxml"));
                     root = (Region) loader.load();
+                    stage.setMaximized(true);
+                    //stage.setFullScreen(true);
                     stage.setTitle("EhB-Rail  |  WERKNEMER");
                     Scene scene = new Scene(root);
                     stage.setScene(scene);
@@ -68,9 +74,6 @@ public class LoginController implements Initializable {
                     werknemerController.setUser(login.getUsername());
                     stage.show();
                 }
-
-                //TODO Create WERKNEMER fxml / controller etc.
-
             }
             else {message.setText("Username or Password invalid");}
         }

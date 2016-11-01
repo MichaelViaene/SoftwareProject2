@@ -15,6 +15,7 @@ public class Ticket {
 	private int ticket_id;
 	private int klasse;
 	private int type;
+	private int medewerker_id;
 	private double prijs;
 
 	private Date datumAankoop;
@@ -23,14 +24,12 @@ public class Ticket {
 	
 	private Route route;
 	
-	
 	public Ticket() {
-		super();
+		prijs=0;
 	}
 
 	public Ticket(int ticket_id, int klasse, int type, double prijs, Date datumAankoop, Date datumHeen, Date datumTerug,
 			Route route) {
-		super();
 		this.ticket_id = ticket_id;
 		this.klasse = klasse;
 		this.type = type;
@@ -109,7 +108,15 @@ public class Ticket {
 	public String toString() {
 		return "Ticket [ticket_id=" + ticket_id + ", klasse=" + klasse + ", type=" + type + ", prijs=" + prijs
 				+ ", datumAankoop=" + datumAankoop + ", datumHeen=" + datumHeen + ", datumTerug=" + datumTerug
-				+ ", route=" + route + "]";
+				+ ", route=" + route + ", medewerker=" + medewerker_id + "]";
+	}
+
+	public int getMedewerker_id() {
+		return medewerker_id;
+	}
+
+	public void setMedewerker_id(int medewerker_id) {
+		this.medewerker_id = medewerker_id;
 	}
 
 	

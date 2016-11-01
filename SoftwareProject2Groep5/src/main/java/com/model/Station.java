@@ -16,11 +16,9 @@ public class Station {
 	
 	
 	public Station() {
-		super();
 	}
 
 	public Station(String naam, double latitude, double longitude) {
-		super();
 		this.naam = naam;
 		this.latitude = latitude;
 		this.longitude = longitude;

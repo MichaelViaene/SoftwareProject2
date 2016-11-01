@@ -12,14 +12,13 @@ public class Route {
 	private double afstand;
 	private List<Integer> perrons;
 	private List<Station> stations;
-	
+	//Kunnen we hiervoor een map gebruiken met de stations als key en het perron dan als value?
 	
 	public Route() {
-		super();
+		afstand = 0;		
 	}
 	
 	public Route(double afstand, List<Integer> perrons, List<Station> stations) {
-		super();
 		this.afstand = afstand;
 		this.perrons = perrons;
 		this.stations = stations;
@@ -46,7 +45,12 @@ public class Route {
 	
 	@Override
 	public String toString() {
-		return "Route [afstand=" + afstand + ", perrons=" + perrons + ", stations=" + stations + "]";
+		String s="Route [afstand= " + afstand + "\n stations:";
+		for(int i=0;i<stations.size();i++){
+			s+=stations.get(i).getNaam() + " op perron " + perrons.get(i);
+		}
+		s+="]";
+		return s;
 	}
 
 	

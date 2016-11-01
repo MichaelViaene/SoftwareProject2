@@ -23,16 +23,16 @@ public class Abonnement {
 	private Date beginDatum;
 	private Date eindDatum;
 	
-	
+	private boolean actief;
 	
 	public Abonnement() {
-		super();
+		prijs=0;
+		actief=true;
 	}
 	
 	
 	public Abonnement(int abonnement_id, int klant_id, int klasse, int type, double prijs, Route route, Date beginDatum,
 			Date eindDatum) {
-		super();
 		this.abonnement_id = abonnement_id;
 		this.klant_id = klant_id;
 		this.klasse = klasse;
@@ -92,6 +92,13 @@ public class Abonnement {
 	public void setEindDatum(Date eindDatum) {
 		this.eindDatum = eindDatum;
 	}
+	public boolean getAtief(){
+		return actief;
+	}
+	public void setActief(boolean actief){
+		this.actief=actief;
+	}
+	
 	@Override
 	public String toString() {
 		return "Abonnement [abonnement_id=" + abonnement_id + ", klant_id=" + klant_id + ", klasse=" + klasse

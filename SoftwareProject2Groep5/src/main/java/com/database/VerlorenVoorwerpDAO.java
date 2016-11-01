@@ -26,7 +26,7 @@ public class VerlorenVoorwerpDAO {
 				voorwerp.setVoorwerpid(rs.getInt("verloren_id"));
 				voorwerp.setNaam(rs.getString("naam"));
 				voorwerp.setOmschrijving(rs.getString("omschrijving"));
-				voorwerp.setDatum(rs.getString("datum_aankomst"));
+				voorwerp.setDatum(rs.getDate("datum_aankomst"));
 				voorwerp.setAanwezig(rs.getBoolean("aanwezig"));
 				voorwerp.setStation(rs.getString("station"));
 
@@ -137,8 +137,8 @@ public class VerlorenVoorwerpDAO {
 			preparedPush.setInt(1, voorwerp.getVoorwerpid());
 			preparedPush.setString(2, voorwerp.getNaam());
 			preparedPush.setString(3, voorwerp.getOmschrijving());
-			preparedPush.setString(4, voorwerp.getDatum());
-			preparedPush.setBoolean(6, voorwerp.getAanwezig());
+			preparedPush.setDate(4, (Date)voorwerp.getDatum());
+			preparedPush.setBoolean(5, voorwerp.getAanwezig());
 			preparedPush.setString(6, voorwerp.getStation());
 			preparedPush.executeUpdate();
 

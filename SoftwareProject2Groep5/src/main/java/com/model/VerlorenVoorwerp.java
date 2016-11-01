@@ -1,25 +1,27 @@
 package com.model;
 
+import java.util.Date;
+
 public class VerlorenVoorwerp {
 
-	private int voorwerpid;
+	private int voorwerp_id;
 	private String naam;
 	private String omschrijving;
-	private String datum;
+	private Date datum;
 	private String station;
 	private boolean aanwezig;
-	
+	private int persoon_id;
 	@Override
 	public String toString() {
-		return "VerlorenVoorwerp voorwerpid=" + voorwerpid + ", naam=" + naam + ", omschrijving=" + omschrijving
-				+ ", datum=" + datum + ", persoonnaam=" + station + ", aanwezig=" + aanwezig ;
+		return "VerlorenVoorwerp voorwerpid=" + voorwerp_id + ", naam=" + naam + ", omschrijving=" + omschrijving
+				+ ", datum=" + datum + ", persoon=" + persoon_id+ ", aanwezig=" + aanwezig +", station= " + station;
 	}
 	public VerlorenVoorwerp(){
 	}
-	public VerlorenVoorwerp(int voorwerpid, String naam, String omschrijving, String datum, String station,
+	public VerlorenVoorwerp(int voorwerpid, String naam, String omschrijving, Date datum, String station,
 			boolean aanwezig) {
 		super();
-		this.voorwerpid = voorwerpid;
+		this.voorwerp_id = voorwerpid;
 		this.naam = naam;
 		this.omschrijving = omschrijving;
 		this.datum = datum;
@@ -27,10 +29,10 @@ public class VerlorenVoorwerp {
 		this.aanwezig = aanwezig;
 	}
 	public int getVoorwerpid() {
-		return voorwerpid;
+		return voorwerp_id;
 	}
 	public void setVoorwerpid(int voorwerpid) {
-		this.voorwerpid = voorwerpid;
+		this.voorwerp_id = voorwerpid;
 	}
 	public String getNaam() {
 		return naam;
@@ -44,10 +46,10 @@ public class VerlorenVoorwerp {
 	public void setOmschrijving(String omschrijving) {
 		this.omschrijving = omschrijving;
 	}
-	public String getDatum() {
+	public Date getDatum() {
 		return datum;
 	}
-	public void setDatum(String datum) {
+	public void setDatum(Date datum) {
 		this.datum = datum;
 	}
 	public String getStation() {

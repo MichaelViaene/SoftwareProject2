@@ -27,7 +27,7 @@ public class Login {
 		}
 	}
 
-	//login_id(int11),username(vchar45),passwoord(vchar45),bevoegdheid(int11),salt(vchar45)
+	//login_id(int11),username(vchar45),passwoord(vchar45),bevoegdheid(int11), medewerker_id(int)
 
 	public enum Bevoegdheid{
 	ADMIN(1), WERKNEMER(2);

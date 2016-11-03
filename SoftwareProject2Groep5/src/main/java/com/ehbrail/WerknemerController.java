@@ -4,12 +4,23 @@ import com.model.Login;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import org.boon.core.Sys;
+import org.dom4j.Document;
+import org.dom4j.Node;
+import org.dom4j.io.SAXReader;
+import org.xml.sax.InputSource;
+
 import java.io.IOException;
+import java.io.StringReader;
 import java.net.URL;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javax.net.ssl.HttpsURLConnection;
 import java.time.format.DateTimeFormatter;
+
+import static com.ehbrail.ApiCalls.getStationsXML;
 
 /**
  * Created by jorda on 26/10/2016.
@@ -40,6 +51,7 @@ public class WerknemerController implements Initializable{
     @FXML Label usernameWerknemer;
 
 
+
     public Login getLogin() {
         return login;
     }
@@ -67,5 +79,29 @@ public class WerknemerController implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
 
     }
+
+    public static ArrayList<String> getXML(){
+        ArrayList<String> list = new ArrayList<>();
+        String badresp = "BadResponse";
+        try {
+            String xmlString = getStationsXML();
+            if (badresp.equals(xmlString)) {
+                System.out.println("Error");
+                list.add(" ");
+            } else {
+                SAXReader reader = new SAXReader();
+                Document document = reader.read(new InputSource(new StringReader(xmlString)));
+                List<Node> nodes = document.selectNodes("stations/station");
+                for (Node node: nodes){
+                    list.add(node.valueOf("@standardname"));
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+
+
 
 }

@@ -21,7 +21,9 @@ import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+import static com.ehbrail.WerknemerController.getXML;
 
 import static com.model.Login.verifyPassword;
 
@@ -35,8 +37,24 @@ public class LoginController implements Initializable {
     @FXML
     private Label message;
 
+    private static ArrayList<String> list;
+
+    public static ArrayList<String> getList() {
+        return list;
+    }
+    public static void setList(ArrayList<String> list) {
+        LoginController.list = list;
+    }
+
     @Override
-    public void initialize(URL location, ResourceBundle resources) {}
+    public void initialize(URL location, ResourceBundle resources) {
+        new Thread(() -> {
+            list = getXML();
+            setList(list);
+            //list.forEach(System.out::println);
+        }).start();
+
+    }
 
     @FXML
     private void loginAction(ActionEvent event) throws IOException {

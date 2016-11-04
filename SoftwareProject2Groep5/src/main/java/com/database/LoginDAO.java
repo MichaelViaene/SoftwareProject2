@@ -23,7 +23,7 @@ public class LoginDAO {
 				preparedStatement = con.prepareStatement(query);
 				preparedStatement.setString(1, username);
 				resultSet = preparedStatement.executeQuery();
-				//login_id(int11),username(vchar45),passwoord(vchar45),bevoegdheid(int11),salt(vchar45)
+				//login_id(int11),username(vchar45),passwoord(vchar64),bevoegdheid(int11),medewerker_id(int11)
 				while (resultSet.next()) {
 					login.setLogin_id(resultSet.getInt("login_id"));
 					login.setUsername(resultSet.getString("username"));
@@ -76,5 +76,5 @@ public class LoginDAO {
 		}
 	}
 
-
+//TODO update methode
 }

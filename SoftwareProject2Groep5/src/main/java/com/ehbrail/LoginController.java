@@ -77,7 +77,7 @@ public class LoginController implements Initializable {
                     Scene scene = new Scene(root);
                     stage.setScene(scene);
                     AdminController adminController = loader.<AdminController>getController();
-                    adminController.setUser(login.getUsername());
+                    adminController.setLogin(login);
                     stage.show();
                 }
                 if (login.getBevoegdheid() == Login.Bevoegdheid.WERKNEMER) {

@@ -47,10 +47,7 @@ public class WerknemerController implements Initializable{
     }
 
     Login login;
-    String user;
     @FXML Label usernameWerknemer;
-
-
 
     public Login getLogin() {
         return login;
@@ -61,13 +58,6 @@ public class WerknemerController implements Initializable{
         usernameWerknemer.setText("Welcome, " + login.getUsername() + " met bevoegdheid:"+ login.getBevoegdheid());
     }
 
-    public void setUser(String user) {
-        this.user = user;
-        usernameWerknemer.setText("Welcome, " + user);
-    }
-    public void setUsernameAdm(Label username) {
-        this.usernameWerknemer = username;
-    }
 
     @FXML private TabPane wtabPane;
     @FXML private Tab wTrainInfoTab;

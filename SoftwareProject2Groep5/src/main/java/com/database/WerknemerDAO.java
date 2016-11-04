@@ -121,7 +121,7 @@ public class WerknemerDAO {
 
                 ResultSet resultSet = preparedStatement.getGeneratedKeys();
                 if(resultSet.next()){
-                    werknemer.setWerknemerId(resultSet.getInt(1));
+                    werknemer.setWerknemerId(1);
                 }
 
                 resultSet.close();
@@ -135,6 +135,36 @@ public class WerknemerDAO {
             return false;
         }
         return true;
+    }
+
+    public static boolean setWerknemerInactief(int medewerkerId, boolean actief){
+
+        try {
+            Connection con = Database.getConnection();
+            if (con == null) {
+                Database.openDatabase();
+                con = Database.getConnection();
+            }
+
+            if (con != null) {
+                String query = "UPDATE Medewerker SET actief = ?" + "WHERE medewerker_id = ?" ;
+                PreparedStatement preparedStatement = con.prepareStatement(query);
+
+
+
+                preparedStatement.execute();
+                preparedStatement.close();
+                con.close();
+
+            }
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+            return false;
+        }
+        return true;
+
+
     }
 
 }

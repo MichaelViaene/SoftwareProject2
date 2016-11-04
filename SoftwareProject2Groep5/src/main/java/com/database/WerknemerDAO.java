@@ -137,7 +137,7 @@ public class WerknemerDAO {
         return true;
     }
 
-    public static boolean setWerknemerInactief(int medewerkerId, boolean actief){
+    public static boolean setWerknemerInactief(Werknemer werknemer){
 
         try {
             Connection con = Database.getConnection();
@@ -150,7 +150,8 @@ public class WerknemerDAO {
                 String query = "UPDATE Medewerker SET actief = ?" + "WHERE medewerker_id = ?" ;
                 PreparedStatement preparedStatement = con.prepareStatement(query);
 
-
+                preparedStatement.setBoolean(1, werknemer.isActief());
+                preparedStatement.setInt(1, werknemer.getWerknemerId());
 
                 preparedStatement.execute();
                 preparedStatement.close();
@@ -163,8 +164,6 @@ public class WerknemerDAO {
             return false;
         }
         return true;
-
-
     }
 
 }

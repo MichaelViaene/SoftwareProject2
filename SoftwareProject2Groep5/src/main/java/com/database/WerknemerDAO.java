@@ -121,7 +121,7 @@ public class WerknemerDAO {
 
                 ResultSet resultSet = preparedStatement.getGeneratedKeys();
                 if(resultSet.next()){
-                    werknemer.setWerknemerId(1);
+                    werknemer.setWerknemerId(resultSet.getInt(1));
                 }
 
                 resultSet.close();

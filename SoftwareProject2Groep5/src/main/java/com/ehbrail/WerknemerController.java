@@ -1,27 +1,26 @@
 package com.ehbrail;
 
-import com.model.TrainInfo;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
+import com.model.Login;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-
-import java.io.IOException;
-import java.net.URL;
-import java.time.LocalDateTime;
-import java.util.ResourceBundle;
-import java.util.List;
-
-import javafx.scene.control.cell.PropertyValueFactory;
+import org.boon.core.Sys;
 import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.Element;
 import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
+import org.xml.sax.InputSource;
+
+import java.io.IOException;
+import java.io.StringReader;
+import java.net.URL;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
+import javax.net.ssl.HttpsURLConnection;
 import java.time.format.DateTimeFormatter;
 
+import static com.ehbrail.ApiCalls.getStationsXML;
 
 /**
  * Created by jorda on 26/10/2016.
@@ -32,7 +31,35 @@ import java.time.format.DateTimeFormatter;
  */
 public class WerknemerController implements Initializable{
 
+    public static int getHTTPSResponseCode(URL url) throws IOException {
+        HttpsURLConnection https = (HttpsURLConnection)url.openConnection();
+        https.setRequestMethod("GET");
+        int statusCode = https.getResponseCode();
+        System.out.println(statusCode);
+        return statusCode;
+    }
+
+    public static LocalDateTime convertISO8601 (String time){;
+        //String s = "2016-10-26T22:22:00";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+        LocalDateTime dateTime = LocalDateTime.parse(time, formatter);
+        return dateTime;
+    }
+
+    Login login;
     String user;
+    @FXML Label usernameWerknemer;
+
+
+
+    public Login getLogin() {
+        return login;
+    }
+
+    public void setLogin(Login login) {
+        this.login = login;
+        usernameWerknemer.setText("Welcome, " + login.getUsername() + " met bevoegdheid:"+ login.getBevoegdheid());
+    }
 
     public void setUser(String user) {
         this.user = user;
@@ -42,62 +69,39 @@ public class WerknemerController implements Initializable{
         this.usernameWerknemer = username;
     }
 
-    @FXML
-    Label usernameWerknemer;
-    @FXML
-    private Label totalStops;
-    @FXML
-    private Button search;
-    @FXML
-    private TextField treinID;
-
-    @FXML private TableView<TrainInfo> tableView;
-    @FXML private TableColumn<TrainInfo,Integer> stopID;
-    @FXML private TableColumn<TrainInfo, String> station;
-    @FXML private TableColumn<TrainInfo, LocalDateTime> time;
-    @FXML private TableColumn<TrainInfo, String> platform;
-
-
+    @FXML private TabPane wtabPane;
+    @FXML private Tab wTrainInfoTab;
+    @FXML private wTrainInfoTabController wTrainInfoTabPageController;
+    @FXML private Tab wRouteInfoTab;
+    @FXML private wRouteInfoTabController wRouteInfoTabPageController;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        stopID.setCellValueFactory(new PropertyValueFactory<TrainInfo, Integer>("stopID"));
-        station.setCellValueFactory(new PropertyValueFactory<TrainInfo, String>("station"));
-        time.setCellValueFactory(new PropertyValueFactory<TrainInfo, LocalDateTime>("time"));
-        platform.setCellValueFactory(new PropertyValueFactory<TrainInfo, String>("platform"));
 
     }
 
-    private LocalDateTime convertISO8601 (String time){;
-        //String s = "2016-10-26T22:22:00";
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-        LocalDateTime dateTime = LocalDateTime.parse(time, formatter);
-        return dateTime;
-    }
-
-    @FXML
-    private void searchAction(ActionEvent event) throws IOException {
+    public static ArrayList<String> getXML(){
+        ArrayList<String> list = new ArrayList<>();
+        String badresp = "BadResponse";
         try {
-            treinID.getText();
-            SAXReader reader = new SAXReader();
-            //vb treinID = IC545
-            Document document = reader.read("https://api.irail.be/vehicle/?id=BE.NMBS."+treinID.getText()+"&format=xml");
-            //Element classElement = document.getRootElement();
-            List<Node> nodes = document.selectNodes("vehicleinformation/stops/stop[@id]");
-            Node totalStopNode = document.selectSingleNode("vehicleinformation/stops[@number]");
-            totalStops.setText("Total stops: " + totalStopNode.valueOf("@number"));
-            ObservableList<TrainInfo> data = FXCollections.observableArrayList();
-            for (Node node: nodes){
-                data.add(new TrainInfo(Integer.parseInt(node.valueOf("@id")),
-                        node.selectSingleNode("station").getText(),
-                        convertISO8601(node.selectSingleNode("time").valueOf("@formatted")),
-                        node.selectSingleNode("platform").getText()
-                ));
+            String xmlString = getStationsXML();
+            if (badresp.equals(xmlString)) {
+                System.out.println("Error");
+                list.add(" ");
+            } else {
+                SAXReader reader = new SAXReader();
+                Document document = reader.read(new InputSource(new StringReader(xmlString)));
+                List<Node> nodes = document.selectNodes("stations/station");
+                for (Node node: nodes){
+                    list.add(node.valueOf("@standardname"));
+                }
             }
-            tableView.setItems(data);
+        } catch (Exception e) {
+            System.out.println(e);
         }
-        catch (Exception e){
-            e.printStackTrace();
-        }
+        return list;
     }
+
+
+
 }

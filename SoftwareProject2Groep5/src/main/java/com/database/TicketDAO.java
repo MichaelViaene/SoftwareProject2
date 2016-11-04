@@ -42,6 +42,7 @@ public class TicketDAO {
                 preparedStatement.setInt(9, 1);
 
                 preparedStatement.execute();
+                preparedStatement.close();
                 con.close();
 
             }

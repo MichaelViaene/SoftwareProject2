@@ -8,6 +8,7 @@ package com.ehbrail;
 import com.database.LoginDAO;
 import com.model.Login;
 
+import com.model.Werknemer;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -28,6 +29,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import static com.database.Database.testConn;
+import static com.database.WerknemerDAO.getWerkById;
 import static com.ehbrail.WerknemerController.getAllStationsXMLtoList;
 import static com.model.Login.verifyPassword;
 
@@ -66,6 +68,8 @@ public class LoginController implements Initializable {
                 Login login = logindao.getLoginByUsername(username.getText());
             //TODO check of medewerker op medewerker_id actief is, Anders Label output dat de login niet actief is.
             if (username.getText().equals(login.getUsername()) && verifyPassword(password.getText(), login.getPassword())) {
+                Werknemer werknemer = getWerkById(login.getMedewerker_id());
+                if (werknemer.isActief()){
                 ((Node) event.getSource()).getScene().getWindow().hide();
                 Stage stage = new Stage();
                 Region root;
@@ -93,6 +97,7 @@ public class LoginController implements Initializable {
                     werknemerController.setLogin(login);
                     stage.show();
                 }
+                } else message.setText("Account:"+login.getUsername()+" is niet actief");
             } else {message.setText("Username or Password invalid");}
         } else {message.setText("Unexpected error: Check DB conn and VPN");}
       }

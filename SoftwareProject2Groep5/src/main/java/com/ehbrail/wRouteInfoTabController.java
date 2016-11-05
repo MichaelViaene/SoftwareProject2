@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import okhttp3.Response;
 import org.boon.json.JsonFactory;
 import org.boon.json.ObjectMapper;
 import org.controlsfx.control.textfield.TextFields;
@@ -55,12 +56,9 @@ public class wRouteInfoTabController implements Initializable {
     @FXML
     private void onClickplanRoute(ActionEvent event) throws IOException {
         try {
-            String jsonString = getIRailRoute(vanField.getText(), naarField.getText());
-            if ("BadResponse".equals(jsonString)) {
-                errorLabel.setText("Error, response = " + jsonString);
-                TreeItem<String> rootItem = new TreeItem<String>("Routes");
-                treeRoute.setRoot(rootItem);
-            } else {
+            Response response = getIRailRoute(vanField.getText(), naarField.getText());
+            if (response.isSuccessful()) {
+                String jsonString = response.body().string();
                 ObjectMapper mapper = JsonFactory.create();
                 IrailRoute irailRoute = mapper.readValue(jsonString, IrailRoute.class);
                 TreeItem<String> rootItem = new TreeItem<String>("Routes");
@@ -68,6 +66,10 @@ public class wRouteInfoTabController implements Initializable {
                 rootItem.setExpanded(true);
                 treeRoute.setRoot(rootItem);
                 errorLabel.setText(" ");
+            } else {
+                errorLabel.setText("Error, responsecode = " + response.networkResponse().code() + ", With message: "+response.networkResponse().message());
+                TreeItem<String> rootItem = new TreeItem<String>("Routes");
+                treeRoute.setRoot(rootItem);
             }
         } catch (Exception e) {
             System.out.println(e);

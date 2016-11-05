@@ -4,6 +4,7 @@ import com.model.Login;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import okhttp3.Response;
 import org.boon.core.Sys;
 import org.dom4j.Document;
 import org.dom4j.Node;
@@ -30,14 +31,6 @@ import static com.ehbrail.ApiCalls.getStationsXML;
  *
  */
 public class WerknemerController implements Initializable{
-
-    public static int getHTTPSResponseCode(URL url) throws IOException {
-        HttpsURLConnection https = (HttpsURLConnection)url.openConnection();
-        https.setRequestMethod("GET");
-        int statusCode = https.getResponseCode();
-        System.out.println(statusCode);
-        return statusCode;
-    }
 
     public static LocalDateTime convertISO8601 (String time){;
         //String s = "2016-10-26T22:22:00";
@@ -70,28 +63,26 @@ public class WerknemerController implements Initializable{
 
     }
 
-    public static ArrayList<String> getXML(){
+    public static ArrayList<String> getAllStationsXMLtoList(){
         ArrayList<String> list = new ArrayList<>();
-        String badresp = "BadResponse";
         try {
-            String xmlString = getStationsXML();
-            if (badresp.equals(xmlString)) {
-                System.out.println("Error");
-                list.add(" ");
-            } else {
+            Response response =  getStationsXML();
+            if (response.isSuccessful()) {
+                String xmlString = response.body().string();
                 SAXReader reader = new SAXReader();
                 Document document = reader.read(new InputSource(new StringReader(xmlString)));
                 List<Node> nodes = document.selectNodes("stations/station");
                 for (Node node: nodes){
                     list.add(node.valueOf("@standardname"));
                 }
+            } else {
+                System.out.println("Error code: " + response.networkResponse().code() + " With errormessage: " +response.message());
+                list.add(" ");
             }
         } catch (Exception e) {
             System.out.println(e);
         }
         return list;
     }
-
-
 
 }

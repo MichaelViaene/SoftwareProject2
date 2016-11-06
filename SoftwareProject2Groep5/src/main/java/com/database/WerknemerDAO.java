@@ -6,7 +6,6 @@ import com.model.Werknemer;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 /**
  * Created by Vik Mortier on 4/11/2016.

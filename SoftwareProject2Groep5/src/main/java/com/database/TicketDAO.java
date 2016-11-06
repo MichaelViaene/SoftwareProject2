@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class TicketDAO {
 
-    public Boolean writeTicket(Ticket ticket) {
+    public static boolean writeTicket(Ticket ticket) {
 
 
         try {
@@ -54,7 +54,7 @@ public class TicketDAO {
         return true;
     }
 
-    public List<Ticket> readTickets (){
+    public static List<Ticket> readTickets (){
 
         List<Ticket> tickets = new LinkedList<>();
 

@@ -10,9 +10,18 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.m2e.core.maven2Builder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
 	</buildSpec>
 	<natures>
+<<<<<<< HEAD
 		<nature>org.eclipse.sirius.nature.modelingproject</nature>
+=======
+		<nature>org.eclipse.m2e.core.maven2Nature</nature>
+>>>>>>> branch 'Dev_Michael' of https://github.com/MichaelViaene/SoftwareProject2.git
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
 </projectDescription>

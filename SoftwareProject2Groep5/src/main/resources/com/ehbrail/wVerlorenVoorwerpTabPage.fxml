@@ -17,9 +17,8 @@
             <TableColumn fx:id="voorwerpid" prefWidth="75.0" text="id" />
             <TableColumn fx:id="naam" prefWidth="75.66668701171875" text="naam" />
             <TableColumn fx:id="omschrijving" prefWidth="145.6666259765625" text="omschrijving" />
-            <TableColumn fx:id="datum" prefWidth="86.0" text="datum" />
-            <TableColumn fx:id="aanwezig" prefWidth="62.0" text="aanwezig" />
-            <TableColumn fx:id="station" prefWidth="130.0" text="station" />
+            <TableColumn fx:id="datum" prefWidth="96.6666259765625" text="datum" />
+            <TableColumn fx:id="station" prefWidth="119.3333740234375" text="station" />
          </columns>
       </TableView>
       <TextField fx:id="textButton" layoutX="223.0" layoutY="74.0" promptText="station" />

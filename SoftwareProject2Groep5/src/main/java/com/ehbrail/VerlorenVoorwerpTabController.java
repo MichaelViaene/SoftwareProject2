@@ -44,9 +44,6 @@ public class VerlorenVoorwerpTabController implements Initializable {
 	private TableColumn<VerlorenVoorwerp, String> datum;
 
 	@FXML
-	private TableColumn<VerlorenVoorwerp, Boolean> aanwezig;
-
-	@FXML
 	private TableColumn<VerlorenVoorwerp, String> station;
 
 	// veld om station te zoeken
@@ -92,7 +89,6 @@ public class VerlorenVoorwerpTabController implements Initializable {
 		naam.setCellValueFactory(new PropertyValueFactory<VerlorenVoorwerp, String>("naam"));
 		omschrijving.setCellValueFactory(new PropertyValueFactory<VerlorenVoorwerp, String>("omschrijving"));
 		datum.setCellValueFactory(new PropertyValueFactory<VerlorenVoorwerp, String>("datum"));
-		aanwezig.setCellValueFactory(new PropertyValueFactory<VerlorenVoorwerp, Boolean>("aanwezig"));
 		station.setCellValueFactory(new PropertyValueFactory<VerlorenVoorwerp, String>("station"));
 	}
 
@@ -118,7 +114,7 @@ public class VerlorenVoorwerpTabController implements Initializable {
 		LocalDate localDate = datumtext.getValue();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		String formattedString = localDate.format(formatter);
-		VerlorenVoorwerp voorwerp = new VerlorenVoorwerp(naamtext.getText(), text, formattedString, true,
+		VerlorenVoorwerp voorwerp = new VerlorenVoorwerp(naamtext.getText(), text, formattedString,
 				stationtext.getText());
 		verlorenDAO.insertVoorwerp(voorwerp);
 		Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -127,7 +123,7 @@ public class VerlorenVoorwerpTabController implements Initializable {
 		alert.setContentText("Verloren voorwerp werd toegevoegd");
 		alert.show();
 		naamtext.clear();
-		// datumtext.clear();
+		datumtext.getEditor().clear();
 		omschrijvingtext.clear();
 		stationtext.clear();
 	}
@@ -137,7 +133,10 @@ public class VerlorenVoorwerpTabController implements Initializable {
 		VerlorenVoorwerpDAO verlorenDAO = new VerlorenVoorwerpDAO();
 		try {
 			int id = Integer.parseInt(idtext.getText());
-			verlorenDAO.voorwerpGevonden(id);
+			VerlorenVoorwerp voorwerp = verlorenDAO.getVoorwerpPerId(id);
+			verlorenDAO.insertDeleteVoorwerp(voorwerp);
+			verlorenDAO.deleteVoorwerp(voorwerp);
+			idtext.clear();
 			Alert alert = new Alert(Alert.AlertType.INFORMATION);
 			alert.setTitle("Information Dialog");
 			alert.setHeaderText("Information Alert");

@@ -43,6 +43,12 @@
                       <fx:include fx:id="wRouteInfoTabPage" source="wRouteInfoTabPage.fxml"/>
                   </content>
                 </Tab>
+                <Tab fx:id="wVerlorenVoorwerp" text="Verloren Voorwerpen">
+                  <content>
+                      <fx:include fx:id="wVerlorenVoorwerpTabPage" source="wVerlorenVoorwerpTabPage.fxml"/>
+                  </content>
+                </Tab>
+                
               </tabs>
             </TabPane>
          </center>

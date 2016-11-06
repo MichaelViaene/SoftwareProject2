@@ -107,6 +107,7 @@ public class VerlorenVoorwerpTabController implements Initializable {
 		data = FXCollections.observableArrayList(verlorenDAO.getVoorwerpByStation(textButton.getText()));
 		tableview.setItems(null);
 		tableview.setItems(data);
+		textButton.clear();
 
 	}
 
@@ -147,7 +148,7 @@ public class VerlorenVoorwerpTabController implements Initializable {
 			Alert alert = new Alert(Alert.AlertType.ERROR);
 			alert.setTitle("Error");
 			alert.setHeaderText("Error");
-			alert.setContentText("id moet een cijfer zijn");
+			alert.setContentText("textveld moet ingevuld worden\nid moet een cijfer zijn");
 			alert.show();
 		}
 

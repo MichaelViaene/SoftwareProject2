@@ -40,14 +40,19 @@
             <Font size="14.0" />
          </font>
       </TextField>
-      <Button fx:id="savebutton" layoutX="19.0" layoutY="487.0" mnemonicParsing="false" onAction="#insertVoorwerp" prefHeight="28.0" prefWidth="59.0" text="Save" />
+      <Button fx:id="savebutton" layoutX="19.0" layoutY="487.0" mnemonicParsing="false" onAction="#insertVoorwerp" prefHeight="28.0" prefWidth="92.0" text="Save" />
       <TextArea fx:id="omschrijvingtext" layoutX="20.0" layoutY="278.0" prefHeight="190.0" prefWidth="192.0" promptText="omschrijving">
          <font>
             <Font size="14.0" />
          </font>
       </TextArea>
-      <Button fx:id="deletebutton" layoutX="163.0" layoutY="487.0" mnemonicParsing="false" onAction="#deleteVoorwerp" prefHeight="28.0" prefWidth="51.0" text="Delete" />
+      <Button fx:id="deletebutton" layoutX="319.0" layoutY="537.0" mnemonicParsing="false" onAction="#deleteVoorwerp" prefHeight="28.0" prefWidth="83.0" text="Delete" />
       <DatePicker fx:id="datumtext" layoutX="21.0" layoutY="242.0" prefHeight="29.0" prefWidth="192.0" promptText="datum" />
-      <Button fx:id="updatebutton" layoutX="92.0" layoutY="487.0" mnemonicParsing="false" onAction="#updateVoorwerp" prefHeight="28.0" prefWidth="59.0" text="Update" />
+      <Button fx:id="updatebutton" layoutX="120.0" layoutY="487.0" mnemonicParsing="false" onAction="#updateVoorwerp" prefHeight="28.0" prefWidth="92.0" text="Update" />
+      <TextField fx:id="idtext" layoutX="223.0" layoutY="536.0" prefHeight="25.0" prefWidth="83.0" promptText="id">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextField>
    </children>
 </Pane>

@@ -16,6 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -68,7 +69,6 @@ public class VerlorenVoorwerpTabController implements Initializable {
 
 	@FXML
 	private DatePicker datumtext;
-	// LocalDate d = datumtext.getValue();
 
 	@FXML
 	private TextArea omschrijvingtext;
@@ -76,6 +76,14 @@ public class VerlorenVoorwerpTabController implements Initializable {
 	@FXML
 	private Button savebutton;
 
+	// delete velden
+	@FXML
+	private TextField idtext;
+
+	@FXML
+	private Button deletebutton;
+
+	// list verlorenvoorwerpen
 	private ObservableList<VerlorenVoorwerp> data;
 
 	@Override
@@ -125,10 +133,28 @@ public class VerlorenVoorwerpTabController implements Initializable {
 
 	@FXML
 	void deleteVoorwerp(ActionEvent event) {
+		VerlorenVoorwerpDAO verlorenDAO = new VerlorenVoorwerpDAO();
+		try {
+			int id = Integer.parseInt(idtext.getText());
+			verlorenDAO.voorwerpGevonden(id);
+			Alert alert = new Alert(Alert.AlertType.INFORMATION);
+			alert.setTitle("Information Dialog");
+			alert.setHeaderText("Information Alert");
+			alert.setContentText("Verloren voorwerp werd verwijdert");
+			alert.show();
+			
+		} catch (Exception e) {
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setHeaderText("Error");
+			alert.setContentText("id moet een cijfer zijn");
+			alert.show();
+		}
 
 	}
+
 	@FXML
-	void updateVoorwerp(ActionEvent event){
-		
+	void updateVoorwerp(ActionEvent event) {
+
 	}
 }

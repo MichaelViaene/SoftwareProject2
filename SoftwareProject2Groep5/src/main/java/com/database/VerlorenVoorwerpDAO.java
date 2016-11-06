@@ -254,4 +254,31 @@ public class VerlorenVoorwerpDAO {
 
 	}
 
+	public static void sortId() {
+		try {
+			Connection con = Database.getConnection();
+			if (con == null) {
+				Database.openDatabase();
+				con = Database.getConnection();
+			}
+
+			Statement st = null;
+			st = con.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM Verloren_voorwerpen;");
+			int count = 0;
+			while (rs.next()) {
+				PreparedStatement preparedPush = null;
+				String pushStatement = "INSERT INTO Verloren_voorwerpen (verloren_id) VALUES (?);";
+				preparedPush = con.prepareStatement(pushStatement);
+
+				preparedPush.setInt(1, count++);
+				preparedPush.executeUpdate();
+
+			}
+			con.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
 }

@@ -136,6 +136,7 @@ public class VerlorenVoorwerpTabController implements Initializable {
 			VerlorenVoorwerp voorwerp = verlorenDAO.getVoorwerpPerId(id);
 			verlorenDAO.insertDeleteVoorwerp(voorwerp);
 			verlorenDAO.deleteVoorwerp(voorwerp);
+			verlorenDAO.sortId();
 			idtext.clear();
 			Alert alert = new Alert(Alert.AlertType.INFORMATION);
 			alert.setTitle("Information Dialog");

@@ -40,9 +40,14 @@
                 </Tab>
                 <Tab fx:id="wVerlorenVoorwerp" text="Verloren Voorwerpen">
                   <content>
-                      <fx:include fx:id="wVerlorenVoorwerpTabPage" source="wVerlorenVoorwerpTabPage.fxml"/>
+                      <fx:include fx:id="wVerlorenVoorwerpTabPage" source="wVerlorenVoorwerpTabPage.fxml" />
                   </content>
                 </Tab>
+                  <Tab fx:id="wTicketTab" text="Ticket">
+                    <content>
+                      <fx:include fx:id="wTicketTab" source="wTicketTabPage.fxml" />
+                    </content>
+                  </Tab>
                 
               </tabs>
             </TabPane>

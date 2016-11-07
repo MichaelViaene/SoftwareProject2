@@ -55,6 +55,7 @@ public class LoginController implements Initializable {
         list = fillListAllStations();
 
         /**
+         * NIET VERWIJDEREN!!
         new Thread(() -> {
             list = getAllStationsXMLtoList();
             setList(list);

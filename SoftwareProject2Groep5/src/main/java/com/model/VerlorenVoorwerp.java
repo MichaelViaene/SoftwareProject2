@@ -1,4 +1,9 @@
 package com.model;
+/**
+*
+* @author Ilias El Mesaoudi
+**/
+
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

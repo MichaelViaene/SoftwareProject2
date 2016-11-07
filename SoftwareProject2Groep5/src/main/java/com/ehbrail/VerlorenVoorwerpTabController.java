@@ -3,7 +3,10 @@ package com.ehbrail;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import org.controlsfx.control.textfield.TextFields;
 
 import com.database.VerlorenVoorwerpDAO;
 import com.model.VerlorenVoorwerp;
@@ -82,9 +85,15 @@ public class VerlorenVoorwerpTabController implements Initializable {
 
 	// list verlorenvoorwerpen
 	private ObservableList<VerlorenVoorwerp> data;
+	
+	 ArrayList<String> list;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		
+		 list = LoginController.getList();
+	        TextFields.bindAutoCompletion(textButton,list);	  
+		
 		voorwerpid.setCellValueFactory(new PropertyValueFactory<VerlorenVoorwerp, Integer>("voorwerpid"));
 		naam.setCellValueFactory(new PropertyValueFactory<VerlorenVoorwerp, String>("naam"));
 		omschrijving.setCellValueFactory(new PropertyValueFactory<VerlorenVoorwerp, String>("omschrijving"));
@@ -93,14 +102,12 @@ public class VerlorenVoorwerpTabController implements Initializable {
 	}
 
 	public void loadDatabase(ActionEvent event) {
-		VerlorenVoorwerpDAO verlorenDAO = new VerlorenVoorwerpDAO();
-		data = FXCollections.observableArrayList(verlorenDAO.getAll());
+		data = FXCollections.observableArrayList(VerlorenVoorwerpDAO.getAll());
 		tableview.setItems(data);
 	}
 
 	public void searchAction(ActionEvent event) {
-		VerlorenVoorwerpDAO verlorenDAO = new VerlorenVoorwerpDAO();
-		data = FXCollections.observableArrayList(verlorenDAO.getVoorwerpByStation(textButton.getText()));
+		data = FXCollections.observableArrayList(VerlorenVoorwerpDAO.getVoorwerpByStation(textButton.getText()));
 		tableview.setItems(null);
 		tableview.setItems(data);
 		textButton.clear();
@@ -110,13 +117,12 @@ public class VerlorenVoorwerpTabController implements Initializable {
 	@FXML
 	void insertVoorwerp(ActionEvent event) {
 		String text = omschrijvingtext.getText();
-		VerlorenVoorwerpDAO verlorenDAO = new VerlorenVoorwerpDAO();
 		LocalDate localDate = datumtext.getValue();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		String formattedString = localDate.format(formatter);
 		VerlorenVoorwerp voorwerp = new VerlorenVoorwerp(naamtext.getText(), text, formattedString,
 				stationtext.getText());
-		verlorenDAO.insertVoorwerp(voorwerp);
+		VerlorenVoorwerpDAO.insertVoorwerp(voorwerp);
 		Alert alert = new Alert(Alert.AlertType.INFORMATION);
 		alert.setTitle("Information Dialog");
 		alert.setHeaderText("Information Alert");
@@ -130,13 +136,12 @@ public class VerlorenVoorwerpTabController implements Initializable {
 
 	@FXML
 	void deleteVoorwerp(ActionEvent event) {
-		VerlorenVoorwerpDAO verlorenDAO = new VerlorenVoorwerpDAO();
 		try {
 			int id = Integer.parseInt(idtext.getText());
-			VerlorenVoorwerp voorwerp = verlorenDAO.getVoorwerpPerId(id);
-			verlorenDAO.insertDeleteVoorwerp(voorwerp);
-			verlorenDAO.deleteVoorwerp(voorwerp);
-			verlorenDAO.sortId();
+			VerlorenVoorwerp voorwerp = VerlorenVoorwerpDAO.getVoorwerpPerId(id);
+			VerlorenVoorwerpDAO.insertDeleteVoorwerp(voorwerp);
+			VerlorenVoorwerpDAO.deleteVoorwerp(voorwerp);
+			VerlorenVoorwerpDAO.sortId();
 			idtext.clear();
 			Alert alert = new Alert(Alert.AlertType.INFORMATION);
 			alert.setTitle("Information Dialog");

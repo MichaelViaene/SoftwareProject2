@@ -123,44 +123,50 @@ public class VerlorenVoorwerpTabController implements Initializable {
 	@FXML
 	void insertVoorwerp(ActionEvent event) {
 		String text = omschrijvingtext.getText();
-		LocalDate localDate = datumtext.getValue();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		String formattedString = localDate.format(formatter);
+		//formattedString met "" en if om te controleren of die niet null om te formatten wordt gedaan om de datepicker veld te kunnen controleren.
+		String formattedString = "";
+		if (datumtext.getValue() != null) {
+			LocalDate localDate = datumtext.getValue();
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			formattedString = localDate.format(formatter);
+		}
 		VerlorenVoorwerp voorwerp = new VerlorenVoorwerp(naamtext.getText(), text, formattedString,
 				stationtext.getText());
-		VerlorenVoorwerpDAO.insertVoorwerp(voorwerp);
-		Alert alert = new Alert(Alert.AlertType.INFORMATION);
-		alert.setTitle("Information Dialog");
-		alert.setHeaderText("Information Alert");
-		alert.setContentText("Verloren voorwerp werd toegevoegd");
-		alert.show();
-		naamtext.clear();
-		datumtext.getEditor().clear();
-		omschrijvingtext.clear();
-		stationtext.clear();
-		refresh();
+		if (!(voorwerp.getNaam().isEmpty() || voorwerp.getOmschrijving().isEmpty() || voorwerp.getStation().isEmpty()
+				|| voorwerp.getDatum().isEmpty())) {
+			VerlorenVoorwerpDAO.insertVoorwerp(voorwerp);
+			Alert alert = new Alert(Alert.AlertType.INFORMATION);
+			alert.setTitle("Information Dialog");
+			alert.setHeaderText("Information Alert");
+			alert.setContentText("Verloren voorwerp werd toegevoegd");
+			alert.show();
+			naamtext.clear();
+			datumtext.getEditor().clear();
+			omschrijvingtext.clear();
+			stationtext.clear();
+			refresh();
+		} else {
+			Alert alert = new Alert(Alert.AlertType.WARNING);
+			alert.setTitle("Ongeldige Velden");
+			alert.setHeaderText(null);
+			alert.setContentText("Alle velden moeten ingevuld worden.");
+			alert.show();
+		}
 	}
 
 	@FXML
 	void deleteVoorwerp(ActionEvent event) {
 
-		/*
-		 * Alert alert = new Alert(AlertType.CONFIRMATION, "Delete " + selection
-		 * + " ?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
-		 * alert.showAndWait();
-		 * 
-		 * if (alert.getResult() == ButtonType.YES) { //do stuff }
-		 */
 		try {
 			int id = Integer.parseInt(idtext.getText());
 			Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 			alert.setTitle("Confirmation Dialog");
 			alert.setHeaderText(null);
-			alert.setContentText("Ben je zeker dat je " + id +" wilt deleten?");
-			Optional <ButtonType> action = alert.showAndWait();
-			if (action.get()==ButtonType.OK) {
+			alert.setContentText("Ben je zeker dat je " + id + " wilt deleten?");
+			Optional<ButtonType> action = alert.showAndWait();
+			if (action.get() == ButtonType.OK) {
 				VerlorenVoorwerpDAO.deleteVoorwerp(id);
-			} 
+			}
 			idtext.clear();
 
 		} catch (Exception e) {

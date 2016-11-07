@@ -99,9 +99,16 @@ public class VerlorenVoorwerpTabController implements Initializable {
 		omschrijving.setCellValueFactory(new PropertyValueFactory<VerlorenVoorwerp, String>("omschrijving"));
 		datum.setCellValueFactory(new PropertyValueFactory<VerlorenVoorwerp, String>("datum"));
 		station.setCellValueFactory(new PropertyValueFactory<VerlorenVoorwerp, String>("station"));
+		
+		refresh();
+		
 	}
 
 	public void loadDatabase(ActionEvent event) {
+		refresh();
+	}
+	
+	public void refresh(){
 		data = FXCollections.observableArrayList(VerlorenVoorwerpDAO.getAll());
 		tableview.setItems(data);
 	}
@@ -132,6 +139,7 @@ public class VerlorenVoorwerpTabController implements Initializable {
 		datumtext.getEditor().clear();
 		omschrijvingtext.clear();
 		stationtext.clear();
+		refresh();
 	}
 
 	@FXML
@@ -153,6 +161,7 @@ public class VerlorenVoorwerpTabController implements Initializable {
 			alert.setContentText("textveld moet ingevuld worden\nid moet een cijfer zijn");
 			alert.show();
 		}
+		refresh();
 
 	}
 

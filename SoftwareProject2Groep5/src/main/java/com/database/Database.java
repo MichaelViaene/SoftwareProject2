@@ -34,5 +34,20 @@ public class Database {
 		return con;
 	}
 
+	public static boolean testConn(){
+		boolean test = false;
+		try {
+			openDatabase();
+			if (con != null) {
+				test = true;
+			}
+			else test = false;
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
+		return test;
+	}
+
 	
 }

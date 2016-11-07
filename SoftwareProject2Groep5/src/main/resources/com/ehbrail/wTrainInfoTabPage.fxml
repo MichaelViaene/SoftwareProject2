@@ -14,7 +14,7 @@
    <children>
       <Pane prefHeight="528.0" prefWidth="955.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label fx:id="errorRequestLabel" layoutX="33.0" layoutY="15.0" prefHeight="25.0" prefWidth="291.0" textFill="RED">
+            <Label fx:id="errorRequestLabel" layoutX="33.0" layoutY="15.0" prefHeight="25.0" prefWidth="868.0" textFill="RED">
                <font>
                   <Font size="14.0" />
                </font>
@@ -30,8 +30,7 @@
                   <TableColumn fx:id="platform" prefWidth="126.0" text="Platform" />
               </columns>
             </TableView>
-            <Text layoutX="33.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Stops:" wrappingWidth="71.13671875" />
-            <Label fx:id="totalStops" layoutX="104.0" layoutY="100.0" prefHeight="17.0" prefWidth="40.0" />
+            <Label fx:id="totalStops" layoutX="33.0" layoutY="98.0" prefHeight="25.0" prefWidth="172.0" />
          </children>
       </Pane>
    </children>

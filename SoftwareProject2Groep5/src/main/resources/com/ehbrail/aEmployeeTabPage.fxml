@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="697.0" prefWidth="1008.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ehbrail.aEmployeeTabController">
+   <children>
+      <Pane prefHeight="697.0" prefWidth="1008.0">
+         <children>
+            <Text layoutX="105.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create Users and Login" wrappingWidth="188.13671875">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Text>
+            <TextField fx:id="naamField" layoutX="105.0" layoutY="96.0" prefHeight="25.0" prefWidth="209.0" promptText="Naam" />
+            <TextField fx:id="voornaamField" layoutX="105.0" layoutY="135.0" prefHeight="25.0" prefWidth="209.0" promptText="Voornaam" />
+            <ComboBox fx:id="actiefBox" layoutX="105.0" layoutY="186.0" prefWidth="150.0" promptText="Kies (on)actief" />
+            <Button fx:id="createUserButton" layoutX="105.0" layoutY="279.0" mnemonicParsing="false" onAction="#createUserEvent" prefHeight="36.0" prefWidth="91.0" text="Let's GO!" />
+            <Text layoutX="34.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Naam" />
+            <Text layoutX="34.0" layoutY="152.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Voornaam" />
+            <Text layoutX="34.0" layoutY="203.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Actief" />
+            <Label fx:id="errorLabel" layoutX="105.0" layoutY="372.0" prefHeight="36.0" prefWidth="229.0" text="errorLabel" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

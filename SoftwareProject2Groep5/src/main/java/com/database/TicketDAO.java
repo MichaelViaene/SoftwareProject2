@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class TicketDAO {
 
-    public Boolean writeTicket(Ticket ticket) {
+    public static boolean writeTicket(Ticket ticket) {
 
 
         try {
@@ -42,6 +42,7 @@ public class TicketDAO {
                 preparedStatement.setInt(9, 1);
 
                 preparedStatement.execute();
+                preparedStatement.close();
                 con.close();
 
             }
@@ -53,7 +54,7 @@ public class TicketDAO {
         return true;
     }
 
-    public List<Ticket> readTickets (){
+    public static List<Ticket> readTickets (){
 
         List<Ticket> tickets = new LinkedList<>();
 
@@ -91,6 +92,7 @@ public class TicketDAO {
                 }
                 resultSet.close();
                 preparedStatement.close();
+                con.close();
             }
 
         } catch (Exception ex) {

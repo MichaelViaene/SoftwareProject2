@@ -8,16 +8,21 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import okhttp3.Response;
 import org.dom4j.Document;
 import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
+import org.xml.sax.InputSource;
+
 import java.io.IOException;
+import java.io.StringReader;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import static com.ehbrail.ApiCalls.getTrainInfoByID;
 import static com.ehbrail.WerknemerController.convertISO8601;
-import static com.ehbrail.WerknemerController.getHTTPSResponseCode;
 
 /**
  * Created by jorda on 28/10/2016.
@@ -46,7 +51,6 @@ public class wTrainInfoTabController implements Initializable {
         station.setCellValueFactory(new PropertyValueFactory<TrainInfo, String>("station"));
         time.setCellValueFactory(new PropertyValueFactory<TrainInfo, LocalDateTime>("time"));
         platform.setCellValueFactory(new PropertyValueFactory<TrainInfo, String>("platform"));
-
     }
 
     @FXML
@@ -54,11 +58,11 @@ public class wTrainInfoTabController implements Initializable {
         try {
             //vb treinID = IC545    S23671
             errorRequestLabel.setText("");
-            URL url = new URL("https://api.irail.be/vehicle/?id=BE.NMBS."+treinID.getText()+"&format=xml");
-            int responseCode = getHTTPSResponseCode(url);
-            if (responseCode == 200){
+            Response response = getTrainInfoByID(treinID.getText());
+            if (response.isSuccessful()){
+                String trainResponse = response.body().string();
                 SAXReader reader = new SAXReader();
-                Document document = reader.read(url);
+                Document document = reader.read(new InputSource(new StringReader(trainResponse)));
 
                 List<Node> nodes = document.selectNodes("vehicleinformation/stops/stop[@id]");
                 Node totalStopNode = document.selectSingleNode("vehicleinformation/stops[@number]");
@@ -74,7 +78,11 @@ public class wTrainInfoTabController implements Initializable {
                 tableView.setItems(data);
             }
             else{
-                errorRequestLabel.setText("Error occured, response code: "+responseCode + ". TreinID bestaat niet");
+                errorRequestLabel.setText("Error occured, response code: "+response.code() + ", message:" +response.message());
+                totalStops.setText(" ");
+                ObservableList<TrainInfo> data = FXCollections.observableArrayList();
+                data.clear();
+                tableView.setItems(data);
             }
         }
         catch (Exception e){

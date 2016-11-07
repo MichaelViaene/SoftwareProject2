@@ -20,7 +20,7 @@ public class VerlorenVoorwerp {
 				+ ", datum=" + datum + ", persoonnaam=" + station + ",aanwezig=" + aanwezig;
 	}
 
-	public boolean isAanwezig() {
+	public boolean getAanwezig() {
 		return aanwezig;
 	}
 

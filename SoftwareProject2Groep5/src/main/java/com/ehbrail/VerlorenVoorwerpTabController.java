@@ -89,8 +89,7 @@ public class VerlorenVoorwerpTabController implements Initializable {
 	 ArrayList<String> list;
 
 	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		
+	public void initialize(URL location, ResourceBundle resources) {		
 		 list = LoginController.getList();
 	        TextFields.bindAutoCompletion(textButton,list);	 
 	        TextFields.bindAutoCompletion(stationtext,list);

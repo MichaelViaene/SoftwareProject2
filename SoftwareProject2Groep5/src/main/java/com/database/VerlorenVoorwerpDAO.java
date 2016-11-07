@@ -9,7 +9,6 @@ public class VerlorenVoorwerpDAO {
 	public static ArrayList<VerlorenVoorwerp> getAll() {
 
 		ArrayList<VerlorenVoorwerp> list = new ArrayList<>();
-
 		try {
 			Connection con = Database.getConnection();
 			if (con == null) {

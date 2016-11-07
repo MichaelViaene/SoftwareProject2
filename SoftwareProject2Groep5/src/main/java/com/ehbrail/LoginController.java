@@ -88,7 +88,7 @@ public class LoginController implements Initializable {
                     Scene scene = new Scene(root);
                     stage.setScene(scene);
                     AdminController adminController = loader.<AdminController>getController();
-                    adminController.setLogin(login);
+                    adminController.setTopBar(login,werknemer);
                     stage.show();
                 }
                 if (login.getBevoegdheid() == Login.Bevoegdheid.WERKNEMER) {
@@ -100,7 +100,7 @@ public class LoginController implements Initializable {
                     Scene scene = new Scene(root);
                     stage.setScene(scene);
                     WerknemerController werknemerController = loader.getController();
-                    werknemerController.setLogin(login);
+                    werknemerController.setTopBar(login, werknemer);
                     stage.show();
                 }
                 } else message.setText("Account:"+login.getUsername()+" is niet actief");

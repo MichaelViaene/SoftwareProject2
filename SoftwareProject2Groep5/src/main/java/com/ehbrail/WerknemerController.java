@@ -2,6 +2,7 @@ package com.ehbrail;
 
 import com.model.Login;
 import com.model.StationCSV;
+import com.model.Werknemer;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -50,7 +51,16 @@ public class WerknemerController implements Initializable{
     }
 
     Login login;
+    Werknemer werknemer;
     @FXML Label usernameWerknemer;
+
+    public Werknemer getWerknemer() {
+        return werknemer;
+    }
+
+    public void setWerknemer(Werknemer werknemer) {
+        this.werknemer = werknemer;
+    }
 
     public Login getLogin() {
         return login;
@@ -58,7 +68,13 @@ public class WerknemerController implements Initializable{
 
     public void setLogin(Login login) {
         this.login = login;
-        usernameWerknemer.setText("Welcome, " + login.getUsername() + " met bevoegdheid:"+ login.getBevoegdheid());
+      //  usernameWerknemer.setText("Welcome, " + werknemer.getVoornaam() + werknemer.getNaam() +","+ login.getUsername() + " met bevoegdheid:"+ login.getBevoegdheid());
+    }
+
+    public void setTopBar(Login login, Werknemer werknemer){
+        this.login = login;
+        this.werknemer = werknemer;
+        usernameWerknemer.setText("Welkom, " + werknemer.getVoornaam() +" " + werknemer.getNaam() +"! username: "+ login.getUsername() + " met bevoegdheid:"+ login.getBevoegdheid());
     }
 
 

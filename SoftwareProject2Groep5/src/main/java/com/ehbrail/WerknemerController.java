@@ -1,25 +1,33 @@
 package com.ehbrail;
 
 import com.model.Login;
+import com.model.StationCSV;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import okhttp3.Response;
-import org.boon.core.Sys;
 import org.dom4j.Document;
 import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
 import org.xml.sax.InputSource;
 
-import java.io.IOException;
 import java.io.StringReader;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import javax.net.ssl.HttpsURLConnection;
 import java.time.format.DateTimeFormatter;
+
+
+
+import java.io.FileReader;
+import java.util.List;
+
+import com.opencsv.CSVReader;
+import com.opencsv.bean.ColumnPositionMappingStrategy;
+import com.opencsv.bean.CsvToBean;
+
 
 import static com.ehbrail.ApiCalls.getStationsXML;
 
@@ -90,4 +98,52 @@ public class WerknemerController implements Initializable{
         return list;
     }
 
+    public static ArrayList<String> fillListAllStations(){
+        ArrayList<String> list = new ArrayList<>();
+        CSVReader csvReader = null;
+        try {
+            /**
+             * Reading the CSV File
+             * Delimiter is comma
+             * Default Quote character is double quote
+             * Start reading from line 1
+             */
+            csvReader = new CSVReader(new FileReader("src/main/resources/com/ehbrail/stations.csv"),',','"',1);
+            //mapping of columns with their positions
+            ColumnPositionMappingStrategy mappingStrategy = new ColumnPositionMappingStrategy();
+            //Set mappingStrategy type to StationsCSV Type
+            mappingStrategy.setType(StationCSV.class);
+            //Fields in StationCSV.java Bean
+            String[] columns = new String[]{"Uri","name","nameFR","nameNL","nameDE","nameENG","countryCode","longitude","latitude"};
+            //Setting the colums for mappingStrategy
+            mappingStrategy.setColumnMapping(columns);
+            //create instance for CsvToBean class
+            CsvToBean ctb = new CsvToBean();
+            //parsing csvReader(stations.csv) with mappingStrategy
+            List<StationCSV> stationList = ctb.parse(mappingStrategy,csvReader);
+            //Print the station Details
+            for(StationCSV station: stationList)
+            {
+                //System.out.println(station.toString());
+                //System.out.println(station.getName());
+                list.add(station.getName());
+            }
+
+            }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            try
+            {
+                //closing the reader
+                csvReader.close();
+            }
+            catch(Exception ee)
+            {
+                ee.printStackTrace();
+            }
+        }
+        return list;
+    }
 }

@@ -19,7 +19,7 @@ public class VerlorenVoorwerpDAO {
 
 			Statement st = null;
 			st = con.createStatement();
-			ResultSet rs = st.executeQuery("SELECT * FROM Verloren_voorwerpen;");
+			ResultSet rs = st.executeQuery("SELECT * FROM Verloren_voorwerpen WHERE aanwezig = 1;");
 
 			while (rs.next()) {
 				VerlorenVoorwerp voorwerp = new VerlorenVoorwerp();
@@ -74,11 +74,11 @@ public class VerlorenVoorwerpDAO {
 		return false;
 	}
 
-	public static boolean deleteVoorwerp(VerlorenVoorwerp voorwerp) {
+	public static boolean deleteVoorwerp(int id) {
 
-		if (voorwerp.getVoorwerpid() < 0)
+		if (id < 0)
 			return false;
-		if (controleId(voorwerp.getVoorwerpid()) == false) {
+		if (controleId(id) == false) {
 			return false;
 		}
 
@@ -89,8 +89,9 @@ public class VerlorenVoorwerpDAO {
 				con = Database.getConnection();
 			}
 
-			PreparedStatement st = con.prepareStatement("DELETE FROM Verloren_voorwerpen WHERE verloren_id= ?");
-			st.setInt(1, voorwerp.getVoorwerpid());
+			PreparedStatement st = con
+					.prepareStatement("UPDATE Verloren_voorwerpen SET aanwezig = 0 where verloren_id= ?");
+			st.setInt(1, id);
 			st.executeUpdate();
 			con.commit();
 			return true;
@@ -100,45 +101,6 @@ public class VerlorenVoorwerpDAO {
 		}
 		return false;
 
-	}
-
-	public static boolean insertDeleteVoorwerp(VerlorenVoorwerp voorwerp) {
-
-		if (voorwerp.getVoorwerpid() < 0)
-			return false;
-		if (controleId(voorwerp.getVoorwerpid()) == false) {
-			return false;
-		}
-
-		try {
-			Connection con = Database.getConnection();
-			if (con == null) {
-				Database.openDatabase();
-				con = Database.getConnection();
-			}
-
-			PreparedStatement preparedPush = null;
-			String pushStatement = "INSERT INTO Delete_voorwerpen (naam, omschrijving, datum_deleted, station) VALUES (?,?,?,?);";
-
-			con.setAutoCommit(false);
-
-			preparedPush = con.prepareStatement(pushStatement);
-
-			preparedPush.setString(1, voorwerp.getNaam());
-			preparedPush.setString(2, voorwerp.getOmschrijving());
-			preparedPush.setString(3, voorwerp.getDatum());
-			preparedPush.setString(4, voorwerp.getStation());
-			preparedPush.executeUpdate();
-
-			preparedPush.close();
-			con.commit();
-			return true;
-		} catch (SQLException e) {
-			System.err.println(e.getClass().getName() + " : " + e.getMessage());
-			System.exit(1);
-		}
-
-		return false;
 	}
 
 	public static VerlorenVoorwerp getVoorwerpPerId(int id) {
@@ -194,16 +156,17 @@ public class VerlorenVoorwerpDAO {
 			}
 
 			PreparedStatement preparedPush = null;
-			String pushStatement = "INSERT INTO Verloren_voorwerpen (naam, omschrijving, datum_aankomst, station) VALUES (?,?,?,?);";
+			String pushStatement = "INSERT INTO Verloren_voorwerpen (naam, omschrijving, datum_aankomst,aanwezig,station) VALUES (?,?,?,?,?);";
 
 			con.setAutoCommit(false);
 
-			preparedPush = con.prepareStatement(pushStatement, PreparedStatement.RETURN_GENERATED_KEYS);
+			preparedPush = con.prepareStatement(pushStatement);
 
 			preparedPush.setString(1, voorwerp.getNaam());
 			preparedPush.setString(2, voorwerp.getOmschrijving());
 			preparedPush.setString(3, voorwerp.getDatum());
-			preparedPush.setString(4, voorwerp.getStation());
+			preparedPush.setBoolean(4, true);
+			preparedPush.setString(5, voorwerp.getStation());
 			preparedPush.executeUpdate();
 
 			preparedPush.close();
@@ -254,31 +217,4 @@ public class VerlorenVoorwerpDAO {
 
 	}
 
-	public static void sortId() {
-		try {
-			Connection con = Database.getConnection();
-			if (con == null) {
-				Database.openDatabase();
-				con = Database.getConnection();
-			}
-
-			Statement st = null;
-			st = con.createStatement();
-			ResultSet rs = st.executeQuery("SELECT * FROM Verloren_voorwerpen;");
-			int count = 0;
-			while (rs.next()) {
-				PreparedStatement preparedPush = null;
-				String pushStatement = "INSERT INTO Verloren_voorwerpen (verloren_id) VALUES (?);";
-				preparedPush = con.prepareStatement(pushStatement);
-
-				preparedPush.setInt(1, count++);
-				preparedPush.executeUpdate();
-
-			}
-			con.commit();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
 }

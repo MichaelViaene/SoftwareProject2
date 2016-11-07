@@ -12,11 +12,20 @@ public class VerlorenVoorwerp {
 	private String omschrijving;
 	private String datum;
 	private String station;
+	private boolean aanwezig;
 
 	@Override
 	public String toString() {
 		return "VerlorenVoorwerp voorwerpid=" + voorwerpid + ", naam=" + naam + ", omschrijving=" + omschrijving
-				+ ", datum=" + datum + ", persoonnaam=" + station ;
+				+ ", datum=" + datum + ", persoonnaam=" + station + ",aanwezig=" + aanwezig;
+	}
+
+	public boolean isAanwezig() {
+		return aanwezig;
+	}
+
+	public void setAanwezig(boolean aanwezig) {
+		this.aanwezig = aanwezig;
 	}
 
 	public VerlorenVoorwerp() {

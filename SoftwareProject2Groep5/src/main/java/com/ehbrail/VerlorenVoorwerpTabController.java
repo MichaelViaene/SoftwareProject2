@@ -92,7 +92,8 @@ public class VerlorenVoorwerpTabController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		
 		 list = LoginController.getList();
-	        TextFields.bindAutoCompletion(textButton,list);	  
+	        TextFields.bindAutoCompletion(textButton,list);	 
+	        TextFields.bindAutoCompletion(stationtext,list);
 		
 		voorwerpid.setCellValueFactory(new PropertyValueFactory<VerlorenVoorwerp, Integer>("voorwerpid"));
 		naam.setCellValueFactory(new PropertyValueFactory<VerlorenVoorwerp, String>("naam"));
@@ -138,10 +139,7 @@ public class VerlorenVoorwerpTabController implements Initializable {
 	void deleteVoorwerp(ActionEvent event) {
 		try {
 			int id = Integer.parseInt(idtext.getText());
-			VerlorenVoorwerp voorwerp = VerlorenVoorwerpDAO.getVoorwerpPerId(id);
-			VerlorenVoorwerpDAO.insertDeleteVoorwerp(voorwerp);
-			VerlorenVoorwerpDAO.deleteVoorwerp(voorwerp);
-			VerlorenVoorwerpDAO.sortId();
+			VerlorenVoorwerpDAO.deleteVoorwerp(id);
 			idtext.clear();
 			Alert alert = new Alert(Alert.AlertType.INFORMATION);
 			alert.setTitle("Information Dialog");
@@ -163,4 +161,11 @@ public class VerlorenVoorwerpTabController implements Initializable {
 	void updateVoorwerp(ActionEvent event) {
 
 	}
+	
+	@FXML
+    void selectInformaties(MouseEvent event) {
+
+    }
+	
+	
 }

@@ -30,6 +30,7 @@ import java.util.ResourceBundle;
 
 import static com.database.Database.testConn;
 import static com.database.WerknemerDAO.getWerkById;
+import static com.ehbrail.WerknemerController.fillListAllStations;
 import static com.ehbrail.WerknemerController.getAllStationsXMLtoList;
 import static com.model.Login.verifyPassword;
 
@@ -51,11 +52,15 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        list = fillListAllStations();
+
+        /**
         new Thread(() -> {
             list = getAllStationsXMLtoList();
             setList(list);
             //list.forEach(System.out::println);
         }).start();
+         **/
     }
 
     @FXML

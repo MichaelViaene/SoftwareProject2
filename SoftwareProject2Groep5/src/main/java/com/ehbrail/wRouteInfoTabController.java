@@ -19,6 +19,7 @@ import java.util.ResourceBundle;
 
 import com.model.Routes.*;
 import static com.ehbrail.ApiCalls.getIRailRoute;
+import static com.ehbrail.WerknemerController.toLocalDateTime;
 
 /**
  * Created by jorda on 28/10/2016.
@@ -119,10 +120,7 @@ public class wRouteInfoTabController implements Initializable {
         }
     }
 
-    public static LocalDateTime toLocalDateTime(String time){
-        LocalDateTime localDateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(Long.parseLong(time) * 1000), ZoneId.systemDefault());
-        return localDateTime;
-    }
+
 
 
 }

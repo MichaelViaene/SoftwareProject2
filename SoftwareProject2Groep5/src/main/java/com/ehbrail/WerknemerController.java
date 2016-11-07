@@ -13,7 +13,9 @@ import org.xml.sax.InputSource;
 
 import java.io.StringReader;
 import java.net.URL;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -67,6 +69,9 @@ public class WerknemerController implements Initializable{
     
     @FXML private Tab wRouteInfoTab;
     @FXML private wRouteInfoTabController wRouteInfoTabPageController;
+
+    @FXML private Tab wLiveboardTab;
+    @FXML private wLiveboardTabController wLiveboardTabPageController;
     
     @FXML private Tab wVerlorenVoorwerpTab;
     @FXML private VerlorenVoorwerpTabController wVerlorenVoorwerpTabPageController;
@@ -74,6 +79,11 @@ public class WerknemerController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+    }
+
+    public static LocalDateTime toLocalDateTime(String time){
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(Long.parseLong(time) * 1000), ZoneId.systemDefault());
+        return localDateTime;
     }
 
     public static ArrayList<String> getAllStationsXMLtoList(){

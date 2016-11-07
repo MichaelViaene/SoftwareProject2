@@ -68,7 +68,11 @@ public class wTrainInfoTabController implements Initializable {
 
                     List<Node> nodes = document.selectNodes("vehicleinformation/stops/stop[@id]");
                     Node totalStopNode = document.selectSingleNode("vehicleinformation/stops[@number]");
-                    totalStops.setText("Total stops: " + totalStopNode.valueOf("@number"));
+                    if (totalStopNode != null)
+                    {totalStops.setText("Total stops: " + totalStopNode.valueOf("@number"));}
+                    else errorRequestLabel.setText("Er werd geen data gevonden voor deze trein.");
+
+
                     ObservableList<TrainInfo> data = FXCollections.observableArrayList();
                     for (Node node : nodes) {
                         data.add(new TrainInfo(Integer.parseInt(node.valueOf("@id")),

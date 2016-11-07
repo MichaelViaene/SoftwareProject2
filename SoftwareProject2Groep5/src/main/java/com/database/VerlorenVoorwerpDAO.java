@@ -27,7 +27,6 @@ public class VerlorenVoorwerpDAO {
 				voorwerp.setNaam(rs.getString("naam"));
 				voorwerp.setOmschrijving(rs.getString("omschrijving"));
 				voorwerp.setDatum(rs.getString("datum_aankomst"));
-				voorwerp.setAanwezig(rs.getBoolean("aanwezig"));
 				voorwerp.setStation(rs.getString("station"));
 
 				list.add(voorwerp);
@@ -75,11 +74,11 @@ public class VerlorenVoorwerpDAO {
 		return false;
 	}
 
-	public static boolean voorwerpGevonden(int id) {
+	public static boolean deleteVoorwerp(VerlorenVoorwerp voorwerp) {
 
-		if (id < 0)
+		if (voorwerp.getVoorwerpid() < 0)
 			return false;
-		if (controleId(id) == false) {
+		if (controleId(voorwerp.getVoorwerpid()) == false) {
 			return false;
 		}
 
@@ -90,17 +89,48 @@ public class VerlorenVoorwerpDAO {
 				con = Database.getConnection();
 			}
 
-			PreparedStatement setGevonden = null;
-			String update = "UPDATE Verloren_voorwerpen set aanwezig=0 WHERE verloren_id =?;";
+			PreparedStatement st = con.prepareStatement("DELETE FROM Verloren_voorwerpen WHERE verloren_id= ?");
+			st.setInt(1, voorwerp.getVoorwerpid());
+			st.executeUpdate();
+			con.commit();
+			return true;
+		} catch (SQLException e) {
+			System.err.println(e.getClass().getName() + " : " + e.getMessage());
+			System.exit(1);
+		}
+		return false;
+
+	}
+
+	public static boolean insertDeleteVoorwerp(VerlorenVoorwerp voorwerp) {
+
+		if (voorwerp.getVoorwerpid() < 0)
+			return false;
+		if (controleId(voorwerp.getVoorwerpid()) == false) {
+			return false;
+		}
+
+		try {
+			Connection con = Database.getConnection();
+			if (con == null) {
+				Database.openDatabase();
+				con = Database.getConnection();
+			}
+
+			PreparedStatement preparedPush = null;
+			String pushStatement = "INSERT INTO Delete_voorwerpen (naam, omschrijving, datum_deleted, station) VALUES (?,?,?,?);";
 
 			con.setAutoCommit(false);
 
-			setGevonden = con.prepareStatement(update);
+			preparedPush = con.prepareStatement(pushStatement);
 
-			setGevonden.setInt(1, id);
+			preparedPush.setString(1, voorwerp.getNaam());
+			preparedPush.setString(2, voorwerp.getOmschrijving());
+			preparedPush.setString(3, voorwerp.getDatum());
+			preparedPush.setString(4, voorwerp.getStation());
+			preparedPush.executeUpdate();
 
-			setGevonden.executeUpdate();
-
+			preparedPush.close();
 			con.commit();
 			return true;
 		} catch (SQLException e) {
@@ -109,6 +139,42 @@ public class VerlorenVoorwerpDAO {
 		}
 
 		return false;
+	}
+
+	public static VerlorenVoorwerp getVoorwerpPerId(int id) {
+		if (id < 0)
+			return null;
+		if (controleId(id) == false) {
+			return null;
+		}
+
+		try {
+			Connection con = Database.getConnection();
+			if (con == null) {
+				Database.openDatabase();
+				con = Database.getConnection();
+			}
+
+			Statement st = null;
+			st = con.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM Verloren_voorwerpen WHERE verloren_id = " + id + ";");
+
+			VerlorenVoorwerp voorwerp = new VerlorenVoorwerp();
+			while (rs.next()) {
+				voorwerp.setVoorwerpid(rs.getInt(1));
+				voorwerp.setNaam(rs.getString(2));
+				voorwerp.setOmschrijving(rs.getString(3));
+				voorwerp.setDatum(rs.getString(4));
+				voorwerp.setStation(rs.getString(5));
+			}
+			st.close();
+			return voorwerp;
+		} catch (SQLException e) {
+			System.err.println(e.getClass().getName() + " : " + e.getMessage());
+			System.exit(1);
+		}
+		return null;
+
 	}
 
 	public static boolean insertVoorwerp(VerlorenVoorwerp voorwerp) {
@@ -128,18 +194,16 @@ public class VerlorenVoorwerpDAO {
 			}
 
 			PreparedStatement preparedPush = null;
-			String pushStatement = "INSERT INTO Verloren_voorwerpen (verloren_id, naam, omschrijving, datum_aankomst, aanwezig, station) VALUES (?,?,?,?,?,?);";
+			String pushStatement = "INSERT INTO Verloren_voorwerpen (naam, omschrijving, datum_aankomst, station) VALUES (?,?,?,?);";
 
 			con.setAutoCommit(false);
 
 			preparedPush = con.prepareStatement(pushStatement, PreparedStatement.RETURN_GENERATED_KEYS);
 
-			preparedPush.setInt(1, voorwerp.getVoorwerpid());
-			preparedPush.setString(2, voorwerp.getNaam());
-			preparedPush.setString(3, voorwerp.getOmschrijving());
-			preparedPush.setString(4, voorwerp.getDatum());
-			preparedPush.setBoolean(6, voorwerp.getAanwezig());
-			preparedPush.setString(6, voorwerp.getStation());
+			preparedPush.setString(1, voorwerp.getNaam());
+			preparedPush.setString(2, voorwerp.getOmschrijving());
+			preparedPush.setString(3, voorwerp.getDatum());
+			preparedPush.setString(4, voorwerp.getStation());
 			preparedPush.executeUpdate();
 
 			preparedPush.close();
@@ -150,5 +214,71 @@ public class VerlorenVoorwerpDAO {
 			System.exit(1);
 		}
 		return false;
+	}
+
+	public static ArrayList<VerlorenVoorwerp> getVoorwerpByStation(String station) {
+
+		ArrayList<VerlorenVoorwerp> list = new ArrayList<>();
+
+		try {
+			Connection con = Database.getConnection();
+			if (con == null) {
+				Database.openDatabase();
+				con = Database.getConnection();
+			}
+
+			String query = "SELECT * FROM Verloren_voorwerpen WHERE station=?";
+			PreparedStatement preparedStatement = con.prepareStatement(query);
+			preparedStatement.setString(1, station);
+			ResultSet rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				VerlorenVoorwerp voorwerp = new VerlorenVoorwerp();
+				voorwerp.setVoorwerpid(rs.getInt("verloren_id"));
+				voorwerp.setNaam(rs.getString("naam"));
+				voorwerp.setOmschrijving(rs.getString("omschrijving"));
+				voorwerp.setDatum(rs.getString("datum_aankomst"));
+				voorwerp.setStation(rs.getString("station"));
+
+				list.add(voorwerp);
+			}
+			rs.close();
+			preparedStatement.close();
+
+		}
+
+		catch (Exception ex) {
+			System.out.println(ex);
+		}
+		return list;
+
+	}
+
+	public static void sortId() {
+		try {
+			Connection con = Database.getConnection();
+			if (con == null) {
+				Database.openDatabase();
+				con = Database.getConnection();
+			}
+
+			Statement st = null;
+			st = con.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM Verloren_voorwerpen;");
+			int count = 0;
+			while (rs.next()) {
+				PreparedStatement preparedPush = null;
+				String pushStatement = "INSERT INTO Verloren_voorwerpen (verloren_id) VALUES (?);";
+				preparedPush = con.prepareStatement(pushStatement);
+
+				preparedPush.setInt(1, count++);
+				preparedPush.executeUpdate();
+
+			}
+			con.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 }

@@ -53,11 +53,16 @@ public class WerknemerController implements Initializable{
 
 
     @FXML private TabPane wtabPane;
+    
     @FXML private Tab wTrainInfoTab;
     @FXML private wTrainInfoTabController wTrainInfoTabPageController;
+    
     @FXML private Tab wRouteInfoTab;
     @FXML private wRouteInfoTabController wRouteInfoTabPageController;
-
+    
+    @FXML private Tab wVerlorenVoorwerpTab;
+    @FXML private VerlorenVoorwerpTabController wVerlorenVoorwerpTabPageController;
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 

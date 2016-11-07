@@ -55,38 +55,39 @@ public class wTrainInfoTabController implements Initializable {
 
     @FXML
     private void searchAction(ActionEvent event) throws IOException {
-        try {
-            //vb treinID = IC545    S23671
-            errorRequestLabel.setText("");
-            Response response = getTrainInfoByID(treinID.getText());
-            if (response.isSuccessful()){
-                String trainResponse = response.body().string();
-                SAXReader reader = new SAXReader();
-                Document document = reader.read(new InputSource(new StringReader(trainResponse)));
+        if (treinID.getText().isEmpty()) errorRequestLabel.setText("Gelieve een trein ID mee te geven.");
+        else {
+            try {
+                //vb treinID = IC545    S23671
+                errorRequestLabel.setText("");
+                Response response = getTrainInfoByID(treinID.getText());
+                if (response.isSuccessful()) {
+                    String trainResponse = response.body().string();
+                    SAXReader reader = new SAXReader();
+                    Document document = reader.read(new InputSource(new StringReader(trainResponse)));
 
-                List<Node> nodes = document.selectNodes("vehicleinformation/stops/stop[@id]");
-                Node totalStopNode = document.selectSingleNode("vehicleinformation/stops[@number]");
-                totalStops.setText("Total stops: " + totalStopNode.valueOf("@number"));
-                ObservableList<TrainInfo> data = FXCollections.observableArrayList();
-                for (Node node: nodes){
-                    data.add(new TrainInfo(Integer.parseInt(node.valueOf("@id")),
-                            node.selectSingleNode("station").getText(),
-                            convertISO8601(node.selectSingleNode("time").valueOf("@formatted")),
-                            node.selectSingleNode("platform").getText()
-                    ));
+                    List<Node> nodes = document.selectNodes("vehicleinformation/stops/stop[@id]");
+                    Node totalStopNode = document.selectSingleNode("vehicleinformation/stops[@number]");
+                    totalStops.setText("Total stops: " + totalStopNode.valueOf("@number"));
+                    ObservableList<TrainInfo> data = FXCollections.observableArrayList();
+                    for (Node node : nodes) {
+                        data.add(new TrainInfo(Integer.parseInt(node.valueOf("@id")),
+                                node.selectSingleNode("station").getText(),
+                                convertISO8601(node.selectSingleNode("time").valueOf("@formatted")),
+                                node.selectSingleNode("platform").getText()
+                        ));
+                    }
+                    tableView.setItems(data);
+                } else {
+                    errorRequestLabel.setText("Error occured, response code: " + response.code() + ", message:" + response.message());
+                    totalStops.setText(" ");
+                    ObservableList<TrainInfo> data = FXCollections.observableArrayList();
+                    data.clear();
+                    tableView.setItems(data);
                 }
-                tableView.setItems(data);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            else{
-                errorRequestLabel.setText("Error occured, response code: "+response.code() + ", message:" +response.message());
-                totalStops.setText(" ");
-                ObservableList<TrainInfo> data = FXCollections.observableArrayList();
-                data.clear();
-                tableView.setItems(data);
-            }
-        }
-        catch (Exception e){
-            e.printStackTrace();
         }
     }
 }

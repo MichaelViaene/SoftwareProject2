@@ -55,24 +55,27 @@ public class wRouteInfoTabController implements Initializable {
 
     @FXML
     private void onClickplanRoute(ActionEvent event) throws IOException {
-        try {
-            Response response = getIRailRoute(vanField.getText(), naarField.getText());
-            if (response.isSuccessful()) {
-                String jsonString = response.body().string();
-                ObjectMapper mapper = JsonFactory.create();
-                IrailRoute irailRoute = mapper.readValue(jsonString, IrailRoute.class);
-                TreeItem<String> rootItem = new TreeItem<String>("Routes");
-                createTreeItems(rootItem, irailRoute);
-                rootItem.setExpanded(true);
-                treeRoute.setRoot(rootItem);
-                errorLabel.setText(" ");
-            } else {
-                errorLabel.setText("Error, responsecode = " + response.networkResponse().code() + ", With message: "+response.networkResponse().message());
-                TreeItem<String> rootItem = new TreeItem<String>("Routes");
-                treeRoute.setRoot(rootItem);
+        if (vanField.getText().isEmpty() || naarField.getText().isEmpty()) errorLabel.setText("Gelieve een vertrek EN aankomst station mee te geven!");
+        else {
+            try {
+                Response response = getIRailRoute(vanField.getText(), naarField.getText());
+                if (response.isSuccessful()) {
+                    String jsonString = response.body().string();
+                    ObjectMapper mapper = JsonFactory.create();
+                    IrailRoute irailRoute = mapper.readValue(jsonString, IrailRoute.class);
+                    TreeItem<String> rootItem = new TreeItem<String>("Routes");
+                    createTreeItems(rootItem, irailRoute);
+                    rootItem.setExpanded(true);
+                    treeRoute.setRoot(rootItem);
+                    errorLabel.setText(" ");
+                } else {
+                    errorLabel.setText("Error, responsecode = " + response.networkResponse().code() + ", With message: " + response.networkResponse().message());
+                    TreeItem<String> rootItem = new TreeItem<String>("Routes");
+                    treeRoute.setRoot(rootItem);
+                }
+            } catch (Exception e) {
+                System.out.println(e);
             }
-        } catch (Exception e) {
-            System.out.println(e);
         }
     }
 

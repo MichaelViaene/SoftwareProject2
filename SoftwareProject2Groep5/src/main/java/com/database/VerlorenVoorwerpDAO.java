@@ -92,7 +92,6 @@ public class VerlorenVoorwerpDAO {
 					.prepareStatement("UPDATE Verloren_voorwerpen SET aanwezig = 0 where verloren_id= ?");
 			st.setInt(1, id);
 			st.executeUpdate();
-			con.commit();
 			return true;
 		} catch (SQLException e) {
 			System.err.println(e.getClass().getName() + " : " + e.getMessage());

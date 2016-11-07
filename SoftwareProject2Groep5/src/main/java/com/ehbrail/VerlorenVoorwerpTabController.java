@@ -4,6 +4,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import org.controlsfx.control.textfield.TextFields;
@@ -19,6 +20,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
@@ -85,30 +87,27 @@ public class VerlorenVoorwerpTabController implements Initializable {
 
 	// list verlorenvoorwerpen
 	private ObservableList<VerlorenVoorwerp> data;
-	
-	 ArrayList<String> list;
+
+	ArrayList<String> list;
 
 	@Override
-	public void initialize(URL location, ResourceBundle resources) {		
-		 list = LoginController.getList();
-	        TextFields.bindAutoCompletion(textButton,list);	 
-	        TextFields.bindAutoCompletion(stationtext,list);
-		
+	public void initialize(URL location, ResourceBundle resources) {
+		list = LoginController.getList();
+		TextFields.bindAutoCompletion(textButton, list);
+		TextFields.bindAutoCompletion(stationtext, list);
+
 		voorwerpid.setCellValueFactory(new PropertyValueFactory<VerlorenVoorwerp, Integer>("voorwerpid"));
 		naam.setCellValueFactory(new PropertyValueFactory<VerlorenVoorwerp, String>("naam"));
 		omschrijving.setCellValueFactory(new PropertyValueFactory<VerlorenVoorwerp, String>("omschrijving"));
 		datum.setCellValueFactory(new PropertyValueFactory<VerlorenVoorwerp, String>("datum"));
 		station.setCellValueFactory(new PropertyValueFactory<VerlorenVoorwerp, String>("station"));
-		
-		refresh();
-		
 	}
 
 	public void loadDatabase(ActionEvent event) {
 		refresh();
 	}
-	
-	public void refresh(){
+
+	public void refresh() {
 		data = FXCollections.observableArrayList(VerlorenVoorwerpDAO.getAll());
 		tableview.setItems(data);
 	}
@@ -144,16 +143,26 @@ public class VerlorenVoorwerpTabController implements Initializable {
 
 	@FXML
 	void deleteVoorwerp(ActionEvent event) {
+
+		/*
+		 * Alert alert = new Alert(AlertType.CONFIRMATION, "Delete " + selection
+		 * + " ?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+		 * alert.showAndWait();
+		 * 
+		 * if (alert.getResult() == ButtonType.YES) { //do stuff }
+		 */
 		try {
 			int id = Integer.parseInt(idtext.getText());
-			VerlorenVoorwerpDAO.deleteVoorwerp(id);
+			Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+			alert.setTitle("Confirmation Dialog");
+			alert.setHeaderText(null);
+			alert.setContentText("Ben je zeker dat je " + id +" wilt deleten?");
+			Optional <ButtonType> action = alert.showAndWait();
+			if (action.get()==ButtonType.OK) {
+				VerlorenVoorwerpDAO.deleteVoorwerp(id);
+			} 
 			idtext.clear();
-			Alert alert = new Alert(Alert.AlertType.INFORMATION);
-			alert.setTitle("Information Dialog");
-			alert.setHeaderText("Information Alert");
-			alert.setContentText("Verloren voorwerp werd verwijdert");
-			alert.show();
-			
+
 		} catch (Exception e) {
 			Alert alert = new Alert(Alert.AlertType.ERROR);
 			alert.setTitle("Error");
@@ -169,11 +178,10 @@ public class VerlorenVoorwerpTabController implements Initializable {
 	void updateVoorwerp(ActionEvent event) {
 
 	}
-	
-	@FXML
-    void selectInformaties(MouseEvent event) {
 
-    }
-	
-	
+	@FXML
+	void selectInformaties(MouseEvent event) {
+
+	}
+
 }

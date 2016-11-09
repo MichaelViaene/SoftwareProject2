@@ -11,8 +11,6 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import javax.sql.rowset.RowSetFactory;
-
 import org.controlsfx.control.textfield.TextFields;
 
 import com.database.VerlorenVoorwerpDAO;
@@ -24,10 +22,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -35,8 +31,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-
-
 
 public class VerlorenVoorwerpTabController implements Initializable {
 
@@ -103,6 +97,8 @@ public class VerlorenVoorwerpTabController implements Initializable {
 		list = LoginController.getList();
 		TextFields.bindAutoCompletion(textButton, list);
 		TextFields.bindAutoCompletion(stationtext, list);
+		
+		refresh();
 
 		voorwerpid.setCellValueFactory(new PropertyValueFactory<VerlorenVoorwerp, Integer>("voorwerpid"));
 		naam.setCellValueFactory(new PropertyValueFactory<VerlorenVoorwerp, String>("naam"));
@@ -131,11 +127,12 @@ public class VerlorenVoorwerpTabController implements Initializable {
 	@FXML
 	void insertVoorwerp(ActionEvent event) {
 		String text = omschrijvingtext.getText();
-		//formattedString met "" en if om te controleren of die niet null om te formatten wordt gedaan om de datepicker veld te kunnen controleren.
+		// formattedString met "" en if om te controleren of die niet null om te
+		// formatten wordt gedaan om de datepicker veld te kunnen controleren.
 		String formattedString = "";
 		if (datumtext.getValue() != null) {
 			LocalDate localDate = datumtext.getValue();
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 			formattedString = localDate.format(formatter);
 		}
 		VerlorenVoorwerp voorwerp = new VerlorenVoorwerp(naamtext.getText(), text, formattedString,
@@ -187,18 +184,55 @@ public class VerlorenVoorwerpTabController implements Initializable {
 		refresh();
 
 	}
-	
-	
 
 	@FXML
 	void updateVoorwerp(ActionEvent event) {
 
-		
+		String text = omschrijvingtext.getText();
+		// formattedString met "" en if om te controleren of die niet null is om
+		// te
+		// formatten (wordt gedaan om de datepicker veld te kunnen controleren).
+		String formattedString = "";
+		if (datumtext.getValue() != null) {
+			LocalDate localDate = datumtext.getValue();
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+			formattedString = localDate.format(formatter);
+		}
+		int id = Integer.parseInt(idtext.getText());
+		VerlorenVoorwerp voorwerp = new VerlorenVoorwerp(id, naamtext.getText(), text, formattedString,
+				stationtext.getText());
+		if (!(voorwerp.getNaam().isEmpty() || voorwerp.getOmschrijving().isEmpty() || voorwerp.getStation().isEmpty()
+				|| voorwerp.getDatum().isEmpty())) {
+
+			VerlorenVoorwerpDAO.updateVoorwerp(voorwerp);
+			naamtext.clear();
+			datumtext.getEditor().clear();
+			omschrijvingtext.clear();
+			stationtext.clear();
+			refresh();
+		} else if ((voorwerp.getNaam().isEmpty() || voorwerp.getOmschrijving().isEmpty()
+				|| voorwerp.getStation().isEmpty() || voorwerp.getDatum().isEmpty())) {
+			Alert alert = new Alert(Alert.AlertType.WARNING);
+			alert.setTitle("Ongeldige Velden");
+			alert.setHeaderText(null);
+			alert.setContentText("Alle velden moeten ingevuld worden.");
+			alert.show();
+		}
+
 	}
 
 	@FXML
 	void selectInformaties(MouseEvent event) {
+		if (event.getClickCount() == 2 && tableview.getSelectionModel().getSelectedItem() != null) {
 
+			VerlorenVoorwerp v = tableview.getSelectionModel().getSelectedItem();
+			naamtext.setText(v.getNaam());
+			stationtext.setText(v.getStation());
+			omschrijvingtext.setText(v.getOmschrijving());
+			String str = Integer.toString(v.getVoorwerpid());
+			idtext.setText(str);
+
+		}
 	}
 
 }

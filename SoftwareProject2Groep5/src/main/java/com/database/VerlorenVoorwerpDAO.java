@@ -193,7 +193,7 @@ public class VerlorenVoorwerpDAO {
 				con = Database.getConnection();
 			}
 
-			String query = "SELECT * FROM Verloren_voorwerpen WHERE station=?";
+			String query = "SELECT * FROM Verloren_voorwerpen WHERE station=? AND aanwezig=true";
 			PreparedStatement preparedStatement = con.prepareStatement(query);
 			preparedStatement.setString(1, station);
 			ResultSet rs = preparedStatement.executeQuery();

@@ -22,7 +22,7 @@ public class VerlorenVoorwerp {
 	@Override
 	public String toString() {
 		return "VerlorenVoorwerp voorwerpid=" + voorwerpid + ", naam=" + naam + ", omschrijving=" + omschrijving
-				+ ", datum=" + datum + ", persoonnaam=" + station + ",aanwezig=" + aanwezig;
+				+ ", datum=" + datum + ", station=" + station + ",aanwezig=" + aanwezig;
 	}
 
 	public boolean getAanwezig() {
@@ -38,7 +38,6 @@ public class VerlorenVoorwerp {
 
 	public VerlorenVoorwerp(int voorwerpid, String naam, String omschrijving, String datum,
 			String station) {
-		super();
 		this.voorwerpid = voorwerpid;
 		this.naam = naam;
 		this.omschrijving = omschrijving;

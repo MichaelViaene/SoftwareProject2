@@ -224,11 +224,7 @@ public class VerlorenVoorwerpDAO {
 		if (voorwerp == null) {
 			return false;
 		}
-		if (controleId(voorwerp.getVoorwerpid()) == true) {
-			return false;
-
-		}
-
+		
 		try {
 			Connection con = Database.getConnection();
 			if (con == null) {
@@ -245,15 +241,15 @@ public class VerlorenVoorwerpDAO {
 			update.setString(2, voorwerp.getOmschrijving());
 			update.setString(3, voorwerp.getDatum());
 			update.setString(4, voorwerp.getStation());
+			update.setInt(5, voorwerp.getVoorwerpid());
 
 			int aantalVeranderingen = update.executeUpdate();
-
 			update.close();
 			con.commit();
 			
-			if (aantalVeranderingen != 0)
+			if (aantalVeranderingen == 1)
 				return true;
-			else return false;
+			return false;
 		} catch (SQLException e) {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(1);

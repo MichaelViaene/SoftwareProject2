@@ -6,11 +6,13 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -18,7 +20,7 @@
    <children>
       <Accordion layoutX="635.0" layoutY="184.0" prefHeight="206.0" prefWidth="269.0">
          <panes>
-          <TitledPane animated="false" text="untitled 1">
+          <TitledPane animated="false" text="Optional">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -29,13 +31,21 @@
                         </RadioButton>
                         <RadioButton fx:id="aankomstRadio" layoutX="104.0" layoutY="9.0" mnemonicParsing="false" text="Aankomst" toggleGroup="$timeSel" />
                         <DatePicker fx:id="dateText" layoutX="14.0" layoutY="39.0" />
-                        <Spinner layoutX="15.0" layoutY="105.0" prefHeight="25.0" prefWidth="68.0" />
-                        <Spinner layoutX="100.0" layoutY="106.0" prefHeight="25.0" prefWidth="68.0" />
-                        <Label layoutX="89.0" layoutY="103.0" prefHeight="30.0" prefWidth="0.0" text=":">
-                           <font>
-                              <Font size="20.0" />
-                           </font>
-                        </Label>
+                        <HBox layoutX="14.0" layoutY="78.0">
+                           <children>
+                              <Spinner fx:id="hourSpinner" prefWidth="60">
+                                 <valueFactory>
+                                    <SpinnerValueFactory.IntegerSpinnerValueFactory fx:id="hourValueFactory" max="23" min="0" wrapAround="true" />
+                                 </valueFactory>
+                              </Spinner>
+                              <Spinner fx:id="minuteSpinner" prefWidth="60">
+                                 <valueFactory>
+                                    <SpinnerValueFactory.IntegerSpinnerValueFactory fx:id="minuteValueFactory" max="59" min="0" wrapAround="true" />
+                                 </valueFactory>
+                              </Spinner>
+                           </children>
+                        </HBox>
+                        <Label fx:id="timeSpinnerlabel" layoutX="13.0" layoutY="127.0" prefHeight="17.0" prefWidth="183.0" />
                      </children>
                   </AnchorPane>
             </content>
@@ -59,5 +69,9 @@
       <TreeView fx:id="treeRoute" layoutX="48.0" layoutY="184.0" prefHeight="534.0" prefWidth="566.0" />
       <Button fx:id="planRouteButton" layoutX="560.0" layoutY="61.0" mnemonicParsing="false" onAction="#onClickplanRoute" prefHeight="32.0" prefWidth="75.0" text="Plan Route" textAlignment="CENTER" />
       <Label fx:id="errorLabel" layoutX="51.0" layoutY="140.0" prefHeight="25.0" prefWidth="779.0" textFill="RED" />
+      <Button fx:id="getFirstRouteButton" layoutX="71.0" layoutY="104.0" mnemonicParsing="false" onAction="#onClickGetFirstRoute" text="&lt; &lt; Vroegste" />
+      <Button fx:id="getLastRouteButton" layoutX="159.0" layoutY="104.0" mnemonicParsing="false" onAction="#onClickGetLastRoute" text="Laatste &gt; &gt;" />
+      <Button fx:id="getLaterRouteButton" layoutX="414.0" layoutY="104.0" mnemonicParsing="false" onAction="#onClickGetLaterRoute" text="Later &gt;" />
+      <Button fx:id="getEarlierRouteButton" layoutX="334.0" layoutY="104.0" mnemonicParsing="false" onAction="#onClickGetEarlierRoute" text="&lt; Vroeger" />
    </children>
 </AnchorPane>

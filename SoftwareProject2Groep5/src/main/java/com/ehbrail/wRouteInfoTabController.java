@@ -1,5 +1,8 @@
 package com.ehbrail;
 
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -13,9 +16,7 @@ import org.controlsfx.control.textfield.TextFields;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -28,12 +29,18 @@ import static com.ehbrail.WerknemerController.toLocalDateTime;
 
 /**
  * Created by jorda on 28/10/2016.
+ *
+ * Code van spinners komt van: http://stackoverflow.com/questions/30886746/how-can-i-set-3-values-in-spinner
  */
 public class wRouteInfoTabController implements Initializable {
     ArrayList<String> list;
 
     @FXML private Button switchStationsButton;
     @FXML private Button planRouteButton;
+    @FXML private Button getLastRouteButton;
+    @FXML private Button getFirstRouteButton;
+    @FXML private Button getLaterRouteButton;
+    @FXML private Button getEarlierRouteButton;
     @FXML private TextField vanField;
     @FXML private TextField naarField;
     @FXML private TreeView<String> treeRoute;
@@ -42,19 +49,51 @@ public class wRouteInfoTabController implements Initializable {
     @FXML private RadioButton aankomstRadio;
     @FXML private RadioButton vertrekRadio;
     @FXML private ToggleGroup timeSel;
-    @FXML private Spinner<Integer> hourSpinner;
-
     private String radioText;
 
-//TODO Spinners uitwerken
+    @FXML private Spinner<Integer> hourSpinner ;
+    @FXML private Spinner<Integer> minuteSpinner ;
+    @FXML Label timeSpinnerlabel;
+
+    private ReadOnlyObjectWrapper<Duration> time = new ReadOnlyObjectWrapper<>();
+    private String timeSpinnerText;
+    private long timeSpinnerSeconds;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        //------------INIT--------------------------//
         list = LoginController.getList();
         TextFields.bindAutoCompletion(vanField,list);
         TextFields.bindAutoCompletion(naarField,list);
         dateText.setValue(LocalDate.now());
-//------------------------------------------------//
+        LocalTime localTime = LocalTime.now();
+        hourSpinner.getValueFactory().setValue(localTime.getHour());
+        minuteSpinner.getValueFactory().setValue(localTime.getMinute());
+        //------------TimeSpinner--------------------------//
+        minuteSpinner.valueProperty().addListener((obs, oldValue, newValue) -> {
+            if (oldValue.intValue() == 59 && newValue.intValue() == 0) {
+                hourSpinner.increment();
+            }
+            if (oldValue.intValue() == 0 && newValue.intValue() == 59) {
+                hourSpinner.decrement();
+            }
+        });
+
+        time.bind(Bindings.createObjectBinding(this::computeTime, hourSpinner.valueProperty(),
+                minuteSpinner.valueProperty()));
+
+        //--Label binden aan de veranderende timespinners--/
+        timeSpinnerlabel.textProperty().bind(Bindings.createStringBinding(() -> {
+            long s = getTime().getSeconds() ;
+            String s1 = String.format("%02d:%02d", s / 3600, (s / 60) % 60);
+            timeSpinnerText = String.format("%02d%02d", s / 3600, (s / 60) % 60);
+            timeSpinnerSeconds = s;
+            return s1;
+        }, timeProperty()));
+
+
+//---------------Radiobutton---------------------------------//
         timeSel.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
             public void changed(ObservableValue<? extends Toggle> ov, Toggle old_toggle, Toggle new_toggle) {
                 if (timeSel.getSelectedToggle() != null) {
@@ -65,10 +104,22 @@ public class wRouteInfoTabController implements Initializable {
                 }
             }
         });
-        aankomstRadio.setSelected(true);
+        vertrekRadio.setSelected(true);
+//--------------------------------------------------------//
     }
 
-
+    public ReadOnlyObjectProperty<Duration> timeProperty() {
+        return time.getReadOnlyProperty() ;
+    }
+    public Duration getTime() {
+        return timeProperty().get();
+    }
+    private Duration computeTime() {
+        int minutes = minuteSpinner.getValue();
+        int hours = hourSpinner.getValue();
+        int totalSeconds = (hours * 60 + minutes) * 60;
+        return Duration.ofSeconds(totalSeconds);
+    }
 
     private String dateFormat (LocalDate date){
         DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("ddMMyy");
@@ -76,7 +127,6 @@ public class wRouteInfoTabController implements Initializable {
         //System.out.println("Current date in format '': "+format_1);
         return format_1;
     }
-
    @FXML private void switchStations(ActionEvent event) throws IOException {
         try {
             String temp = vanField.getText();
@@ -88,7 +138,7 @@ public class wRouteInfoTabController implements Initializable {
         }
     }
 
-
+/**
     @FXML
     private void onClickplanRoutea(ActionEvent event) throws IOException {
         if (vanField.getText().isEmpty() || naarField.getText().isEmpty()) errorLabel.setText("Gelieve een vertrek EN aankomst station mee te geven!");
@@ -114,16 +164,14 @@ public class wRouteInfoTabController implements Initializable {
             }
         }
     }
+**/
 
-
-@FXML
-private void onClickplanRoute(ActionEvent event) throws IOException {
-
+private void CreateExtendedIRailRoute(String time, String radioText){
     if (vanField.getText().isEmpty() || naarField.getText().isEmpty()) errorLabel.setText("Gelieve een vertrek EN aankomst station mee te geven!");
     else {
         try {
-            Response response = getExtendedIRailRoute(vanField.getText(), naarField.getText(),dateFormat(dateText.getValue()),"0659",radioText);
-            System.out.println("Van:" +vanField.getText()+" Naar:"+ naarField.getText()+" date:"+dateFormat(dateText.getValue())+" Tijd:" +"0659"+" Type: "+radioText);
+            Response response = getExtendedIRailRoute(vanField.getText(), naarField.getText(),dateFormat(dateText.getValue()),time,radioText);
+            System.out.println(response.networkResponse());
             if (response.isSuccessful()) {
                 String jsonString = response.body().string();
                 ObjectMapper mapper = JsonFactory.create();
@@ -144,6 +192,27 @@ private void onClickplanRoute(ActionEvent event) throws IOException {
     }
 }
 
+    @FXML private void onClickGetEarlierRoute(ActionEvent event) throws IOException {
+        hourSpinner.getValueFactory().setValue(hourSpinner.getValue()-1);
+        CreateExtendedIRailRoute(timeSpinnerText,radioText);
+    }
+
+    @FXML private void onClickGetLaterRoute(ActionEvent event) throws IOException {
+        hourSpinner.getValueFactory().setValue(hourSpinner.getValue()+1);
+        //long s;
+        //s = timeSpinnerSeconds + 3600;
+        //timeSpinnerText = String.format("%02d%02d", s / 3600, (s / 60) % 60);
+        CreateExtendedIRailRoute(timeSpinnerText,radioText);
+    }
+    @FXML private void onClickGetFirstRoute(ActionEvent event) throws IOException {
+        CreateExtendedIRailRoute("0000","depart");
+    }
+    @FXML private void onClickGetLastRoute(ActionEvent event) throws IOException {
+        CreateExtendedIRailRoute("2359","arrive");
+    }
+    @FXML private void onClickplanRoute(ActionEvent event) throws IOException {
+    CreateExtendedIRailRoute(timeSpinnerText,radioText);
+    }
 
     private void createTreeItems(TreeItem<String> rootItem, IrailRoute irailRoute) throws IOException {
         TreeItem<String> rootItem1 = null;
@@ -184,8 +253,5 @@ private void onClickplanRoute(ActionEvent event) throws IOException {
             rootItem.getChildren().add(rootItem1);
         }
     }
-
-
-
 
 }

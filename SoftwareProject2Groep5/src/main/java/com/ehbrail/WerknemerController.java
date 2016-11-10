@@ -43,36 +43,28 @@ import static com.ehbrail.ApiCalls.getStationsXML;
  */
 public class WerknemerController implements Initializable{
 
-    public static LocalDateTime convertISO8601 (String time){;
-        //String s = "2016-10-26T22:22:00";
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-        LocalDateTime dateTime = LocalDateTime.parse(time, formatter);
-        return dateTime;
+    private static Login login;
+    public static Login getLogin() {
+        return login;
+    }
+    public static void setLogin(Login login) {
+        WerknemerController.login = login;
     }
 
-    Login login;
-    Werknemer werknemer;
+    // Login login;
+    private Werknemer werknemer;
     @FXML Label usernameWerknemer;
 
     public Werknemer getWerknemer() {
         return werknemer;
     }
-
     public void setWerknemer(Werknemer werknemer) {
         this.werknemer = werknemer;
     }
 
-    public Login getLogin() {
-        return login;
-    }
-
-    public void setLogin(Login login) {
-        this.login = login;
-      //  usernameWerknemer.setText("Welcome, " + werknemer.getVoornaam() + werknemer.getNaam() +","+ login.getUsername() + " met bevoegdheid:"+ login.getBevoegdheid());
-    }
-
     public void setTopBar(Login login, Werknemer werknemer){
         this.login = login;
+        //WerknemerController.login = login;
         this.werknemer = werknemer;
         usernameWerknemer.setText("Welkom, " + werknemer.getVoornaam() +" " + werknemer.getNaam() +"! username: "+ login.getUsername() + " met bevoegdheid:"+ login.getBevoegdheid());
     }
@@ -91,10 +83,20 @@ public class WerknemerController implements Initializable{
     
     @FXML private Tab wVerlorenVoorwerpTab;
     @FXML private VerlorenVoorwerpTabController wVerlorenVoorwerpTabPageController;
+
+    @FXML private Tab wPasswordChangeTab;
+    @FXML private wPasswordChangeTabController wPasswordChangeTabController;
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+    }
+
+    public static LocalDateTime convertISO8601 (String time){;
+        //String s = "2016-10-26T22:22:00";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+        LocalDateTime dateTime = LocalDateTime.parse(time, formatter);
+        return dateTime;
     }
 
     public static LocalDateTime toLocalDateTime(String time){

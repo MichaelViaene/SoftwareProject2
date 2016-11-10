@@ -229,6 +229,9 @@ public class VerlorenVoorwerpTabController implements Initializable {
 			naamtext.setText(v.getNaam());
 			stationtext.setText(v.getStation());
 			omschrijvingtext.setText(v.getOmschrijving());
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+			LocalDate localDate = LocalDate.parse(v.getDatum(),formatter);
+			datumtext.setValue(localDate);
 			String str = Integer.toString(v.getVoorwerpid());
 			idtext.setText(str);
 

@@ -53,6 +53,11 @@
                       <fx:include fx:id="wTicketTabPage" source="wTicketTabPage.fxml" />
                     </content>
                   </Tab>
+                  <Tab fx:id="wPasswordChangeTab" closable="false" text="Verander wachtwoord">
+                      <content>
+                          <fx:include fx:id="wPasswordChangeTabPage" source="wPasswordChangeTabPage.fxml" />
+                      </content>
+                  </Tab>
                 
               </tabs>
             </TabPane>

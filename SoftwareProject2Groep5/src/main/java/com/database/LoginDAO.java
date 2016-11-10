@@ -76,5 +76,22 @@ public class LoginDAO {
 		}
 	}
 
-//TODO update methode
+	public static boolean changePassbyLogin(Login login, String HashedPass) {
+		try {
+			Connection con = Database.getConnection();
+			if (con == null) {
+				Database.openDatabase();
+				con = Database.getConnection();
+			}
+			PreparedStatement st = con.prepareStatement("UPDATE Login SET passwoord = ? WHERE login_id= ?");
+			st.setString(1, HashedPass);
+			st.setInt(2, login.getLogin_id());
+			st.executeUpdate();
+			return true;
+		} catch (SQLException e) {
+			System.err.println(e.getClass().getName() + " : " + e.getMessage());
+			System.exit(1);
+		}
+		return false;
+	}
 }

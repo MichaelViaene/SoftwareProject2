@@ -72,11 +72,11 @@ public class LoginController implements Initializable {
             if (testConn) {
                 LoginDAO logindao = new LoginDAO();
                 Login login = logindao.getLoginByUsername(username.getText());
-            //TODO check of medewerker op medewerker_id actief is, Anders Label output dat de login niet actief is.
             if (username.getText().equals(login.getUsername()) && verifyPassword(password.getText(), login.getPassword())) {
                 Werknemer werknemer = getWerkById(login.getMedewerker_id());
                 if (werknemer.isActief()){
                 ((Node) event.getSource()).getScene().getWindow().hide();
+                WerknemerController.setLogin(login);
                 Stage stage = new Stage();
                 Region root;
                 stage.getIcons().add(new Image("com/ehbrail/EHBRail.png"));

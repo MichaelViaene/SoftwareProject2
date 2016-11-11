@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ehbrail.AdminController">
+   <children>
+      <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0">
+         <top>
+            <Pane prefHeight="52.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label fx:id="usernameAdm" layoutX="24.0" layoutY="6.0" prefHeight="38.0" prefWidth="1086.0" text="User" textFill="#1b8a3a">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets></Label>
+               </children>
+            </Pane>
+         </top>
+         <center>
+            <TabPane fx:id="aTabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+              <tabs>
+                <Tab fx:id="aEmployeeTab" text="Manage Employees">
+                  <content>
+                      <fx:include fx:id="aEmployeeTabPage" source="aEmployeeTabPage.fxml" />
+                  </content>
+                </Tab>
+                <Tab text="Untitled Tab 2">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  </content>
+                </Tab>
+              </tabs>
+            </TabPane>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>

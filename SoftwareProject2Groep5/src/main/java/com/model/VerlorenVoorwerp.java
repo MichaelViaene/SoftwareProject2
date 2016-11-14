@@ -5,17 +5,15 @@ package com.model;
 **/
 
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.util.Date;
+import java.sql.Date;
+
 
 public class VerlorenVoorwerp {
 
 	private int voorwerpid;
 	private String naam;
 	private String omschrijving;
-	private String datum;
+	private Date datum;
 	private String station;
 	private boolean aanwezig;
 
@@ -36,7 +34,7 @@ public class VerlorenVoorwerp {
 	public VerlorenVoorwerp() {
 	}
 
-	public VerlorenVoorwerp(int voorwerpid, String naam, String omschrijving, String datum,
+	public VerlorenVoorwerp(int voorwerpid, String naam, String omschrijving, Date datum,
 			String station) {
 		this.voorwerpid = voorwerpid;
 		this.naam = naam;
@@ -45,7 +43,7 @@ public class VerlorenVoorwerp {
 		this.station = station;
 	}
 
-	public VerlorenVoorwerp(String naam, String omschrijving, String datum, String station) {
+	public VerlorenVoorwerp(String naam, String omschrijving, Date datum, String station) {
 		this.naam = naam;
 		this.omschrijving = omschrijving;
 		this.datum = datum;
@@ -76,11 +74,11 @@ public class VerlorenVoorwerp {
 		this.omschrijving = omschrijving;
 	}
 
-	public String getDatum() {
+	public Date getDatum() {
 		return datum;
 	}
 
-	public void setDatum(String datum) {
+	public void setDatum(Date datum) {
 		this.datum = datum;
 	}
 

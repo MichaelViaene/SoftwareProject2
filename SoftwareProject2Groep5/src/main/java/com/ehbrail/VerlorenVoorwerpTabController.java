@@ -5,7 +5,10 @@ package com.ehbrail;
 * @author Ilias El Mesaoudi
 **/
 import java.net.URL;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -48,7 +51,7 @@ public class VerlorenVoorwerpTabController implements Initializable {
 	private TableColumn<VerlorenVoorwerp, String> omschrijving;
 
 	@FXML
-	private TableColumn<VerlorenVoorwerp, String> datum;
+	private TableColumn<VerlorenVoorwerp, Date> datum;
 
 	@FXML
 	private TableColumn<VerlorenVoorwerp, String> station;
@@ -80,6 +83,9 @@ public class VerlorenVoorwerpTabController implements Initializable {
 	@FXML
 	private Button savebutton;
 
+	@FXML
+	private TextField treintext;
+
 	// delete velden
 	@FXML
 	private TextField idtext;
@@ -97,13 +103,13 @@ public class VerlorenVoorwerpTabController implements Initializable {
 		list = LoginController.getList();
 		TextFields.bindAutoCompletion(textButton, list);
 		TextFields.bindAutoCompletion(stationtext, list);
-		
+
 		refresh();
 
 		voorwerpid.setCellValueFactory(new PropertyValueFactory<VerlorenVoorwerp, Integer>("voorwerpid"));
 		naam.setCellValueFactory(new PropertyValueFactory<VerlorenVoorwerp, String>("naam"));
 		omschrijving.setCellValueFactory(new PropertyValueFactory<VerlorenVoorwerp, String>("omschrijving"));
-		datum.setCellValueFactory(new PropertyValueFactory<VerlorenVoorwerp, String>("datum"));
+		datum.setCellValueFactory(new PropertyValueFactory<VerlorenVoorwerp, Date>("datum"));
 		station.setCellValueFactory(new PropertyValueFactory<VerlorenVoorwerp, String>("station"));
 	}
 
@@ -126,30 +132,25 @@ public class VerlorenVoorwerpTabController implements Initializable {
 
 	@FXML
 	void insertVoorwerp(ActionEvent event) {
-		String text = omschrijvingtext.getText();
-		// formattedString met "" en if om te controleren of die niet null om te
-		// formatten wordt gedaan om de datepicker veld te kunnen controleren.
-		String formattedString = "";
-		if (datumtext.getValue() != null) {
+
+		if (!(omschrijvingtext.getText() == "" || datumtext.getValue() == null || treintext.getText() == ""
+				|| naamtext.getText() == "")) {
+			String text = omschrijvingtext.getText();
+			if (treintext !=null) {
+				text = "Treinid: " + treintext.getText() + "\n" + omschrijvingtext.getText();
+			}
 			LocalDate localDate = datumtext.getValue();
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-			formattedString = localDate.format(formatter);
-		}
-		VerlorenVoorwerp voorwerp = new VerlorenVoorwerp(naamtext.getText(), text, formattedString,
-				stationtext.getText());
-		if (!(voorwerp.getNaam().isEmpty() || voorwerp.getOmschrijving().isEmpty() || voorwerp.getStation().isEmpty()
-				|| voorwerp.getDatum().isEmpty())) {
+			Date date = Date.valueOf(localDate);
+			VerlorenVoorwerp voorwerp = new VerlorenVoorwerp(naamtext.getText(), text, date, stationtext.getText());
 			VerlorenVoorwerpDAO.insertVoorwerp(voorwerp);
 			Alert alert = new Alert(Alert.AlertType.INFORMATION);
 			alert.setTitle("Information Dialog");
 			alert.setHeaderText("Information Alert");
 			alert.setContentText("Verloren voorwerp werd toegevoegd");
 			alert.show();
-			naamtext.clear();
-			datumtext.getEditor().clear();
-			omschrijvingtext.clear();
-			stationtext.clear();
+
 			refresh();
+			clearVelden();
 		} else {
 			Alert alert = new Alert(Alert.AlertType.WARNING);
 			alert.setTitle("Ongeldige Velden");
@@ -188,30 +189,24 @@ public class VerlorenVoorwerpTabController implements Initializable {
 	@FXML
 	void updateVoorwerp(ActionEvent event) {
 
-		String text = omschrijvingtext.getText();
-		// formattedString met "" en if om te controleren of die niet null is om
-		// te
-		// formatten (wordt gedaan om de datepicker veld te kunnen controleren).
-		String formattedString = "";
-		if (datumtext.getValue() != null) {
+		if (!(omschrijvingtext.getText() == "" || datumtext.getValue() == null || treintext.getText() == ""
+				|| naamtext.getText() == "")) {
+			
 			LocalDate localDate = datumtext.getValue();
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-			formattedString = localDate.format(formatter);
-		}
-		int id = Integer.parseInt(idtext.getText());
-		VerlorenVoorwerp voorwerp = new VerlorenVoorwerp(id, naamtext.getText(), text, formattedString,
-				stationtext.getText());
-		if (!(voorwerp.getNaam().isEmpty() || voorwerp.getOmschrijving().isEmpty() || voorwerp.getStation().isEmpty()
-				|| voorwerp.getDatum().isEmpty())) {
-
+			Date date = Date.valueOf(localDate);
+			
+			int id = Integer.parseInt(idtext.getText());
+			String text = omschrijvingtext.getText();
+			if (treintext !=null) {
+				text = "Treinid: " + treintext.getText() + "\n" + omschrijvingtext.getText();
+			}
+			
+			
+			VerlorenVoorwerp voorwerp = new VerlorenVoorwerp(id, naamtext.getText(), text, date, stationtext.getText());
 			VerlorenVoorwerpDAO.updateVoorwerp(voorwerp);
-			naamtext.clear();
-			datumtext.getEditor().clear();
-			omschrijvingtext.clear();
-			stationtext.clear();
+			clearVelden();
 			refresh();
-		} else if ((voorwerp.getNaam().isEmpty() || voorwerp.getOmschrijving().isEmpty()
-				|| voorwerp.getStation().isEmpty() || voorwerp.getDatum().isEmpty())) {
+		} else {
 			Alert alert = new Alert(Alert.AlertType.WARNING);
 			alert.setTitle("Ongeldige Velden");
 			alert.setHeaderText(null);
@@ -229,13 +224,20 @@ public class VerlorenVoorwerpTabController implements Initializable {
 			naamtext.setText(v.getNaam());
 			stationtext.setText(v.getStation());
 			omschrijvingtext.setText(v.getOmschrijving());
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-			LocalDate localDate = LocalDate.parse(v.getDatum(),formatter);
-			datumtext.setValue(localDate);
+			LocalDate date = v.getDatum().toLocalDate();
+			datumtext.setValue(date);
 			String str = Integer.toString(v.getVoorwerpid());
 			idtext.setText(str);
 
 		}
+	}
+
+	public void clearVelden() {
+		naamtext.clear();
+		datumtext.setValue(null);
+		omschrijvingtext.clear();
+		stationtext.clear();
+		treintext.clear();
 	}
 
 }

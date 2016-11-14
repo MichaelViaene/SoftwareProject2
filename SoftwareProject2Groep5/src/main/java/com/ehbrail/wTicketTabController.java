@@ -85,8 +85,12 @@ public class wTicketTabController {
 
 	    @FXML
 	    void showPaneTerug(ActionEvent event) {
+	    	paneTerug.setVisible(true);
+	    }
+	    
+	    @FXML
+	    void paneTerugWeg(ActionEvent event) {
 	    	paneTerug.setVisible(false);
-	    	System.out.println("Test TEst");
 	    }
     
         

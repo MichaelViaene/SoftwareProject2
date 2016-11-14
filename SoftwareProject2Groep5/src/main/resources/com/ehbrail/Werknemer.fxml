@@ -58,9 +58,9 @@
                           <fx:include fx:id="wPasswordChangeTabPage" source="wPasswordChangeTabPage.fxml" />
                       </content>
                   </Tab>
-                  <Tab fx:id="wAbonnement" text="Abonnementen">
+                  <Tab fx:id="wAbonnementTab" text="Abonnementen">
                   <content>
-                      <fx:include fx:id="wAbonnementTabPage" source="wAbonnementTabPage.fxml" />
+                      <fx:include fx:id="wAbonnementTabPage" source="wAbonnementTab.fxml" />
                   </content>
                 </Tab>
                   

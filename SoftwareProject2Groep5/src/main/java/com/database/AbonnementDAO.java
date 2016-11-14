@@ -25,18 +25,19 @@ public class AbonnementDAO {
 
                 //Waar word de medewerker geschreven die dit abo aanmaakt? Bestaan er geen andere types zoals bvb zone brussel. Functie nodig om de id v/d klant op te halen.
 
-                String query = "INSERT INTO Abonnement (klant_id, begindatum, einddatum, actief, klasse, vertrek_station, aankomst_station, type, prijs)" + "values (?, ?, ?, ?, ?, ?, ?, ?, ?)" ;
+                String query = "INSERT INTO Abonnement (klant_id, begindatum, einddatum, actief, klasse, vertrek, aankomst, prijs,medewerker_id,station)" + "values (?,?,?, ?, ?, ?, ?, ?, ?, ?)" ;
                 PreparedStatement preparedStatement = con.prepareStatement(query);
-                preparedStatement.setInt(1, 5); //HARDCODED TIJDELIJK
+                preparedStatement.setInt(1, 1); //HARDCODED TIJDELIJK
                 preparedStatement.setObject(2, abonnement.getBeginDatum());
                 preparedStatement.setObject(3, abonnement.getEindDatum());
                 preparedStatement.setInt(4, abonnement.getActief());
                 preparedStatement.setInt(5, abonnement.getKlasse());
                 preparedStatement.setString(6, abonnement.getBeginStation());
                 preparedStatement.setString(7, abonnement.getEindStation());
-                preparedStatement.setInt(8, abonnement.getType());
-                preparedStatement.setDouble(9, abonnement.getPrijs());
-
+                preparedStatement.setDouble(8, abonnement.getPrijs());
+                preparedStatement.setInt(9, 1); //HARDCODED TIJDELIJK
+                preparedStatement.setString(10, "Brussel"); //HARDCODED TIJDELIJK
+                
                 preparedStatement.execute();
                 preparedStatement.close();
                 con.close();

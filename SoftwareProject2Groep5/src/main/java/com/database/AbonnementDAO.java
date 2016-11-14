@@ -11,7 +11,7 @@ import java.sql.ResultSet;
  */
 public class AbonnementDAO {
 
-    public Boolean writeAbonnement(Abonnement abonnement) {
+    public static boolean writeAbonnement(Abonnement abonnement) {
 
 
         try {
@@ -50,7 +50,7 @@ public class AbonnementDAO {
         return true;
     }
 
-    public Boolean checkAbonnement(int klant_id){
+    public static boolean checkAbonnement(int klant_id){
         //checkt voor een bestaand abonnement van een bepaald klantID.
 
         Boolean check = false;

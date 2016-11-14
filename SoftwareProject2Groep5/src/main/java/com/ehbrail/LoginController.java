@@ -21,7 +21,11 @@ import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+import static com.ehbrail.WerknemerController.getXML;
+
+import static com.model.Login.verifyPassword;
 
 /** Controls the login screen interactions **/
 public class LoginController implements Initializable {
@@ -33,8 +37,24 @@ public class LoginController implements Initializable {
     @FXML
     private Label message;
 
+    private static ArrayList<String> list;
+
+    public static ArrayList<String> getList() {
+        return list;
+    }
+    public static void setList(ArrayList<String> list) {
+        LoginController.list = list;
+    }
+
     @Override
-    public void initialize(URL location, ResourceBundle resources) {}
+    public void initialize(URL location, ResourceBundle resources) {
+        new Thread(() -> {
+            list = getXML();
+            setList(list);
+            //list.forEach(System.out::println);
+        }).start();
+
+    }
 
     @FXML
     private void loginAction(ActionEvent event) throws IOException {
@@ -42,7 +62,8 @@ public class LoginController implements Initializable {
         Login login = logindao.getLoginByUsername(username.getText());
 
         if (login.getUsername() != null){
-            if(username.getText().equals(login.getUsername()) && password.getText().equals(login.getPassword()))
+            //TODO check of medewerker op medewerker_id actief is, Anders Label output dat het offline is.
+            if(username.getText().equals(login.getUsername()) && verifyPassword(password.getText(),login.getPassword()))
             {
                 ((Node)event.getSource()).getScene().getWindow().hide();
                 Stage stage = new Stage();
@@ -51,6 +72,7 @@ public class LoginController implements Initializable {
                 if (login.getBevoegdheid() == Login.Bevoegdheid.ADMIN) {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("Admin.fxml"));
                     root = (Region) loader.load();
+                    stage.setMaximized(true);
                     stage.setTitle("EhB-Rail  |  ADMIN");
                     Scene scene = new Scene(root);
                     stage.setScene(scene);
@@ -61,16 +83,15 @@ public class LoginController implements Initializable {
                 if (login.getBevoegdheid() == Login.Bevoegdheid.WERKNEMER) {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("Werknemer.fxml"));
                     root = (Region) loader.load();
+                    stage.setMaximized(true);
+                    //stage.setFullScreen(true);
                     stage.setTitle("EhB-Rail  |  WERKNEMER");
                     Scene scene = new Scene(root);
                     stage.setScene(scene);
                     WerknemerController werknemerController = loader.getController();
-                    werknemerController.setUser(login.getUsername());
+                    werknemerController.setLogin(login);
                     stage.show();
                 }
-
-                //TODO Create WERKNEMER fxml / controller etc.
-
             }
             else {message.setText("Username or Password invalid");}
         }

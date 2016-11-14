@@ -1,6 +1,9 @@
 package com.ehbrail;
 
 
+import com.database.WerknemerDAO;
+import com.model.Login;
+import com.model.Werknemer;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.stage.Stage;

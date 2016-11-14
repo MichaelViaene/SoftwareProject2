@@ -3,15 +3,23 @@ package com.ehbrail;
 import com.model.Login;
 import com.model.StationCSV;
 import com.model.Werknemer;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Region;
+import javafx.stage.Stage;
 import okhttp3.Response;
 import org.dom4j.Document;
 import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
 import org.xml.sax.InputSource;
 
+import java.io.IOException;
 import java.io.StringReader;
 import java.net.URL;
 import java.time.Instant;
@@ -69,7 +77,7 @@ public class WerknemerController implements Initializable{
         usernameWerknemer.setText("Welkom, " + werknemer.getVoornaam() +" " + werknemer.getNaam() +"! username: "+ login.getUsername() + " met bevoegdheid:"+ login.getBevoegdheid());
     }
 
-
+    @FXML private Button logoutButton;
     @FXML private TabPane wtabPane;
     
     @FXML private Tab wTrainInfoTab;
@@ -91,6 +99,26 @@ public class WerknemerController implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
 
     }
+
+    @FXML private void onClickLogOut(ActionEvent event) throws IOException {
+        logoutButton.getScene().getWindow().hide();
+        //meld dat je graag een garbage collection wilt doen.
+        System.gc();
+
+
+        Stage stage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
+        Scene scene = new Scene(root);
+        stage.setTitle("EhB-Rail  |  Login");
+        stage.getIcons().add(new Image("com/ehbrail/EHBRail.png"));
+        scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();
+
+
+    }
+
 
     public static LocalDateTime convertISO8601 (String time){;
         //String s = "2016-10-26T22:22:00";

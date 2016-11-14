@@ -4,12 +4,11 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="583.0" prefWidth="836.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ehbrail.wTicketTabController">
    <children>
@@ -28,27 +27,33 @@
          </font>
       </Button>
       <Button fx:id="koopTicketButton" layoutX="51.0" layoutY="459.0" mnemonicParsing="false" onAction="#onClickKoopTicket" prefHeight="32.0" prefWidth="98.0" text="Koop ticket" textAlignment="CENTER" />
-      <RadioButton fx:id="heenEnTerugRadio" layoutX="195.0" layoutY="181.0" mnemonicParsing="false" text="Heenreis en terugreis" />
-      <RadioButton fx:id="heenRadio" layoutX="51.0" layoutY="181.0" mnemonicParsing="false" text="Heenreis" />
+      <RadioButton fx:id="heenEnTerugRadio" layoutX="195.0" layoutY="181.0" mnemonicParsing="false" onAction="#showPaneTerug" text="Heenreis en terugreis">
+         <toggleGroup>
+            <ToggleGroup fx:id="heenTerug" />
+         </toggleGroup></RadioButton>
+      <RadioButton fx:id="heenRadio" layoutX="51.0" layoutY="181.0" mnemonicParsing="false" selected="true" text="Heenreis" toggleGroup="$heenTerug" />
       <Label layoutX="46.0" layoutY="275.0" text="Heen" />
-      <DatePicker layoutX="95.0" layoutY="271.0" />
-      <Label layoutX="299.0" layoutY="275.0" text="Tijd" />
-      <RadioButton fx:id="heenVertrekRadio" layoutX="484.0" layoutY="275.0" mnemonicParsing="false" text="Vertrek" />
-      <RadioButton fx:id="heenAankomstRadio" layoutX="591.0" layoutY="275.0" mnemonicParsing="false" text="Aankomst" />
-      <Pane layoutX="45.0" layoutY="314.0" prefHeight="66.0" prefWidth="701.0">
+      <DatePicker fx:id="datumHeenDatePicker" layoutX="95.0" layoutY="271.0" />
+      <RadioButton fx:id="heenVertrekRadio" layoutX="313.0" layoutY="275.0" mnemonicParsing="false" selected="true" text="Vertrek">
+         <toggleGroup>
+            <ToggleGroup fx:id="heenVertrekAankomst" />
+         </toggleGroup></RadioButton>
+      <RadioButton fx:id="heenAankomstRadio" layoutX="418.0" layoutY="275.0" mnemonicParsing="false" text="Aankomst" toggleGroup="$heenVertrekAankomst" />
+      <Pane fx:id="painTerug" layoutX="45.0" layoutY="314.0" prefHeight="66.0" prefWidth="701.0">
          <children>
             <Label layoutX="-1.0" layoutY="13.0" text="Terug" />
-            <DatePicker layoutX="50.0" layoutY="9.0" />
-            <Label layoutX="254.0" layoutY="13.0" text="Tijd" />
-            <RadioButton fx:id="terugVertrekRadio" layoutX="437.0" layoutY="13.0" mnemonicParsing="false" text="Vertrek" />
-            <RadioButton fx:id="terugAankomstRadio" layoutX="548.0" layoutY="13.0" mnemonicParsing="false" text="Aankomst" />
-            <Spinner fx:id="uurTerugSpin" layoutX="275.0" layoutY="9.0" prefHeight="25.0" prefWidth="59.0" />
-            <Label layoutX="341.0" layoutY="13.0" text=":" />
-            <Spinner fx:id="minuutTerugSpin" layoutX="351.0" layoutY="9.0" prefHeight="25.0" prefWidth="59.0" />
+            <DatePicker fx:id="datumTerugDatePicker" layoutX="50.0" layoutY="9.0" />
+            <RadioButton fx:id="terugVertrekRadio" layoutX="268.0" layoutY="13.0" mnemonicParsing="false" selected="true" text="Vertrek">
+               <toggleGroup>
+                  <ToggleGroup fx:id="terugVertrekAankomst" />
+               </toggleGroup></RadioButton>
+            <RadioButton fx:id="terugAankomstRadio" layoutX="373.0" layoutY="13.0" mnemonicParsing="false" text="Aankomst" toggleGroup="$terugVertrekAankomst" />
          </children>
       </Pane>
-      <Spinner fx:id="uurHeenSpin" layoutX="321.0" layoutY="271.0" prefHeight="25.0" prefWidth="59.0" />
-      <Label layoutX="386.0" layoutY="275.0" text=":" />
-      <Spinner fx:id="minuutHeenSpin" layoutX="395.0" layoutY="271.0" prefHeight="25.0" prefWidth="59.0" />
+      <RadioButton fx:id="eersteKlasseRadio" layoutX="195.0" layoutY="219.0" mnemonicParsing="false" text="Eerste klasse">
+         <toggleGroup>
+            <ToggleGroup fx:id="klasse" />
+         </toggleGroup></RadioButton>
+      <RadioButton fx:id="tweedeKlasseRadio" layoutX="52.0" layoutY="219.0" mnemonicParsing="false" selected="true" text="Tweede klasse" toggleGroup="$klasse" />
    </children>
 </Pane>

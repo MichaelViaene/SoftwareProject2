@@ -1,6 +1,7 @@
 package com.ehbrail;
 
 import com.model.Login;
+import com.model.Werknemer;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,6 +9,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -22,18 +25,37 @@ import java.util.ResourceBundle;
 public class AdminController implements Initializable {
     //private Login login;
 
-    String user;
+    Login login;
+    Werknemer werknemer;
 
     @FXML Label usernameAdm;
 
-    public void setUser(String user) {
-        this.user = user;
-        usernameAdm.setText("Welcome, " + user);
+    public Werknemer getWerknemer() {
+        return werknemer;
     }
 
-    public void setUsernameAdm(Label usernameAdm) {
-        this.usernameAdm = usernameAdm;
+    public void setWerknemer(Werknemer werknemer) {
+        this.werknemer = werknemer;
     }
+
+    public Login getLogin() {
+        return login;
+    }
+
+    public void setLogin(Login login) {
+        this.login = login;
+    }
+
+    public void setTopBar(Login login, Werknemer werknemer){
+        this.login = login;
+        this.werknemer = werknemer;
+        usernameAdm.setText("Welkom, " + werknemer.getVoornaam() +" " + werknemer.getNaam() +"! username: "+ login.getUsername() + " met bevoegdheid:"+ login.getBevoegdheid());
+    }
+
+
+    @FXML private TabPane aTabPane;
+    @FXML private Tab aEmployeeTab;
+    @FXML private aEmployeeTabController aEmployeeTabPageController;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

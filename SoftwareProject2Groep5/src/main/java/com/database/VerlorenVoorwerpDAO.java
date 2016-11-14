@@ -1,5 +1,10 @@
 package com.database;
 
+/**
+*
+* @author Ilias El Mesaoudi
+**/
+
 import java.sql.*;
 import java.util.ArrayList;
 import com.model.*;
@@ -9,7 +14,6 @@ public class VerlorenVoorwerpDAO {
 	public static ArrayList<VerlorenVoorwerp> getAll() {
 
 		ArrayList<VerlorenVoorwerp> list = new ArrayList<>();
-
 		try {
 			Connection con = Database.getConnection();
 			if (con == null) {
@@ -19,7 +23,7 @@ public class VerlorenVoorwerpDAO {
 
 			Statement st = null;
 			st = con.createStatement();
-			ResultSet rs = st.executeQuery("SELECT * FROM Verloren_voorwerpen;");
+			ResultSet rs = st.executeQuery("SELECT * FROM Verloren_voorwerpen WHERE aanwezig = 1;");
 
 			while (rs.next()) {
 				VerlorenVoorwerp voorwerp = new VerlorenVoorwerp();
@@ -27,7 +31,6 @@ public class VerlorenVoorwerpDAO {
 				voorwerp.setNaam(rs.getString("naam"));
 				voorwerp.setOmschrijving(rs.getString("omschrijving"));
 				voorwerp.setDatum(rs.getString("datum_aankomst"));
-				voorwerp.setAanwezig(rs.getBoolean("aanwezig"));
 				voorwerp.setStation(rs.getString("station"));
 
 				list.add(voorwerp);
@@ -75,7 +78,7 @@ public class VerlorenVoorwerpDAO {
 		return false;
 	}
 
-	public static boolean voorwerpGevonden(int id) {
+	public static boolean deleteVoorwerp(int id) {
 
 		if (id < 0)
 			return false;
@@ -90,25 +93,53 @@ public class VerlorenVoorwerpDAO {
 				con = Database.getConnection();
 			}
 
-			PreparedStatement setGevonden = null;
-			String update = "UPDATE Verloren_voorwerpen set aanwezig=0 WHERE verloren_id =?;";
-
-			con.setAutoCommit(false);
-
-			setGevonden = con.prepareStatement(update);
-
-			setGevonden.setInt(1, id);
-
-			setGevonden.executeUpdate();
-
-			con.commit();
+			PreparedStatement st = con
+					.prepareStatement("UPDATE Verloren_voorwerpen SET aanwezig = 0 where verloren_id= ?");
+			st.setInt(1, id);
+			st.executeUpdate();
 			return true;
 		} catch (SQLException e) {
 			System.err.println(e.getClass().getName() + " : " + e.getMessage());
 			System.exit(1);
 		}
-
 		return false;
+
+	}
+
+	public static VerlorenVoorwerp getVoorwerpPerId(int id) {
+		if (id < 0)
+			return null;
+		if (controleId(id) == false) {
+			return null;
+		}
+
+		try {
+			Connection con = Database.getConnection();
+			if (con == null) {
+				Database.openDatabase();
+				con = Database.getConnection();
+			}
+
+			Statement st = null;
+			st = con.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM Verloren_voorwerpen WHERE verloren_id = " + id + ";");
+
+			VerlorenVoorwerp voorwerp = new VerlorenVoorwerp();
+			while (rs.next()) {
+				voorwerp.setVoorwerpid(rs.getInt(1));
+				voorwerp.setNaam(rs.getString(2));
+				voorwerp.setOmschrijving(rs.getString(3));
+				voorwerp.setDatum(rs.getString(4));
+				voorwerp.setStation(rs.getString(5));
+			}
+			st.close();
+			return voorwerp;
+		} catch (SQLException e) {
+			System.err.println(e.getClass().getName() + " : " + e.getMessage());
+			System.exit(1);
+		}
+		return null;
+
 	}
 
 	public static boolean insertVoorwerp(VerlorenVoorwerp voorwerp) {
@@ -128,18 +159,17 @@ public class VerlorenVoorwerpDAO {
 			}
 
 			PreparedStatement preparedPush = null;
-			String pushStatement = "INSERT INTO Verloren_voorwerpen (verloren_id, naam, omschrijving, datum_aankomst, aanwezig, station) VALUES (?,?,?,?,?,?);";
+			String pushStatement = "INSERT INTO Verloren_voorwerpen (naam, omschrijving, datum_aankomst,aanwezig,station) VALUES (?,?,?,?,?);";
 
 			con.setAutoCommit(false);
 
-			preparedPush = con.prepareStatement(pushStatement, PreparedStatement.RETURN_GENERATED_KEYS);
+			preparedPush = con.prepareStatement(pushStatement);
 
-			preparedPush.setInt(1, voorwerp.getVoorwerpid());
-			preparedPush.setString(2, voorwerp.getNaam());
-			preparedPush.setString(3, voorwerp.getOmschrijving());
-			preparedPush.setString(4, voorwerp.getDatum());
-			preparedPush.setBoolean(6, voorwerp.getAanwezig());
-			preparedPush.setString(6, voorwerp.getStation());
+			preparedPush.setString(1, voorwerp.getNaam());
+			preparedPush.setString(2, voorwerp.getOmschrijving());
+			preparedPush.setString(3, voorwerp.getDatum());
+			preparedPush.setBoolean(4, true);
+			preparedPush.setString(5, voorwerp.getStation());
 			preparedPush.executeUpdate();
 
 			preparedPush.close();
@@ -151,4 +181,80 @@ public class VerlorenVoorwerpDAO {
 		}
 		return false;
 	}
+
+	public static ArrayList<VerlorenVoorwerp> getVoorwerpByStation(String station) {
+
+		ArrayList<VerlorenVoorwerp> list = new ArrayList<>();
+
+		try {
+			Connection con = Database.getConnection();
+			if (con == null) {
+				Database.openDatabase();
+				con = Database.getConnection();
+			}
+
+			String query = "SELECT * FROM Verloren_voorwerpen WHERE station=? AND aanwezig=true";
+			PreparedStatement preparedStatement = con.prepareStatement(query);
+			preparedStatement.setString(1, station);
+			ResultSet rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				VerlorenVoorwerp voorwerp = new VerlorenVoorwerp();
+				voorwerp.setVoorwerpid(rs.getInt("verloren_id"));
+				voorwerp.setNaam(rs.getString("naam"));
+				voorwerp.setOmschrijving(rs.getString("omschrijving"));
+				voorwerp.setDatum(rs.getString("datum_aankomst"));
+				voorwerp.setStation(rs.getString("station"));
+
+				list.add(voorwerp);
+			}
+			rs.close();
+			preparedStatement.close();
+
+		}
+
+		catch (Exception ex) {
+			System.out.println(ex);
+		}
+		return list;
+
+	}
+
+	public static boolean updateVoorwerp(VerlorenVoorwerp voorwerp) {
+		if (voorwerp == null) {
+			return false;
+		}
+		
+		try {
+			Connection con = Database.getConnection();
+			if (con == null) {
+				Database.openDatabase();
+				con = Database.getConnection();
+			}
+
+			PreparedStatement update = null;
+			String pushStatement = "UPDATE Verloren_voorwerpen SET naam=?, omschrijving=?, datum_aankomst=?, station=? WHERE verloren_id=?;";
+
+			con.setAutoCommit(false);
+			update = con.prepareStatement(pushStatement);
+			update.setString(1, voorwerp.getNaam());
+			update.setString(2, voorwerp.getOmschrijving());
+			update.setString(3, voorwerp.getDatum());
+			update.setString(4, voorwerp.getStation());
+			update.setInt(5, voorwerp.getVoorwerpid());
+
+			int aantalVeranderingen = update.executeUpdate();
+			update.close();
+			con.commit();
+			
+			if (aantalVeranderingen == 1)
+				return true;
+			return false;
+		} catch (SQLException e) {
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			System.exit(1);
+		}
+		return false;
+	}
+
 }

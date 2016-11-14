@@ -38,6 +38,27 @@
                       <fx:include fx:id="wRouteInfoTabPage" source="wRouteInfoTabPage.fxml" />
                   </content>
                 </Tab>
+                <Tab fx:id="wLiveboardTab" text="Liveboard">
+                  <content>
+                      <fx:include fx:id="wLiveboardTabPage" source="wLiveboardTabPage.fxml" />
+                  </content>
+                </Tab>
+                <Tab fx:id="wVerlorenVoorwerp" text="Verloren Voorwerpen">
+                  <content>
+                      <fx:include fx:id="wVerlorenVoorwerpTabPage" source="wVerlorenVoorwerpTabPage.fxml" />
+                  </content>
+                </Tab>
+                  <Tab fx:id="wTicketTab" text="Ticket">
+                    <content>
+                      <fx:include fx:id="wTicketTabPage" source="wTicketTabPage.fxml" />
+                    </content>
+                  </Tab>
+                  <Tab fx:id="wPasswordChangeTab" closable="false" text="Verander wachtwoord">
+                      <content>
+                          <fx:include fx:id="wPasswordChangeTabPage" source="wPasswordChangeTabPage.fxml" />
+                      </content>
+                  </Tab>
+                
               </tabs>
             </TabPane>
          </center>

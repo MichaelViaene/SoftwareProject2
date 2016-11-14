@@ -1,6 +1,7 @@
 package com.ehbrail;
 
 import com.model.Login;
+import com.model.Werknemer;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,11 +26,17 @@ public class AdminController implements Initializable {
     //private Login login;
 
     Login login;
-
-
-
+    Werknemer werknemer;
 
     @FXML Label usernameAdm;
+
+    public Werknemer getWerknemer() {
+        return werknemer;
+    }
+
+    public void setWerknemer(Werknemer werknemer) {
+        this.werknemer = werknemer;
+    }
 
     public Login getLogin() {
         return login;
@@ -37,7 +44,12 @@ public class AdminController implements Initializable {
 
     public void setLogin(Login login) {
         this.login = login;
-        usernameAdm.setText("Welcome, " + login.getUsername() + " met bevoegdheid:"+ login.getBevoegdheid());
+    }
+
+    public void setTopBar(Login login, Werknemer werknemer){
+        this.login = login;
+        this.werknemer = werknemer;
+        usernameAdm.setText("Welkom, " + werknemer.getVoornaam() +" " + werknemer.getNaam() +"! username: "+ login.getUsername() + " met bevoegdheid:"+ login.getBevoegdheid());
     }
 
 

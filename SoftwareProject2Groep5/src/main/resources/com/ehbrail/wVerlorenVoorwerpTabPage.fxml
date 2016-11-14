@@ -12,7 +12,7 @@
 
 <Pane prefHeight="614.0" prefWidth="831.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ehbrail.VerlorenVoorwerpTabController">
    <children>
-      <TableView fx:id="tableview" layoutX="222.0" layoutY="121.0" prefHeight="400.0" prefWidth="596.0">
+      <TableView fx:id="tableview" layoutX="222.0" layoutY="121.0" onMouseClicked="#selectInformaties" prefHeight="400.0" prefWidth="596.0">
          <columns>
             <TableColumn fx:id="voorwerpid" prefWidth="75.0" text="id" />
             <TableColumn fx:id="naam" prefWidth="85.33334350585938" text="naam" />

@@ -1,4 +1,9 @@
 package com.model;
+/**
+*
+* @author Ilias El Mesaoudi
+**/
+
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,11 +17,20 @@ public class VerlorenVoorwerp {
 	private String omschrijving;
 	private String datum;
 	private String station;
+	private boolean aanwezig;
 
 	@Override
 	public String toString() {
 		return "VerlorenVoorwerp voorwerpid=" + voorwerpid + ", naam=" + naam + ", omschrijving=" + omschrijving
-				+ ", datum=" + datum + ", persoonnaam=" + station ;
+				+ ", datum=" + datum + ", station=" + station + ",aanwezig=" + aanwezig;
+	}
+
+	public boolean getAanwezig() {
+		return aanwezig;
+	}
+
+	public void setAanwezig(boolean aanwezig) {
+		this.aanwezig = aanwezig;
 	}
 
 	public VerlorenVoorwerp() {
@@ -24,7 +38,6 @@ public class VerlorenVoorwerp {
 
 	public VerlorenVoorwerp(int voorwerpid, String naam, String omschrijving, String datum,
 			String station) {
-		super();
 		this.voorwerpid = voorwerpid;
 		this.naam = naam;
 		this.omschrijving = omschrijving;

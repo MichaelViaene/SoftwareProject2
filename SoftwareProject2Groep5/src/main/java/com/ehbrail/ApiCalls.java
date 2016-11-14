@@ -45,6 +45,29 @@ public  class ApiCalls {
         return response;
     }
 
+    //IRail: Haalt route informatie op van vertrek tot aankomst station. Extra opties zoals tijd/datum/aankomst-vertrek. Als JSON. geeft Response terug.
+    public static Response getExtendedIRailRoute(String van, String naar, String datedmy, String time, String timeSel) throws IOException {
+        String url = "https://api.irail.be/connections/?to="+naar+"&from="+van+"&date="+datedmy +"&time="+time+"&timeSel="+timeSel+"&format=json";
+        long startTime = System.currentTimeMillis();
+        Response response = doGetRequest(url);
+        long stopTime = System.currentTimeMillis();
+        long result = stopTime - startTime;
+        System.out.println("Tijd nodig voor getExtendedIRailRoute = " + result);
+        return response;
+    }
+
+
+    //IRail: haalt Liveboard info op. XML
+    public static Response getIRailLiveboard (String station) throws IOException {
+        String url = "https://api.irail.be/liveboard/?station="+station+"&fast=true&format=xml";
+        long startTime = System.currentTimeMillis();
+        Response response = doGetRequest(url);
+        long stopTime = System.currentTimeMillis();
+        long result = stopTime - startTime;
+        System.out.println("Tijd nodig getIRailLiveboard = " + result);
+        return response;
+    }
+
     //Geeft Response terug van url als String
     public static Response doGetRequest(String url) throws IOException {
         OkHttpClient client = new OkHttpClient();

@@ -76,5 +76,65 @@ public class LoginDAO {
 		}
 	}
 
-//TODO update methode
+	public static boolean changePassbyLogin(Login login, String HashedPass) {
+		try {
+			Connection con = Database.getConnection();
+			if (con == null) {
+				Database.openDatabase();
+				con = Database.getConnection();
+			}
+			PreparedStatement st = con.prepareStatement("UPDATE Login SET passwoord = ? WHERE login_id= ?");
+			st.setString(1, HashedPass);
+			st.setInt(2, login.getLogin_id());
+			st.executeUpdate();
+			return true;
+		} catch (SQLException e) {
+			System.err.println(e.getClass().getName() + " : " + e.getMessage());
+			System.exit(1);
+		}
+		return false;
+	}
+
+	public static Login getLoginByID(int id) {
+		Login login = new Login();
+		ResultSet resultSet = null;
+		PreparedStatement preparedStatement = null;
+		try {
+			Connection con = Database.getConnection();
+			if (con == null) {
+				Database.openDatabase();
+				con = Database.getConnection();
+			}
+			if (con != null) {
+				String query = "SELECT * FROM Login WHERE login_id=? LIMIT 1";
+				preparedStatement = con.prepareStatement(query);
+				preparedStatement.setInt(1,id);
+				resultSet = preparedStatement.executeQuery();
+				//login_id(int11),username(vchar45),passwoord(vchar64),bevoegdheid(int11),medewerker_id(int11)
+				while (resultSet.next()) {
+					login.setLogin_id(resultSet.getInt("login_id"));
+					login.setUsername(resultSet.getString("username"));
+					login.setPassword(resultSet.getString("passwoord"));
+					login.setBevoegdheid(resultSet.getInt("bevoegdheid"));
+					login.setMedewerker_id(resultSet.getInt("medewerker_id"));
+				}
+			}
+		} catch (Exception ex) {
+			System.out.println(ex);
+		} finally {
+			if (resultSet != null) {
+				try {
+					resultSet.close();
+				} catch (SQLException ex) {System.out.println(ex);}
+			}
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+				} catch (SQLException ex) {System.out.println(ex);}
+			}
+		}
+		return login;
+	}
+
+
 }

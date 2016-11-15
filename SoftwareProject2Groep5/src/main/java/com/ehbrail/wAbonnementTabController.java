@@ -80,6 +80,9 @@ public class wAbonnementTabController implements Initializable {
 	private Button koopbutton;
 
 	@FXML
+	private Button berekenPrijsId;
+
+	@FXML
 	private ToggleGroup soortAbonnement;
 
 	@FXML
@@ -149,9 +152,6 @@ public class wAbonnementTabController implements Initializable {
 				prijs = prijs - 150;
 			}
 
-			String totaal = String.valueOf(prijs);
-			prijsid.setText(totaal);
-
 			AbonnementDAO.writeAbonnement(new Abonnement(1, 1, WerknemerController.getLogin().getMedewerker_id(),
 					klasse, 1, prijs, null, van, naar, begin, einde, "Brussel"));
 			clearVelden();
@@ -167,13 +167,30 @@ public class wAbonnementTabController implements Initializable {
 			alert.setHeaderText(null);
 			alert.setContentText("Alle velden moeten ingevuld worden.");
 			alert.show();
-			
+
 		}
 
 	}
-	public void clearVelden(){
+
+	@FXML
+	void prijsBerekening(ActionEvent event) {
+		double prijs = 300;
+		if (kortingenid.getValue() == "Senior") {
+			prijs = prijs - 50;
+		} else if (kortingenid.getValue() == "18-25") {
+			prijs = prijs - 80;
+		} else if (kortingenid.getValue() == "-18") {
+			prijs = prijs - 150;
+		}
+
+		String totaal = String.valueOf(prijs);
+		prijsid.setText(totaal);
 		
 		
+	}
+
+	public void clearVelden() {
+
 		vanField.clear();
 		naarField.clear();
 		ritRadioButton.setSelected(false);
@@ -184,7 +201,7 @@ public class wAbonnementTabController implements Initializable {
 		datepickerEinde.setValue(null);
 		prijsid.setText(null);
 		kortingenid.setValue(null);
-		
+
 	}
 
 }

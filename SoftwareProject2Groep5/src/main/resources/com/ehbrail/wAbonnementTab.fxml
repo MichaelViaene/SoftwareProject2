@@ -44,8 +44,9 @@
          </toggleGroup></RadioButton>
       <RadioButton fx:id="tweedeRadioButton" layoutX="194.0" layoutY="284.0" mnemonicParsing="false" text="2e klasse" toggleGroup="$klasse" />
       <ChoiceBox fx:id="kortingenid" layoutX="48.0" layoutY="331.0" prefWidth="150.0" />
-      <Label layoutX="51.0" layoutY="397.0" prefHeight="17.0" prefWidth="95.0" text="Prijsberekening:" />
-      <Label fx:id="prijsid" layoutX="146.0" layoutY="397.0" prefHeight="17.0" prefWidth="150.0" />
-      <Button fx:id="koopbutton" layoutX="49.0" layoutY="439.0" mnemonicParsing="false" onAction="#koopAbonnement" prefHeight="25.0" prefWidth="233.0" text="Koop abonnement" />
+      <Label layoutX="51.0" layoutY="426.0" prefHeight="17.0" prefWidth="95.0" text="Prijsberekening:" />
+      <Label fx:id="prijsid" layoutX="146.0" layoutY="428.0" prefHeight="17.0" prefWidth="150.0" />
+      <Button fx:id="koopbutton" layoutX="48.0" layoutY="479.0" mnemonicParsing="false" onAction="#koopAbonnement" prefHeight="25.0" prefWidth="233.0" text="Koop abonnement" />
+      <Button fx:id="berekenPrijsId" layoutX="49.0" layoutY="387.0" mnemonicParsing="false" onAction="#prijsBerekening" text="Bereken Prijs" />
    </children>
 </AnchorPane>

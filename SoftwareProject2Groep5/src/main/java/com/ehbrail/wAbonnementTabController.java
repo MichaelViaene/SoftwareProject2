@@ -29,7 +29,6 @@ import javafx.scene.control.ToggleGroup;
  * Created by Ilias El Mesaoudi on 14/11/2016.
  */
 
-
 public class wAbonnementTabController implements Initializable {
 
 	ObservableList<String> listReductie = FXCollections.observableArrayList("Senior", "18-25", "-18");
@@ -113,8 +112,8 @@ public class wAbonnementTabController implements Initializable {
 
 	@FXML
 	void koopAbonnement(ActionEvent event) {
-		String van = null, naar=null;
-		int klasse=0;
+		String van = null, naar = null;
+		int klasse = 0;
 		LocalDate begin;
 		LocalDate einde;
 		double prijs = 300;
@@ -135,11 +134,10 @@ public class wAbonnementTabController implements Initializable {
 
 			begin = datepickerBegin.getValue();
 			einde = datepickerEinde.getValue();
-			
+
 			if (eersteRadioButton.isSelected()) {
 				klasse = 1;
-			}
-			else if (tweedeRadioButton.isSelected()) {
+			} else if (tweedeRadioButton.isSelected()) {
 				klasse = 2;
 			}
 
@@ -153,12 +151,14 @@ public class wAbonnementTabController implements Initializable {
 
 			String totaal = String.valueOf(prijs);
 			prijsid.setText(totaal);
-			AbonnementDAO.writeAbonnement(new Abonnement(1,1,klasse,1,prijs,null,van,naar,begin,einde));
 
+			AbonnementDAO.writeAbonnement(new Abonnement(1, 1, WerknemerController.getLogin().getMedewerker_id(),
+					klasse, 1, prijs, null, van, naar, begin, einde, "Brussel"));
+			clearVelden();
 			Alert alert = new Alert(Alert.AlertType.INFORMATION);
 			alert.setTitle("Information Dialog");
 			alert.setHeaderText("Information Alert");
-			alert.setContentText("Verloren voorwerp werd toegevoegd");
+			alert.setContentText("Abonnement werd gecreëerd.");
 			alert.show();
 
 		} else {
@@ -167,8 +167,24 @@ public class wAbonnementTabController implements Initializable {
 			alert.setHeaderText(null);
 			alert.setContentText("Alle velden moeten ingevuld worden.");
 			alert.show();
+			
 		}
 
+	}
+	public void clearVelden(){
+		
+		
+		vanField.clear();
+		naarField.clear();
+		ritRadioButton.setSelected(false);
+		belgieRadioButton.setSelected(false);
+		eersteRadioButton.setSelected(false);
+		tweedeRadioButton.setSelected(false);
+		datepickerBegin.setValue(null);
+		datepickerEinde.setValue(null);
+		prijsid.setText(null);
+		kortingenid.setValue(null);
+		
 	}
 
 }

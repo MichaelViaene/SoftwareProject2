@@ -1,5 +1,6 @@
 package com.database;
 
+import com.ehbrail.WerknemerController;
 import com.model.Abonnement;
 
 import java.sql.Connection;
@@ -35,8 +36,8 @@ public class AbonnementDAO {
                 preparedStatement.setString(6, abonnement.getBeginStation());
                 preparedStatement.setString(7, abonnement.getEindStation());
                 preparedStatement.setDouble(8, abonnement.getPrijs());
-                preparedStatement.setInt(9, 1); //HARDCODED TIJDELIJK
-                preparedStatement.setString(10, "Brussel"); //HARDCODED TIJDELIJK
+                preparedStatement.setInt(9, abonnement.getMedewerker_id()); //HARDCODED TIJDELIJK
+                preparedStatement.setString(10, abonnement.getStation()); //HARDCODED TIJDELIJK
                 
                 preparedStatement.execute();
                 preparedStatement.close();

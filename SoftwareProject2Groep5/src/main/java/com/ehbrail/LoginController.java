@@ -15,6 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -22,6 +23,9 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 import java.io.IOException;
 import java.net.URL;
@@ -40,6 +44,7 @@ public class LoginController implements Initializable {
     @FXML private TextField username;
     @FXML private PasswordField password;
     @FXML private Label message;
+    @FXML private Button login;
 
     private static ArrayList<String> list;
 
@@ -62,6 +67,19 @@ public class LoginController implements Initializable {
             //list.forEach(System.out::println);
         }).start();
          **/
+    }
+
+    @FXML
+    private void goToPasswordField(KeyEvent ke){
+    	if(ke.getCode() == KeyCode.ENTER){
+    		password.requestFocus();
+    	}
+    }
+    
+    @FXML
+    private void goToLogin(KeyEvent ke){
+    	if(ke.getCode() == KeyCode.ENTER){
+    		login.fire();    	}
     }
 
     @FXML

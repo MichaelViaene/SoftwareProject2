@@ -186,7 +186,7 @@ public class VerlorenVoorwerpTabController implements Initializable {
 	@FXML
 	void updateVoorwerp(ActionEvent event) {
 
-		if (!(omschrijvingtext.getText() == "" || datumtext.getValue() == null || treintext.getText() == ""
+		if (!(omschrijvingtext.getText() == "" || datumtext.getValue() == null || stationtext.getText() == ""
 				|| naamtext.getText() == "")) {
 			
 			LocalDate localDate = datumtext.getValue();
@@ -194,7 +194,10 @@ public class VerlorenVoorwerpTabController implements Initializable {
 			
 			int id = Integer.parseInt(idtext.getText());
 			String text = omschrijvingtext.getText();
-			if (treintext !=null) {
+			if (treintext.getText() =="") {
+				text = "Treinid: ?" + "\n" + omschrijvingtext.getText();
+			}
+			else {
 				text = "Treinid: " + treintext.getText() + "\n" + omschrijvingtext.getText();
 			}
 			

@@ -130,10 +130,15 @@ public class VerlorenVoorwerpTabController implements Initializable {
 	@FXML
 	void insertVoorwerp(ActionEvent event) {
 
-		if (!(omschrijvingtext.getText() == "" || datumtext.getValue() == null || treintext.getText() == ""
+		if (!(omschrijvingtext.getText() == "" || datumtext.getValue() == null || stationtext.getText() == ""
 				|| naamtext.getText() == "")) {
 			String text = omschrijvingtext.getText();
-			if (treintext !=null) {
+			if (treintext.getText().isEmpty()) {
+
+				text = "Treinid: ?" + "\n" + omschrijvingtext.getText();
+			}
+
+			else {
 				text = "Treinid: " + treintext.getText() + "\n" + omschrijvingtext.getText();
 			}
 			LocalDate localDate = datumtext.getValue();
@@ -148,7 +153,9 @@ public class VerlorenVoorwerpTabController implements Initializable {
 
 			refresh();
 			clearVelden();
-		} else {
+		} else
+
+		{
 			Alert alert = new Alert(Alert.AlertType.WARNING);
 			alert.setTitle("Ongeldige Velden");
 			alert.setHeaderText(null);
@@ -186,19 +193,25 @@ public class VerlorenVoorwerpTabController implements Initializable {
 	@FXML
 	void updateVoorwerp(ActionEvent event) {
 
-		if (!(omschrijvingtext.getText() == "" || datumtext.getValue() == null || treintext.getText() == ""
+		if (!(omschrijvingtext.getText() == "" || datumtext.getValue() == null || stationtext.getText() == ""
 				|| naamtext.getText() == "")) {
-			
+
 			LocalDate localDate = datumtext.getValue();
 			Date date = Date.valueOf(localDate);
-			
+
 			int id = Integer.parseInt(idtext.getText());
 			String text = omschrijvingtext.getText();
-			if (treintext !=null) {
+			if (treintext.getText().isEmpty()) {
+				if (omschrijvingtext.getText().contains("Treinid:")) {
+
+				} else {
+					text = "Treinid: ?" + "\n" + omschrijvingtext.getText();
+				}
+
+			} else {
 				text = "Treinid: " + treintext.getText() + "\n" + omschrijvingtext.getText();
 			}
-			
-			
+
 			VerlorenVoorwerp voorwerp = new VerlorenVoorwerp(id, naamtext.getText(), text, date, stationtext.getText());
 			VerlorenVoorwerpDAO.updateVoorwerp(voorwerp);
 			clearVelden();

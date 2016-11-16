@@ -15,9 +15,9 @@ public class LoginDAO {
 		Login login = new Login();
 		ResultSet resultSet = null;
 		PreparedStatement preparedStatement = null;
-		Connection con = Database.getConnection();
+		Connection con = null;
 		try {
-			//Connection con = Database.getConnection();
+			 con = Database.getConn();
 			if (con == null) {
 				Database.openDatabase();
 				con = Database.getConnection();
@@ -49,13 +49,13 @@ public class LoginDAO {
 					preparedStatement.close();
 				} catch (SQLException ex) {System.out.println(ex);}
 			}
-			/**
+
 			if (con != null) {
 				try {
 					con.close();
 				} catch (SQLException ex) {System.out.println(ex);}
 			}
-			**/
+
 		}
 		return login;
 	}
@@ -81,6 +81,7 @@ public class LoginDAO {
 				preparedStatement.executeUpdate();
 				preparedStatement.close();
 				con.commit();
+				con.close();
 			}
 		} catch (SQLException e) {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
@@ -146,7 +147,7 @@ public class LoginDAO {
 
 	public static boolean changePassbyLogin(Login login, String HashedPass) {
 		try {
-			Connection con = Database.getConnection();
+			Connection con = Database.getConn();
 			if (con == null) {
 				Database.openDatabase();
 				con = Database.getConnection();
@@ -168,9 +169,9 @@ public class LoginDAO {
 		Login login = new Login();
 		ResultSet resultSet = null;
 		PreparedStatement preparedStatement = null;
-		Connection con = Database.getConnection();
+		Connection con = null;
 		try {
-			//Connection con = Database.getConnection();
+			 con = Database.getConn();
 			if (con == null) {
 				Database.openDatabase();
 				con = Database.getConnection();

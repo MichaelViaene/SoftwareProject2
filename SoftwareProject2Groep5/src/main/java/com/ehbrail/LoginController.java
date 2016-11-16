@@ -99,6 +99,7 @@ public class LoginController implements Initializable {
                 Region root;
                 stage.getIcons().add(new Image("com/ehbrail/EHBRail.png"));
                 if (login.getBevoegdheid() == Login.Bevoegdheid.ADMIN) {
+                    AdminController.setLogin(login);
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("Admin.fxml"));
                     root = (Region) loader.load();
                     stage.setMaximized(true);

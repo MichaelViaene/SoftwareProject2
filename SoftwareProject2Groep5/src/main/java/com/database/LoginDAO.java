@@ -49,11 +49,13 @@ public class LoginDAO {
 					preparedStatement.close();
 				} catch (SQLException ex) {System.out.println(ex);}
 			}
+			/**
 			if (con != null) {
 				try {
 					con.close();
 				} catch (SQLException ex) {System.out.println(ex);}
 			}
+			**/
 		}
 		return login;
 	}

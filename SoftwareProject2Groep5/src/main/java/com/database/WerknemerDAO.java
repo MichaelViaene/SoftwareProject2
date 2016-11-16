@@ -204,12 +204,9 @@ public class WerknemerDAO {
         Werknemer werknemer = new Werknemer();
         ResultSet resultSet = null;
         PreparedStatement preparedStatement = null;
+        Connection con = null;
         try {
-            Connection con = Database.getConnection();
-            if (con == null) {
-                Database.openDatabase();
-                con = Database.getConnection();
-            }
+            con = DBConnect.getConnection();
             if (con != null) {
                 String query = "SELECT * FROM Medewerker WHERE medewerker_id=? LIMIT 1";
                 preparedStatement = con.prepareStatement(query);
@@ -221,15 +218,26 @@ public class WerknemerDAO {
                     werknemer.setNaam(resultSet.getString("naam"));
                     werknemer.setVoornaam(resultSet.getString("voornaam"));
                 }
-                resultSet.close();
-                preparedStatement.close();
-                //con.close();
             }
         }
-        catch (Exception ex) {
-            System.out.println(ex);
+        catch (Exception ex) {ex.printStackTrace();}
+        finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException ex) {ex.printStackTrace();}
+            }
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException ex) {ex.printStackTrace();}
+            }
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException ex) {ex.printStackTrace();}
+            }
         }
         return werknemer;
     }
-
 }

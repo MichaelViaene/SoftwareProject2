@@ -30,7 +30,7 @@ public class VerlorenVoorwerpDAO {
 				voorwerp.setVoorwerpid(rs.getInt("verloren_id"));
 				voorwerp.setNaam(rs.getString("naam"));
 				voorwerp.setOmschrijving(rs.getString("omschrijving"));
-				voorwerp.setDatum(rs.getString("datum_aankomst"));
+				voorwerp.setDatum(rs.getDate("datum_aankomst"));
 				voorwerp.setStation(rs.getString("station"));
 
 				list.add(voorwerp);
@@ -129,7 +129,7 @@ public class VerlorenVoorwerpDAO {
 				voorwerp.setVoorwerpid(rs.getInt(1));
 				voorwerp.setNaam(rs.getString(2));
 				voorwerp.setOmschrijving(rs.getString(3));
-				voorwerp.setDatum(rs.getString(4));
+				voorwerp.setDatum(rs.getDate(4));
 				voorwerp.setStation(rs.getString(5));
 			}
 			st.close();
@@ -167,7 +167,7 @@ public class VerlorenVoorwerpDAO {
 
 			preparedPush.setString(1, voorwerp.getNaam());
 			preparedPush.setString(2, voorwerp.getOmschrijving());
-			preparedPush.setString(3, voorwerp.getDatum());
+			preparedPush.setDate(3, voorwerp.getDatum());
 			preparedPush.setBoolean(4, true);
 			preparedPush.setString(5, voorwerp.getStation());
 			preparedPush.executeUpdate();
@@ -203,7 +203,7 @@ public class VerlorenVoorwerpDAO {
 				voorwerp.setVoorwerpid(rs.getInt("verloren_id"));
 				voorwerp.setNaam(rs.getString("naam"));
 				voorwerp.setOmschrijving(rs.getString("omschrijving"));
-				voorwerp.setDatum(rs.getString("datum_aankomst"));
+				voorwerp.setDatum(rs.getDate("datum_aankomst"));
 				voorwerp.setStation(rs.getString("station"));
 
 				list.add(voorwerp);
@@ -239,7 +239,7 @@ public class VerlorenVoorwerpDAO {
 			update = con.prepareStatement(pushStatement);
 			update.setString(1, voorwerp.getNaam());
 			update.setString(2, voorwerp.getOmschrijving());
-			update.setString(3, voorwerp.getDatum());
+			update.setDate(3, voorwerp.getDatum());
 			update.setString(4, voorwerp.getStation());
 			update.setInt(5, voorwerp.getVoorwerpid());
 

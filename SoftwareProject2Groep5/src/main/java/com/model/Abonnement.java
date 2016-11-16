@@ -11,8 +11,16 @@ public class Abonnement {
 
 	private int abonnement_id;
 	private int klant_id;
+	private int medewerker_id;
+	public int getMedewerker_id() {
+		return medewerker_id;
+	}
+
+	public void setMedewerker_id(int medewerker_id) {
+		this.medewerker_id = medewerker_id;
+	}
+
 	private int klasse;
-	private int type;
 	private int actief;
 	
 	private double prijs;
@@ -20,7 +28,16 @@ public class Abonnement {
 	private Route route;
 	private String beginStation;
 	private String eindStation;
+	private String station; // waar abonnement werd aangemaakt
 	
+	public String getStation() {
+		return station;
+	}
+
+	public void setStation(String station) {
+		this.station = station;
+	}
+
 	private LocalDate beginDatum;
 	private LocalDate eindDatum;
 
@@ -28,11 +45,10 @@ public class Abonnement {
 		super();
 	}
 
-	public Abonnement(int abonnement_id, int klant_id, int klasse, int type, int actief, double prijs, Route route, String beginStation, String eindStation, LocalDate beginDatum, LocalDate eindDatum) {
+	public Abonnement(int abonnement_id, int klant_id, int medewerker_id, int klasse, int actief, double prijs, Route route, String beginStation, String eindStation, LocalDate beginDatum, LocalDate eindDatum,String station) {
 		this.abonnement_id = abonnement_id;
 		this.klant_id = klant_id;
 		this.klasse = klasse;
-		this.type = type;
 		this.actief = actief;
 		this.prijs = prijs;
 		this.route = route;
@@ -40,6 +56,8 @@ public class Abonnement {
 		this.eindStation = eindStation;
 		this.beginDatum = beginDatum;
 		this.eindDatum = eindDatum;
+		this.medewerker_id=medewerker_id;
+		this.station= station;
 	}
 
 	public int getAbonnement_id() {
@@ -64,14 +82,6 @@ public class Abonnement {
 
 	public void setKlasse(int klasse) {
 		this.klasse = klasse;
-	}
-
-	public int getType() {
-		return type;
-	}
-
-	public void setType(int type) {
-		this.type = type;
 	}
 
 	public int getActief() {
@@ -133,7 +143,7 @@ public class Abonnement {
 	@Override
 	public String toString() {
 		return "Abonnement [abonnement_id=" + abonnement_id + ", klant_id=" + klant_id + ", klasse=" + klasse
-				+ ", type=" + type + ", prijs=" + prijs + ", route=" + route + ", beginDatum=" + beginDatum
+				+ ", prijs=" + prijs + ", route=" + route + ", beginDatum=" + beginDatum
 				+ ", eindDatum=" + eindDatum + "]";
 	}
 	

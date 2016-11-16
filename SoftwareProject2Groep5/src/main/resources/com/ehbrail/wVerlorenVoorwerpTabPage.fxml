@@ -9,6 +9,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <Pane prefHeight="614.0" prefWidth="831.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ehbrail.VerlorenVoorwerpTabController">
    <children>
@@ -24,34 +25,40 @@
       <TextField fx:id="textButton" layoutX="223.0" layoutY="74.0" promptText="station" />
       <Button fx:id="searchButton" layoutX="385.0" layoutY="74.0" mnemonicParsing="false" onAction="#searchAction" prefHeight="25.0" prefWidth="109.0" text="Search" />
       <Button fx:id="loadButton" layoutX="19.0" layoutY="564.0" mnemonicParsing="false" onAction="#loadDatabase" prefHeight="29.0" prefWidth="59.0" text="Load" />
-      <Label layoutX="14.0" layoutY="104.0" prefHeight="33.0" prefWidth="226.0" text="Nieuwe voorwerp">
+      <Label layoutX="14.0" layoutY="38.0" prefHeight="33.0" prefWidth="226.0" text="Nieuwe voorwerp">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <TextField fx:id="naamtext" layoutX="17.0" layoutY="154.0" prefHeight="36.0" prefWidth="195.0" promptText="naam">
+      <TextField fx:id="naamtext" layoutX="17.0" layoutY="122.0" prefHeight="36.0" prefWidth="195.0" promptText="naam*">
          <font>
             <Font size="14.0" />
          </font>
       </TextField>
-      <TextField fx:id="stationtext" layoutX="19.0" layoutY="197.0" prefHeight="36.0" prefWidth="195.0" promptText="station">
+      <TextField fx:id="stationtext" layoutX="19.0" layoutY="164.0" prefHeight="36.0" prefWidth="195.0" promptText="station*">
          <font>
             <Font size="14.0" />
          </font>
       </TextField>
-      <Button fx:id="savebutton" layoutX="19.0" layoutY="487.0" mnemonicParsing="false" onAction="#insertVoorwerp" prefHeight="28.0" prefWidth="92.0" text="Save" />
-      <TextArea fx:id="omschrijvingtext" layoutX="20.0" layoutY="278.0" prefHeight="190.0" prefWidth="192.0" promptText="omschrijving">
+      <Button fx:id="savebutton" layoutX="21.0" layoutY="475.0" mnemonicParsing="false" onAction="#insertVoorwerp" prefHeight="28.0" prefWidth="92.0" text="Insert" />
+      <TextArea fx:id="omschrijvingtext" layoutX="21.0" layoutY="238.0" prefHeight="190.0" prefWidth="192.0" promptText="omschrijving*">
          <font>
             <Font size="14.0" />
          </font>
       </TextArea>
-      <Button fx:id="deletebutton" layoutX="319.0" layoutY="537.0" mnemonicParsing="false" onAction="#deleteVoorwerp" prefHeight="28.0" prefWidth="83.0" text="Delete" />
-      <DatePicker fx:id="datumtext" layoutX="21.0" layoutY="242.0" prefHeight="29.0" prefWidth="192.0" promptText="datum" />
-      <Button fx:id="updatebutton" layoutX="120.0" layoutY="487.0" mnemonicParsing="false" onAction="#updateVoorwerp" prefHeight="28.0" prefWidth="92.0" text="Update" />
-      <TextField fx:id="idtext" layoutX="223.0" layoutY="536.0" prefHeight="25.0" prefWidth="83.0" promptText="id">
+      <Button fx:id="deletebutton" layoutX="322.0" layoutY="529.0" mnemonicParsing="false" onAction="#deleteVoorwerp" prefHeight="28.0" prefWidth="83.0" text="Delete" />
+      <DatePicker fx:id="datumtext" layoutX="21.0" layoutY="206.0" prefHeight="29.0" prefWidth="192.0" promptText="datum*" />
+      <Button fx:id="updatebutton" layoutX="123.0" layoutY="475.0" mnemonicParsing="false" onAction="#updateVoorwerp" prefHeight="28.0" prefWidth="92.0" text="Update" />
+      <TextField fx:id="idtext" layoutX="223.0" layoutY="530.0" prefHeight="25.0" prefWidth="83.0" promptText="id">
          <font>
             <Font size="14.0" />
          </font>
       </TextField>
+      <TextField fx:id="treintext" layoutX="20.0" layoutY="431.0" prefHeight="36.0" prefWidth="195.0" promptText="treinid">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextField>
+      <Text layoutX="21.0" layoutY="522.0" strokeType="OUTSIDE" strokeWidth="0.0" text="* verplichte velden" wrappingWidth="195.0000078678131" />
    </children>
 </Pane>

@@ -95,6 +95,9 @@ public class WerknemerController implements Initializable{
     @FXML private Tab wPasswordChangeTab;
     @FXML private wPasswordChangeTabController wPasswordChangeTabController;
     
+    @FXML private Tab wAbonnementTab;
+    @FXML private wAbonnementTabController wAbonnementTabController;
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 

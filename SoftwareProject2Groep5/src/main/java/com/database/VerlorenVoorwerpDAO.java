@@ -146,19 +146,17 @@ public class VerlorenVoorwerpDAO {
 		if (voorwerp == null) {
 			return false;
 		}
-		if (controleId(voorwerp.getVoorwerpid()) == true) {
+		
+		/*if (controleId(voorwerp.getVoorwerpid()) == true) {
 			return false;
 
-		}
-
+		}*/
+		
+		
+		Connection con = null;
+		PreparedStatement preparedPush = null;
 		try {
-			Connection con = Database.getConnection();
-			if (con == null) {
-				Database.openDatabase();
-				con = Database.getConnection();
-			}
-
-			PreparedStatement preparedPush = null;
+			con = DBConnect.getConnection();
 			String pushStatement = "INSERT INTO Verloren_voorwerpen (naam, omschrijving, datum_aankomst,aanwezig,station) VALUES (?,?,?,?,?);";
 
 			con.setAutoCommit(false);
@@ -172,16 +170,20 @@ public class VerlorenVoorwerpDAO {
 			preparedPush.setString(5, voorwerp.getStation());
 			preparedPush.executeUpdate();
 
-			preparedPush.close();
 			con.commit();
-
 		} catch (SQLException e) {
-			System.err.println(e.getClass().getName() + ": " + e.getMessage());
-			System.exit(1);
+			e.printStackTrace();
+		}finally{
+				try {
+					if(preparedPush != null) preparedPush.close();
+					if(con != null) con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 		}
 		return false;
 	}
-
+	
 	public static ArrayList<VerlorenVoorwerp> getVoorwerpByStation(String station) {
 
 		ArrayList<VerlorenVoorwerp> list = new ArrayList<>();
@@ -224,7 +226,7 @@ public class VerlorenVoorwerpDAO {
 		if (voorwerp == null) {
 			return false;
 		}
-		
+
 		try {
 			Connection con = Database.getConnection();
 			if (con == null) {
@@ -246,7 +248,7 @@ public class VerlorenVoorwerpDAO {
 			int aantalVeranderingen = update.executeUpdate();
 			update.close();
 			con.commit();
-			
+
 			if (aantalVeranderingen == 1)
 				return true;
 			return false;

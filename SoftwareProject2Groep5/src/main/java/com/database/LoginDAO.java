@@ -60,11 +60,11 @@ public class LoginDAO {
 		return login;
 	}
 
-	public void insertLogin(Login login) {
+	public static boolean insertLogin(Login login) {
 		PreparedStatement preparedStatement = null;
-		LoginDAO loginDAO = new LoginDAO();
+
 		try {
-			Connection con = Database.getConnection();
+			Connection con = Database.getConn();
 			if (con == null) {
 				Database.openDatabase();
 				con = Database.getConnection();
@@ -84,7 +84,64 @@ public class LoginDAO {
 			}
 		} catch (SQLException e) {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			return false;
 		}
+
+		return true;
+	}
+
+	public static boolean updateLoginBevoegdheid(Login login){
+
+		try {
+			Database.openDatabase();
+			Connection con = Database.getConn();
+
+			if(con == null){
+				Database.openDatabase();
+				con = Database.getConnection();
+			}
+
+			if(con != null){
+				String query = "Update Login SET bevoegdheid = ? WHERE medewerker_id = ? ";
+				PreparedStatement preparedStatement = con.prepareStatement(query);
+
+				preparedStatement.setInt(1, login.getBevoegdheidInt());
+				preparedStatement.setInt(2, login.getMedewerker_id());
+
+				preparedStatement.executeUpdate();
+				preparedStatement.close();
+				con.close();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+
+	public static boolean changePassbyMedewerker (Login login){
+
+		try{
+
+			Connection con = Database.getConn();
+
+			if (con == null) {
+			Database.openDatabase();
+			con = Database.getConnection();
+			}
+
+			PreparedStatement st = con.prepareStatement("UPDATE Login SET passwoord = ? WHERE medewerker_id= ?");
+			st.setString(1, login.getPassword());
+			st.setInt(2, login.getMedewerker_id());
+			st.executeUpdate();
+			} catch (SQLException e) {
+			System.err.println(e.getClass().getName() + " : " + e.getMessage());
+			System.exit(1);
+			return false;
+		}
+
+		return true;
+
 	}
 
 	public static boolean changePassbyLogin(Login login, String HashedPass) {
@@ -98,12 +155,13 @@ public class LoginDAO {
 			st.setString(1, HashedPass);
 			st.setInt(2, login.getLogin_id());
 			st.executeUpdate();
-			return true;
 		} catch (SQLException e) {
 			System.err.println(e.getClass().getName() + " : " + e.getMessage());
 			System.exit(1);
+			return false;
 		}
-		return false;
+
+		return true;
 	}
 
 	public static Login getLoginByID(int id) {

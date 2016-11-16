@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
@@ -10,23 +13,72 @@
 <?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="697.0" prefWidth="1008.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ehbrail.aEmployeeTabController">
-   <children>
-      <Pane prefHeight="697.0" prefWidth="1008.0">
-         <children>
-            <Text layoutX="105.0" layoutY="47.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create Users and Login" wrappingWidth="188.13671875">
+    <children>
+        <Pane prefHeight="528.0" prefWidth="955.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Label fx:id="errorRequestLabel" layoutX="33.0" layoutY="15.0" prefHeight="25.0" prefWidth="291.0" textFill="RED">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="filterBox" layoutX="93.0" layoutY="48.0" />
+                <Text layoutX="33.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filter:" wrappingWidth="51.13671875">
                <font>
-                  <Font size="15.0" />
+                  <Font name="System Bold" size="15.0" />
+               </font></Text>
+                <TableView fx:id="tableView" layoutX="30.0" layoutY="95.0" prefHeight="533.0" prefWidth="636.0">
+                    <columns>
+                        <TableColumn fx:id="medewerkerId" prefWidth="75.0" text="ID" />
+                        <TableColumn fx:id="naam" prefWidth="75.0" text="Name" />
+                        <TableColumn fx:id="voornaam" prefWidth="126.0" text="Surname" />
+                        <TableColumn fx:id="username" prefWidth="124.0" text="Username" />
+                        <TableColumn fx:id="bevoegdheid" prefWidth="118.0" text="Authorisation" />
+                        <TableColumn fx:id="actief" prefWidth="117.0" text="Active" />
+                    </columns>
+                </TableView>
+            <Label layoutX="673.0" layoutY="95.0" text="Add New Employee:">
+               <font>
+                  <Font name="System Bold" size="15.0" />
                </font>
-            </Text>
-            <TextField fx:id="naamField" layoutX="105.0" layoutY="96.0" prefHeight="25.0" prefWidth="209.0" promptText="Naam" />
-            <TextField fx:id="voornaamField" layoutX="105.0" layoutY="135.0" prefHeight="25.0" prefWidth="209.0" promptText="Voornaam" />
-            <ComboBox fx:id="actiefBox" layoutX="105.0" layoutY="186.0" prefWidth="150.0" promptText="Kies (on)actief" />
-            <Button fx:id="createUserButton" layoutX="105.0" layoutY="279.0" mnemonicParsing="false" onAction="#createUserEvent" prefHeight="36.0" prefWidth="91.0" text="Let's GO!" />
-            <Text layoutX="34.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Naam" />
-            <Text layoutX="34.0" layoutY="152.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Voornaam" />
-            <Text layoutX="34.0" layoutY="203.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Actief" />
-            <Label fx:id="errorLabel" layoutX="105.0" layoutY="372.0" prefHeight="36.0" prefWidth="229.0" text="errorLabel" />
-         </children>
-      </Pane>
-   </children>
+            </Label>
+            <TextField fx:id="addNameBox" layoutX="777.0" layoutY="139.0" prefHeight="31.0" prefWidth="172.0" />
+            <Text layoutX="673.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" wrappingWidth="51.13671875" />
+            <Text layoutX="673.0" layoutY="200.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Surname:" wrappingWidth="64.07715582847595" />
+            <TextField fx:id="addSurnameBox" layoutX="777.0" layoutY="178.0" prefHeight="31.0" prefWidth="172.0" />
+            <ChoiceBox fx:id="addAuthCBox" layoutX="777.0" layoutY="218.0" prefHeight="31.0" prefWidth="193.0" />
+            <Text layoutX="673.0" layoutY="239.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Authorisation:" wrappingWidth="94.07715582847595" />
+            <Button layoutX="765.0" layoutY="264.0" mnemonicParsing="false" onAction="#addWerknemer" prefHeight="31.0" prefWidth="101.0" text="Add" />
+            <Button layoutX="241.0" layoutY="638.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="75.0" text="Delete" onAction="#deleteWerknemer" />
+            <TextField fx:id="removeIdBox" layoutX="179.0" layoutY="638.0" prefHeight="31.0" prefWidth="64.0" promptText="ID" />
+            <Label layoutX="30.0" layoutY="643.0" text="Remove Employee:">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <Label layoutX="333.0" layoutY="643.0" text="Reset Employee:">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <Button layoutX="523.0" layoutY="638.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="75.0" text="Reset" onAction="#resetWerknemer" />
+            <TextField fx:id="resetIdBox" layoutX="461.0" layoutY="638.0" prefHeight="31.0" prefWidth="64.0" promptText="ID" />
+            <CheckBox fx:id="inactiveCheckBox" layoutX="402.0" layoutY="53.0" mnemonicParsing="false" selected="true" text="Show Inactive Employees" />
+            <Label layoutX="673.0" layoutY="374.0" text="Edit Existing Employee:">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <TextField fx:id="editNameBox" layoutX="777.0" layoutY="443.0" prefHeight="31.0" prefWidth="172.0" />
+            <Text layoutX="673.0" layoutY="464.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" wrappingWidth="51.13671875" />
+            <Text layoutX="673.0" layoutY="504.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Surname:" wrappingWidth="64.07715582847595" />
+            <TextField fx:id="editSurnameBox" layoutX="777.0" layoutY="482.0" prefHeight="31.0" prefWidth="172.0" />
+            <ChoiceBox fx:id="editAuthCBox" layoutX="777.0" layoutY="522.0" prefHeight="31.0" prefWidth="193.0" />
+            <Text layoutX="673.0" layoutY="543.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Authorisation:" wrappingWidth="94.07715582847595" />
+            <Button layoutX="765.0" layoutY="568.0" mnemonicParsing="false" onAction="#editWerknemer" prefHeight="31.0" prefWidth="101.0" text="Edit" />
+            <Text layoutX="673.0" layoutY="427.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID:" wrappingWidth="51.13671875" />
+            <Label fx:id="editIdLabel" layoutX="778.0" layoutY="411.0" />
+            <CheckBox fx:id="actiefCheckBox" layoutX="897.0" layoutY="414.0" mnemonicParsing="false" text="Actief" />
+            </children>
+        </Pane>
+    </children>
 </AnchorPane>

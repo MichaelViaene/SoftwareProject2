@@ -1,8 +1,11 @@
 package com.database;
 
 import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 
 import com.model.Login;
+import com.mysql.jdbc.*;
 import com.mysql.jdbc.exceptions.jdbc4.CommunicationsException;
 import com.mysql.jdbc.log.Log;
 
@@ -12,8 +15,9 @@ public class LoginDAO {
 		Login login = new Login();
 		ResultSet resultSet = null;
 		PreparedStatement preparedStatement = null;
+		Connection con = Database.getConnection();
 		try {
-			Connection con = Database.getConnection();
+			//Connection con = Database.getConnection();
 			if (con == null) {
 				Database.openDatabase();
 				con = Database.getConnection();
@@ -43,6 +47,11 @@ public class LoginDAO {
 			if (preparedStatement != null) {
 				try {
 					preparedStatement.close();
+				} catch (SQLException ex) {System.out.println(ex);}
+			}
+			if (con != null) {
+				try {
+					con.close();
 				} catch (SQLException ex) {System.out.println(ex);}
 			}
 		}
@@ -99,8 +108,9 @@ public class LoginDAO {
 		Login login = new Login();
 		ResultSet resultSet = null;
 		PreparedStatement preparedStatement = null;
+		Connection con = Database.getConnection();
 		try {
-			Connection con = Database.getConnection();
+			//Connection con = Database.getConnection();
 			if (con == null) {
 				Database.openDatabase();
 				con = Database.getConnection();
@@ -130,6 +140,11 @@ public class LoginDAO {
 			if (preparedStatement != null) {
 				try {
 					preparedStatement.close();
+				} catch (SQLException ex) {System.out.println(ex);}
+			}
+			if (con != null) {
+				try {
+					con.close();
 				} catch (SQLException ex) {System.out.println(ex);}
 			}
 		}

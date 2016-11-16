@@ -88,7 +88,7 @@ public class wLiveboardTabController implements Initializable {
                                 (Integer.parseInt(node.valueOf("@delay"))/60),
                                 node.selectSingleNode("vehicle").getText()));
 
-                        System.out.println(" delay: "+ (Integer.parseInt(node.valueOf("@delay"))/60)+" minute, canceled: "+node.valueOf("@canceled") );
+                       // System.out.println(" delay: "+ (Integer.parseInt(node.valueOf("@delay"))/60)+" minute, canceled: "+node.valueOf("@canceled") );
                     }
                     tableView.setItems(data);
                 }

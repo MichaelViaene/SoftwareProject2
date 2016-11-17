@@ -12,9 +12,8 @@ import java.util.List;
  */
 public class TicketDAO {
 
+	
     public static boolean writeTicket(Ticket ticket) {
-
-
         try {
             Connection con = Database.getConnection();
             if (con == null) {
@@ -23,7 +22,7 @@ public class TicketDAO {
             }
 
             if (con != null) {
-                String query = "INSERT INTO Ticket (vertrek, aankomst, datum_aankoop, datum_heen, datum_terug, class, prijs, type, medewerker_id)" + "values (?, ?, ?, ?, ?, ?, ?, ?, ?)" ;
+                String query = "INSERT INTO Ticket (ticket_id, vertrek, aankomst, datum_aankoop, datum_heen, datum_terug, klasse, prijs, type, medewerker_id)" + "values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?)" ;
                 PreparedStatement preparedStatement = con.prepareStatement(query);
                 preparedStatement.setString(1, ticket.getVertrekStation());
                 preparedStatement.setString(2, ticket.getEindStation());
@@ -52,6 +51,7 @@ public class TicketDAO {
             return false;
         }
         return true;
+        
     }
 
     public static List<Ticket> readTickets (){
@@ -80,7 +80,7 @@ public class TicketDAO {
                     ticket.setDatumAankoop(resultSet.getTimestamp("datum_aankoop").toLocalDateTime());
                     ticket.setDatumHeen(resultSet.getDate("datum_heen").toLocalDate());
                     ticket.setDatumTerug(resultSet.getDate("datum_terug").toLocalDate());
-                    ticket.setKlasse(resultSet.getInt("class"));
+                    ticket.setKlasse(resultSet.getInt("klasse"));
                     ticket.setPrijs(resultSet.getDouble("prijs"));
                     ticket.setType(resultSet.getInt("type"));
 

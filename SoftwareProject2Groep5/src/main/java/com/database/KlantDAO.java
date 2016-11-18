@@ -15,40 +15,29 @@ public class KlantDAO {
 		if (klant == null) {
 			return false;
 		}
-
-		Connection con = null;
-		PreparedStatement preparedPush = null;
-		try {
-			con = DBConnect.getConnection();
+		try (Connection con = Database.getConnection()){
 			String pushStatement = "INSERT INTO Klant (adres_id, geboortedatum,gsmnummer,commentaar,actief,naam,voornaam) VALUES (?,?,?,?,?,?,?);";
-
 			con.setAutoCommit(false);
+			try (PreparedStatement preparedPush = con.prepareStatement(pushStatement)) {
+				preparedPush.setInt(1, klant.getAdresid());
+				preparedPush.setObject(2, klant.getGeboortedatum());
+				preparedPush.setString(3, klant.getGsmnummer());
+				preparedPush.setString(4, klant.getCommentaar());
+				preparedPush.setBoolean(5, klant.isActief());
+				preparedPush.setString(6, klant.getNaam());
+				preparedPush.setString(7, klant.getVoornaam());
 
-			preparedPush = con.prepareStatement(pushStatement);
-
-			preparedPush.setInt(1, klant.getAdresid());
-			preparedPush.setObject(2, klant.getGeboortedatum());
-			preparedPush.setString(3, klant.getGsmnummer());
-			preparedPush.setString(4, klant.getCommentaar());
-			preparedPush.setBoolean(5, klant.isActief());
-			preparedPush.setString(6, klant.getNaam());
-			preparedPush.setString(7, klant.getVoornaam());
-
-			preparedPush.executeUpdate();
-
-			con.commit();
+				preparedPush.executeUpdate();
+				con.commit();
+			}
+			catch (Exception ex) {
+				System.out.println(ex);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				if (preparedPush != null)
-					preparedPush.close();
-				if (con != null)
-					con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
 		}
 		return false;
 	}
+
+
 }

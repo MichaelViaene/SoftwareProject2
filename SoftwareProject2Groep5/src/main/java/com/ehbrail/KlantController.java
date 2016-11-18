@@ -50,7 +50,7 @@ public class KlantController {
 	@FXML
 	void toevoegen(ActionEvent event) {
 		
-
+		//TODO controles aanpassen
 		if (voornaamid.getText() != "" && naamid.getText() != "" && datepicker.getValue() != null
 				&& gsmid.getText() != "" && plaatsnaamid.getText() != "" && postcodeid.getText() != ""
 				&& straatid.getText() != "" && huisnummerid.getText() != "" && brievenbusid.getText() != "") {
@@ -59,14 +59,23 @@ public class KlantController {
 			int postcode = Integer.parseInt(postcodeid.getText());
 			int huisnummer = Integer.parseInt(huisnummerid.getText());
 			
-			Adres adres = new Adres(1, plaatsnaamid.getText(), straatid.getText(), huisnummer, brievenbusid.getText(),
+			Adres adres = new Adres(-1, plaatsnaamid.getText(), straatid.getText(), huisnummer, brievenbusid.getText(),
 					postcode);
+			/**
 			AdresDAO a = new AdresDAO();
 			a.insertAdres(adres);
 			int adresid = a.getAdresId(adres);
 			Klant klant = new Klant(adresid, datepicker.getValue(), gsmid.getText(), "", true, naamid.getText(),
 					voornaamid.getText());
 			KlantDAO.insertKlant(klant);
+			 **/
+
+			AdresDAO.insertAdres(adres);
+			if (adres.getAdres_id() > 0) {
+				Klant klant = new Klant(adres.getAdres_id(), datepicker.getValue(), gsmid.getText(), "", true, naamid.getText(),
+						voornaamid.getText());
+				KlantDAO.insertKlant(klant);
+			}
 			clearVelden();
 
 			Alert alert = new Alert(Alert.AlertType.INFORMATION);

@@ -65,6 +65,11 @@
                       <fx:include fx:id="wAbonnementTabPage" source="wAbonnementTab.fxml" />
                   </content>
                 </Tab>
+                 <Tab fx:id="NieuwKlantTab" text="Nieuwe Klant">
+                  <content>
+                      <fx:include fx:id="KlantTab" source="NieuwKlantTab.fxml" />
+                  </content>
+                </Tab>
                   
                 
               </tabs>

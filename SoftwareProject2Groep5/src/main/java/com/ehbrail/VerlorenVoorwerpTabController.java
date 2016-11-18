@@ -13,7 +13,9 @@ import java.util.ResourceBundle;
 
 import org.controlsfx.control.textfield.TextFields;
 
+import com.database.KlantDAO;
 import com.database.VerlorenVoorwerpDAO;
+import com.model.Klant;
 import com.model.VerlorenVoorwerp;
 
 import javafx.collections.FXCollections;

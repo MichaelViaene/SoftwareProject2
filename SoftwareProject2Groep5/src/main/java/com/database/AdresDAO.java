@@ -1,6 +1,7 @@
 package com.database;
 
 import com.model.Adres;
+import com.model.VerlorenVoorwerp;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -147,6 +148,41 @@ public class AdresDAO {
             }
         }
         return adresList;
+    }
+    
+    
+    
+    //methode om de adresid te kennen na het creeren van een adres voor een klant bij klantDAO
+    public int getAdresId(Adres adres){
+    	if (adres == null)
+			return -1;
+
+    	int adresid= 0;
+		Connection con = null;
+		Statement st = null;
+		try {
+			con = DBConnect.getConnection();
+			st = con.createStatement();
+
+			ResultSet rs = st.executeQuery("Select adres_id from Adres where huisnr =" + adres.getHuisnr()+ " AND postcode= " + adres.getPostcode() + " AND brievenbus =\"" + adres.getBrievenbus() + "\" AND plaatsnaam=\"" +adres.getPlaatsnaam() +"\" AND straat = \"" +adres.getStraat() + "\"");
+			while (rs.next()) {
+				adresid=rs.getInt(1);
+			}
+			return adresid;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (st != null)
+					st.close();
+				if (con != null)
+					con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return -1;
+    	
     }
 
 //TODO update en delete methode voorzien

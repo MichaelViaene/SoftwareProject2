@@ -173,7 +173,7 @@ private void CreateExtendedIRailRoute(String time, String radioText){
         treeRoute.setRoot(rootItem);
     }
     else {
-        try (Response response = getExtendedIRailRoute(vanField.getText(), naarField.getText(),dateFormat(dateText.getValue()),time,radioText);) {
+        try (Response response = getExtendedIRailRoute(vanField.getText(), naarField.getText(),dateFormat(dateText.getValue()),time,radioText)) {
             System.out.println(response.networkResponse());
             if (response.isSuccessful()) {
                 String jsonString = response.body().string();

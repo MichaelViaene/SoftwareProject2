@@ -16,7 +16,7 @@ public class TicketDAO {
 
 
         try (Connection con = Database.getConnection()){
-            String query = "INSERT INTO Ticket (vertrek, aankomst, datum_aankoop, datum_heen, datum_terug, class, prijs, type, medewerker_id)" + "values (?, ?, ?, ?, ?, ?, ?, ?, ?)" ;
+            String query = "INSERT INTO Ticket (vertrek, aankomst, datum_aankoop, datum_heen, datum_terug, klasse, prijs, type, medewerker_id)" + "values (?, ?, ?, ?, ?, ?, ?, ?, ?)" ;
             try (PreparedStatement preparedStatement = con.prepareStatement(query)){
 	            preparedStatement.setString(1, ticket.getVertrekStation());
 	            preparedStatement.setString(2, ticket.getEindStation());

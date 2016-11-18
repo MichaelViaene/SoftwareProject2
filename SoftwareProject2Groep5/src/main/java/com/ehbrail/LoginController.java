@@ -30,6 +30,7 @@ import javafx.scene.input.KeyEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import static com.database.Database.testConn;
@@ -40,6 +41,7 @@ import static com.model.Login.verifyPassword;
 
 /** Controls the login screen interactions **/
 public class LoginController implements Initializable {
+    //@FXML private ResourceBundle language;
 
     @FXML private TextField username;
     @FXML private PasswordField password;

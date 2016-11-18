@@ -25,9 +25,7 @@ import java.net.URL;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.time.format.DateTimeFormatter;
 
 
@@ -110,7 +108,8 @@ public class WerknemerController implements Initializable{
 
 
         Stage stage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
+        ResourceBundle language = ResourceBundle.getBundle("Language", new Locale("fr"));
+        Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"),language);
         Scene scene = new Scene(root);
         stage.setTitle("EhB-Rail  |  Login");
         stage.getIcons().add(new Image("com/ehbrail/EHBRail.png"));

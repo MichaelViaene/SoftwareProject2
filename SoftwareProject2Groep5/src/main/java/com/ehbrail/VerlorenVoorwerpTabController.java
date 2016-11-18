@@ -144,11 +144,13 @@ public class VerlorenVoorwerpTabController implements Initializable {
 			LocalDate localDate = datumtext.getValue();
 			Date date = Date.valueOf(localDate);
 			VerlorenVoorwerp voorwerp = new VerlorenVoorwerp(naamtext.getText(), text, date, stationtext.getText());
-			VerlorenVoorwerpDAO.insertVoorwerp(voorwerp);
+			boolean toegevoegd = VerlorenVoorwerpDAO.insertVoorwerp(voorwerp);
 			Alert alert = new Alert(Alert.AlertType.INFORMATION);
 			alert.setTitle("Information Dialog");
 			alert.setHeaderText("Information Alert");
-			alert.setContentText("Verloren voorwerp werd toegevoegd");
+			if (toegevoegd == true){
+				alert.setContentText("Verloren voorwerp werd toegevoegd.");
+			} else {alert.setContentText("FOUTMELDING: Verloren voorwerp werd NIET toegevoegd.");}
 			alert.show();
 
 			refresh();

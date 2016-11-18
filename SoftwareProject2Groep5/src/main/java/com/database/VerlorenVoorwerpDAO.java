@@ -95,6 +95,8 @@ public class VerlorenVoorwerpDAO {
 				preparedPush.setBoolean(4, true);
 				preparedPush.setString(5, voorwerp.getStation());
 				preparedPush.executeUpdate();
+				con.commit();
+				return true;
 			} catch (Exception ex) {
                 System.out.println(ex);
             }

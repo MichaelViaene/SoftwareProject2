@@ -111,6 +111,10 @@ public class Login {
 		}
 	}
 
+	public void setBevoegdheid(Bevoegdheid bevoegdheid) {
+		this.bevoegdheid = bevoegdheid;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;

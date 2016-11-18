@@ -25,9 +25,15 @@ import java.util.ResourceBundle;
  */
 
 public class AdminController implements Initializable {
-    //private Login login;
 
-    Login login;
+    private static Login login;
+    public static Login getLogin() {
+        return login;
+    }
+    public static void setLogin(Login login) {
+        AdminController.login = login;
+    }
+
     Werknemer werknemer;
 
     @FXML Label usernameAdm;
@@ -35,18 +41,10 @@ public class AdminController implements Initializable {
     public Werknemer getWerknemer() {
         return werknemer;
     }
-
     public void setWerknemer(Werknemer werknemer) {
         this.werknemer = werknemer;
     }
 
-    public Login getLogin() {
-        return login;
-    }
-
-    public void setLogin(Login login) {
-        this.login = login;
-    }
 
     public void setTopBar(Login login, Werknemer werknemer){
         this.login = login;
@@ -58,6 +56,8 @@ public class AdminController implements Initializable {
     @FXML private TabPane aTabPane;
     @FXML private Tab aEmployeeTab;
     @FXML private aEmployeeTabController aEmployeeTabPageController;
+    @FXML private Tab aPasswordChangeTab;
+    @FXML private aPasswordChangeTabController aPasswordChangeTabController;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

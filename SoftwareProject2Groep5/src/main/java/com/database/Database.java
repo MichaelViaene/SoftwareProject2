@@ -6,6 +6,15 @@ public class Database {
 
 	private static Connection con = null;
 
+	public static Connection getConn(){
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			return DriverManager.getConnection("jdbc:mysql://DT-SRV-DT5/SP2GR5", "SP2GR5", "p783D");
+		} catch(Exception e){}
+
+		return null;
+	}
+
 	public static void openDatabase() {
 
 		if (con == null) {

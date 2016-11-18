@@ -9,6 +9,9 @@ import javafx.scene.Scene;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.image.Image;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 /**
 *
 * @author Vik Mortier
@@ -17,11 +20,12 @@ import javafx.scene.image.Image;
 */
 
 public class SoftwareProject extends Application {
-   
+
    @Override
    public void start(Stage stage) throws Exception {
        try {
-           Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
+           ResourceBundle language = ResourceBundle.getBundle("Language", new Locale("fr"));
+           Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"),language);
            Scene scene = new Scene(root);
            stage.setTitle("EhB-Rail  |  Login");
            stage.getIcons().add(new Image("com/ehbrail/EHBRail.png"));

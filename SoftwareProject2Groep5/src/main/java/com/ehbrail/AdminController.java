@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.MessageFormat;
 import java.util.ResourceBundle;
 
 /**
@@ -25,7 +26,7 @@ import java.util.ResourceBundle;
  */
 
 public class AdminController implements Initializable {
-
+    private ResourceBundle language;
     private static Login login;
     public static Login getLogin() {
         return login;
@@ -46,10 +47,10 @@ public class AdminController implements Initializable {
     }
 
 
-    public void setTopBar(Login login, Werknemer werknemer){
-        this.login = login;
+    public void setTopBar(Werknemer werknemer){
+        //this.login = login;
         this.werknemer = werknemer;
-        usernameAdm.setText("Welkom, " + werknemer.getVoornaam() +" " + werknemer.getNaam() +"! username: "+ login.getUsername() + " met bevoegdheid:"+ login.getBevoegdheid());
+        usernameAdm.setText(MessageFormat.format(this.language.getString("WelkomBericht"),werknemer.getVoornaam(), werknemer.getNaam(),login.getUsername(),login.getBevoegdheid()));
     }
 
     @FXML private Button logoutButton;
@@ -61,7 +62,7 @@ public class AdminController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        language = resources;
     }
 
     @FXML private void onClickLogOut(ActionEvent event) throws IOException {

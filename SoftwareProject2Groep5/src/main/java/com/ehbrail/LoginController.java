@@ -41,7 +41,7 @@ import static com.model.Login.verifyPassword;
 
 /** Controls the login screen interactions **/
 public class LoginController implements Initializable {
-    private static ResourceBundle language;
+    private ResourceBundle language;
     @FXML private TextField username;
     @FXML private PasswordField password;
     @FXML private Label message;
@@ -108,7 +108,7 @@ public class LoginController implements Initializable {
                     Scene scene = new Scene(root);
                     stage.setScene(scene);
                     AdminController adminController = loader.<AdminController>getController();
-                    adminController.setTopBar(login,werknemer);
+                    adminController.setTopBar(werknemer);
                     stage.show();
                 }
                 if (login.getBevoegdheid() == Login.Bevoegdheid.WERKNEMER) {

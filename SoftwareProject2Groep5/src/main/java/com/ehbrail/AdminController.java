@@ -68,18 +68,7 @@ public class AdminController implements Initializable {
         logoutButton.getScene().getWindow().hide();
         //meld dat je graag een garbage collection wilt doen.
         System.gc();
-
-        Stage stage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
-        Scene scene = new Scene(root);
-        stage.setTitle("EhB-Rail  |  Login");
-        stage.getIcons().add(new Image("com/ehbrail/EHBRail.png"));
-        scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();
-
-
+        SoftwareProject newLoginScreen = new SoftwareProject();
+        newLoginScreen.createLoginScreen(new Stage());
     }
-
 }

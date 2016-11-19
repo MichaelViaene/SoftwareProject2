@@ -3,6 +3,8 @@ package com.ehbrail;
 import com.model.Login;
 import com.model.StationCSV;
 import com.model.Werknemer;
+import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -105,20 +107,8 @@ public class WerknemerController implements Initializable{
         logoutButton.getScene().getWindow().hide();
         //meld dat je graag een garbage collection wilt doen.
         System.gc();
-
-
-        Stage stage = new Stage();
-        ResourceBundle language = ResourceBundle.getBundle("Language", new Locale("fr"));
-        Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"),language);
-        Scene scene = new Scene(root);
-        stage.setTitle("EhB-Rail  |  Login");
-        stage.getIcons().add(new Image("com/ehbrail/EHBRail.png"));
-        scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();
-
-
+        SoftwareProject newLoginScreen = new SoftwareProject();
+        newLoginScreen.createLoginScreen(new Stage());
     }
 
 

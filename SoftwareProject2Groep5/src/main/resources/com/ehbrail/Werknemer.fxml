@@ -23,7 +23,7 @@
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets></Label>
-                  <Button fx:id="logoutButton" layoutX="995.0" layoutY="14.0" mnemonicParsing="false" onAction="#onClickLogOut" text="Afmelden" />
+                  <Button fx:id="logoutButton" layoutX="995.0" layoutY="14.0" mnemonicParsing="false" onAction="#onClickLogOut" text="%button.afmelden" />
                </children>
             </Pane>
          </top>

@@ -15,7 +15,7 @@
          <top>
             <Pane prefHeight="52.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label fx:id="usernameAdm" layoutX="24.0" layoutY="6.0" prefHeight="38.0" prefWidth="275.0" text="User" textFill="#1b8a3a">
+                  <Label fx:id="usernameAdm" layoutX="24.0" layoutY="6.0" prefHeight="38.0" prefWidth="1086.0" text="User" textFill="#1b8a3a">
                      <font>
                         <Font size="20.0" />
                      </font>
@@ -26,11 +26,11 @@
             </Pane>
          </top>
          <center>
-            <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+            <TabPane fx:id="aTabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
               <tabs>
-                <Tab text="Manage Employees">
+                <Tab fx:id="aEmployeeTab" text="Manage Employees">
                   <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                      <fx:include fx:id="aEmployeeTabPage" source="aEmployeeTabPage.fxml" />
                   </content>
                 </Tab>
                 <Tab text="Untitled Tab 2">

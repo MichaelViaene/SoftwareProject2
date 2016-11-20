@@ -107,7 +107,7 @@ public class wTicketTabController {
         		
         	Ticket ticket = new Ticket(vertrekStation,eindStation,1,klasse,type,1,datumAankoop,datumHeen,datumTerug);
         	
-        	//TicketDAO.writeTicket(ticket);
+        	TicketDAO.writeTicket(ticket);
         	
         	System.out.println(ticket.toString());
     	}

@@ -3,6 +3,8 @@ package com.ehbrail;
 import com.model.Login;
 import com.model.StationCSV;
 import com.model.Werknemer;
+import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,12 +24,11 @@ import org.xml.sax.InputSource;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.URL;
+import java.text.MessageFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.time.format.DateTimeFormatter;
 
 
@@ -50,7 +51,7 @@ import static com.ehbrail.ApiCalls.getStationsXML;
  *
  */
 public class WerknemerController implements Initializable{
-
+    private ResourceBundle language;
     private static Login login;
     public static Login getLogin() {
         return login;
@@ -74,7 +75,7 @@ public class WerknemerController implements Initializable{
         this.login = login;
         //WerknemerController.login = login;
         this.werknemer = werknemer;
-        usernameWerknemer.setText("Welkom, " + werknemer.getVoornaam() +" " + werknemer.getNaam() +"! username: "+ login.getUsername() + " met bevoegdheid:"+ login.getBevoegdheid());
+        usernameWerknemer.setText(MessageFormat.format(this.language.getString("WelkomBericht"),werknemer.getVoornaam(), werknemer.getNaam(),login.getUsername(),login.getBevoegdheid()));
     }
 
     @FXML private Button logoutButton;
@@ -100,26 +101,15 @@ public class WerknemerController implements Initializable{
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        language = resources;
     }
 
     @FXML private void onClickLogOut(ActionEvent event) throws IOException {
         logoutButton.getScene().getWindow().hide();
         //meld dat je graag een garbage collection wilt doen.
         System.gc();
-
-
-        Stage stage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
-        Scene scene = new Scene(root);
-        stage.setTitle("EhB-Rail  |  Login");
-        stage.getIcons().add(new Image("com/ehbrail/EHBRail.png"));
-        scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();
-
-
+        SoftwareProject newLoginScreen = new SoftwareProject();
+        newLoginScreen.createLoginScreen(new Stage());
     }
 
 

@@ -1,6 +1,7 @@
 package com.database;
 
 import com.model.Adres;
+import com.model.VerlorenVoorwerp;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class AdresDAO {
         return adresList;
     }
 
-    public void insertAdres(Adres adres) {
+    public static void insertAdres(Adres adres) {
         AdresDAO adresDAO = new AdresDAO();
         try (Connection con = Database.getConnection()){
             
@@ -52,8 +53,7 @@ public class AdresDAO {
 
                     String query = "INSERT INTO Adres (adres_id,plaatsnaam,straat,huisnr,brievenbus,postcode) VALUES (NULL,?,?,?,?,?);";
                     con.setAutoCommit(false);
-                    try (PreparedStatement preparedStatement = con.prepareStatement(query)){
-	                    //preparedStatement = con.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
+                    try (PreparedStatement preparedStatement = con.prepareStatement(query,PreparedStatement.RETURN_GENERATED_KEYS)){
 	                    preparedStatement.setString(1, adres.getPlaatsnaam());
 	                    preparedStatement.setString(2, adres.getStraat());
 	                    preparedStatement.setInt(3, adres.getHuisnr());
@@ -62,6 +62,12 @@ public class AdresDAO {
 	                    
 	                    preparedStatement.executeUpdate();
 	                    con.commit();
+                        try (ResultSet resultset = preparedStatement.getGeneratedKeys()){
+                            resultset.next();
+                            adres.setAdres_id(resultset.getInt(1));
+                        } catch (Exception ex) {
+                            System.out.println(ex);
+                        }
                     } catch (Exception ex) {
                         System.out.println(ex);
                     }
@@ -113,6 +119,26 @@ public class AdresDAO {
         }
         return adresList;
     }
+    
+
+    //methode om de adresid te kennen na het creeren van een adres voor een klant bij klantDAO
+    public int getAdresId(Adres adres){
+    	if (adres == null)
+			return -1;
+
+    	int adresid= 0;
+		try (Connection con = Database.getConnection(); Statement st = con.createStatement() ) {
+			ResultSet rs = st.executeQuery("Select adres_id from Adres where huisnr =" + adres.getHuisnr()+ " AND postcode= " + adres.getPostcode() + " AND brievenbus =\"" + adres.getBrievenbus() + "\" AND plaatsnaam=\"" +adres.getPlaatsnaam() +"\" AND straat = \"" +adres.getStraat() + "\"");
+			while (rs.next()) {
+				adresid=rs.getInt(1);
+			}
+			return adresid;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return -1;
+    }
+
 
 //TODO update en delete methode voorzien
 }

@@ -64,10 +64,10 @@ public class aEmployeeTabController implements Initializable {
     private ChoiceBox<String> addAuthCBox;
 
     @FXML
-    private TextField removeIdBox;
+    private Label removeIdBox;
 
     @FXML
-    private TextField resetIdBox;
+    private Label resetIdBox;
 
     @FXML
     private CheckBox inactiveCheckBox;
@@ -87,6 +87,12 @@ public class aEmployeeTabController implements Initializable {
     @FXML
     private CheckBox actiefCheckBox;
 
+    @FXML
+    private Button resetButton;
+
+    @FXML
+    private Button deleteButton;
+
 
     private ObservableList<Werknemer> data;
     private List<Werknemer> dataArray;
@@ -94,6 +100,9 @@ public class aEmployeeTabController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        resetButton.setDisable(true);
+        deleteButton.setDisable(true);
 
         refresh();
 
@@ -153,6 +162,10 @@ public class aEmployeeTabController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Werknemer> observable, Werknemer oldValue, Werknemer newValue) {
                 if(tableView.getSelectionModel().getSelectedItem() != null) {
+
+                    deleteButton.setDisable(false);
+                    resetButton.setDisable(false);
+
                     Werknemer werknemer = observable.getValue();
                     editIdLabel.setText(Integer.toString(werknemer.getWerknemerId()));
                     removeIdBox.setText(Integer.toString(werknemer.getWerknemerId()));
@@ -180,74 +193,97 @@ public class aEmployeeTabController implements Initializable {
 
         boolean succesInsertLogin = false;
 
-        Werknemer werknemer = new Werknemer();
-        werknemer.setNaam(addNameBox.getText());
-        werknemer.setVoornaam(addSurnameBox.getText());
-        werknemer.setActief(true);
-        boolean succesInsertWerknemer = WerknemerDAO.insertWerknemer(werknemer);
+        if(!addNameBox.getText().trim().isEmpty()&& !addSurnameBox.getText().trim().isEmpty() && addAuthCBox.getValue() != null ){
 
-        if(succesInsertWerknemer){
-            werknemer.setLogin(new Login());
-            werknemer.getLogin().setUsername(werknemer.getVoornaam() + werknemer.getWerknemerId());
-            Login.Bevoegdheid convertedValueA = Login.Bevoegdheid.valueOf(addAuthCBox.getValue());
-            werknemer.getLogin().setBevoegdheid(convertedValueA);
+            Werknemer werknemer = new Werknemer();
+            werknemer.setNaam(addNameBox.getText());
+            werknemer.setVoornaam(addSurnameBox.getText());
+            werknemer.setActief(true);
+            boolean succesInsertWerknemer = WerknemerDAO.insertWerknemer(werknemer);
 
-            werknemer.getLogin().setMedewerker_id(werknemer.getWerknemerId());
-            werknemer.getLogin().setPassword(Login.createHash(werknemer.getVoornaam()+werknemer.getWerknemerId()));
-            werknemer.getLogin().setMedewerker_id(werknemer.getWerknemerId());
-            succesInsertLogin = LoginDAO.insertLogin(werknemer.getLogin());
-        } else {
+            if(succesInsertWerknemer){
+                werknemer.setLogin(new Login());
+                werknemer.getLogin().setUsername(werknemer.getVoornaam() + werknemer.getWerknemerId());
+                Login.Bevoegdheid convertedValueA = Login.Bevoegdheid.valueOf(addAuthCBox.getValue());
+                werknemer.getLogin().setBevoegdheid(convertedValueA);
+
+                werknemer.getLogin().setMedewerker_id(werknemer.getWerknemerId());
+                werknemer.getLogin().setPassword(Login.createHash(werknemer.getVoornaam()+werknemer.getWerknemerId()));
+                werknemer.getLogin().setMedewerker_id(werknemer.getWerknemerId());
+                succesInsertLogin = LoginDAO.insertLogin(werknemer.getLogin());
+            } else {
+
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error: Could not insert Werknemer");
+                alert.setHeaderText("Error: Could not insert Werknemer, please try again!");
+                alert.showAndWait();
+            }
+
+            if(succesInsertWerknemer && succesInsertLogin){
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("User Created");
+                alert.setHeaderText("Please note down following user credentials ");
+                alert.setContentText("Username: " + werknemer.getLogin().getUsername() + " Password: " + werknemer.getVoornaam()+werknemer.getWerknemerId());
+                alert.showAndWait();
+                refresh();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error: Could not insert Login");
+                alert.setHeaderText("Error: Could not insert Login, please try again!");
+                alert.showAndWait();
+            }
+        }
+
+        else {
 
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error: Could not insert Werknemer");
-            alert.setHeaderText("Error: Could not insert Werknemer, please try again!");
+            alert.setTitle("Error: You need to enter all the fields correctly!");
+            alert.setHeaderText("please try again!");
             alert.showAndWait();
         }
 
-        if(succesInsertWerknemer && succesInsertLogin){
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("User Created");
-            alert.setHeaderText("Please note down following user credentials ");
-            alert.setContentText("Username: " + werknemer.getLogin().getUsername() + " Password: " + werknemer.getVoornaam()+werknemer.getWerknemerId());
-            alert.showAndWait();
-            refresh();
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error: Could not insert Login");
-            alert.setHeaderText("Error: Could not insert Login, please try again!");
-            alert.showAndWait();
-        }
     }
 
     @FXML
     private void editWerknemer (ActionEvent actionEvent){
 
-        Werknemer werknemer = new Werknemer();
-        Login login = new Login();
+        if(!editNameBox.getText().trim().isEmpty() && !editSurnameBox.getText().trim().isEmpty() && editIdLabel.getText() != null && editAuthCBox.getValue() != null){
 
-        werknemer.setNaam(editNameBox.getText());
-        werknemer.setVoornaam(editSurnameBox.getText());
-        werknemer.setActief(actiefCheckBox.isSelected());
-        werknemer.setWerknemerId(Integer.parseInt(editIdLabel.getText()));
+            Werknemer werknemer = new Werknemer();
+            Login login = new Login();
 
-        Login.Bevoegdheid convertedValueA = Login.Bevoegdheid.valueOf(editAuthCBox.getValue());
-        login.setBevoegdheid(convertedValueA);
-        login.setMedewerker_id(werknemer.getWerknemerId());
+            werknemer.setNaam(editNameBox.getText());
+            werknemer.setVoornaam(editSurnameBox.getText());
+            werknemer.setActief(actiefCheckBox.isSelected());
+            werknemer.setWerknemerId(Integer.parseInt(editIdLabel.getText()));
 
-        boolean succesUpdateWerknemer = WerknemerDAO.updateWerknemer(werknemer);
-        boolean succesUpdateLogin = LoginDAO.updateLoginBevoegdheid(login);
+            Login.Bevoegdheid convertedValueA = Login.Bevoegdheid.valueOf(editAuthCBox.getValue());
+            login.setBevoegdheid(convertedValueA);
+            login.setMedewerker_id(werknemer.getWerknemerId());
 
-        if(succesUpdateWerknemer && succesUpdateLogin) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Employee Updated");
-            alert.setHeaderText("The employee has been succesfully updated.");
-            alert.setContentText("Name: " + werknemer.getNaam() + " Surname: " + werknemer.getVoornaam());
-            alert.showAndWait();
-            refresh();
-        } else {
+            boolean succesUpdateWerknemer = WerknemerDAO.updateWerknemer(werknemer);
+            boolean succesUpdateLogin = LoginDAO.updateLoginBevoegdheid(login);
+
+            if(succesUpdateWerknemer && succesUpdateLogin) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Employee Updated");
+                alert.setHeaderText("The employee has been succesfully updated.");
+                alert.setContentText("Name: " + werknemer.getNaam() + " Surname: " + werknemer.getVoornaam());
+                alert.showAndWait();
+                refresh();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error: Could not update Employee");
+                alert.setHeaderText("Error: Could not update Employee, please try again!");
+                alert.showAndWait();
+            }
+
+        }
+        else {
+
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error: Could not update Employee");
-            alert.setHeaderText("Error: Could not update Employee, please try again!");
+            alert.setTitle("Error: You need to enter all the fields correctly!");
+            alert.setHeaderText("please try again!");
             alert.showAndWait();
         }
 
@@ -256,11 +292,14 @@ public class aEmployeeTabController implements Initializable {
     @FXML
     private void deleteWerknemer (ActionEvent actionEvent){
 
+        if(removeIdBox.getText() != null && removeIdBox.getText().contains("ID")){
+
         Werknemer werknemer = new Werknemer();
         werknemer.setActief(false);
         werknemer.setWerknemerId(Integer.parseInt(removeIdBox.getText()));
 
         boolean succesDeleteWerknemer = WerknemerDAO.deleteWerknemer(werknemer);
+
         if(succesDeleteWerknemer) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Employee 'Deleted'");
@@ -273,27 +312,42 @@ public class aEmployeeTabController implements Initializable {
             alert.setHeaderText("Error: Could not delete Employee, please try again!");
             alert.showAndWait();
         }
+        } else {
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Please select a user in the table");
+            alert.setHeaderText("please try again!");
+            alert.showAndWait();
+        }
 
     }
 
     @FXML
     private void resetWerknemer (ActionEvent actionEvent) {
 
-        reset.getLogin().setPassword(Login.createHash(reset.getVoornaam()+reset.getWerknemerId()));
-        reset.getLogin().setMedewerker_id(reset.getWerknemerId());
-        boolean succesResetWerknemer = LoginDAO.changePassbyMedewerker(reset.getLogin());
+        if(resetIdBox.getText() != null && resetIdBox.getText().contains("ID")) {
 
-        if(succesResetWerknemer) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Employee Password Reset");
-            alert.setHeaderText("The employee has been succesfully Reset.");
-            alert.setContentText("Password: " + reset.getVoornaam()+reset.getWerknemerId());
-            alert.showAndWait();
-            refresh();
+            reset.getLogin().setPassword(Login.createHash(reset.getVoornaam() + reset.getWerknemerId()));
+            reset.getLogin().setMedewerker_id(reset.getWerknemerId());
+            boolean succesResetWerknemer = LoginDAO.changePassbyMedewerker(reset.getLogin());
+
+            if (succesResetWerknemer) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Employee Password Reset");
+                alert.setHeaderText("The employee has been succesfully Reset.");
+                alert.setContentText("Password: " + reset.getVoornaam() + reset.getWerknemerId());
+                alert.showAndWait();
+                refresh();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error: Could not reset Employee");
+                alert.setHeaderText("Error: Could not reset Employee, please try again!");
+                alert.showAndWait();
+            }
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error: Could not reset Employee");
-            alert.setHeaderText("Error: Could not reset Employee, please try again!");
+            alert.setTitle("Please select a user in the table");
+            alert.setHeaderText("please try again!");
             alert.showAndWait();
         }
     }

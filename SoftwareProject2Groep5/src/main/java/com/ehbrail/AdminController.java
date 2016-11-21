@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.MessageFormat;
 import java.util.ResourceBundle;
 
 /**
@@ -25,7 +26,7 @@ import java.util.ResourceBundle;
  */
 
 public class AdminController implements Initializable {
-
+    private ResourceBundle language;
     private static Login login;
     public static Login getLogin() {
         return login;
@@ -46,10 +47,10 @@ public class AdminController implements Initializable {
     }
 
 
-    public void setTopBar(Login login, Werknemer werknemer){
-        this.login = login;
+    public void setTopBar(Werknemer werknemer){
+        //this.login = login;
         this.werknemer = werknemer;
-        usernameAdm.setText("Welkom, " + werknemer.getVoornaam() +" " + werknemer.getNaam() +"! username: "+ login.getUsername() + " met bevoegdheid:"+ login.getBevoegdheid());
+        usernameAdm.setText(MessageFormat.format(this.language.getString("WelkomBericht"),werknemer.getVoornaam(), werknemer.getNaam(),login.getUsername(),login.getBevoegdheid()));
     }
 
     @FXML private Button logoutButton;
@@ -61,25 +62,14 @@ public class AdminController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        language = resources;
     }
 
     @FXML private void onClickLogOut(ActionEvent event) throws IOException {
         logoutButton.getScene().getWindow().hide();
         //meld dat je graag een garbage collection wilt doen.
         System.gc();
-
-        Stage stage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
-        Scene scene = new Scene(root);
-        stage.setTitle("EhB-Rail  |  Login");
-        stage.getIcons().add(new Image("com/ehbrail/EHBRail.png"));
-        scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();
-
-
+        SoftwareProject newLoginScreen = new SoftwareProject();
+        newLoginScreen.createLoginScreen(new Stage());
     }
-
 }

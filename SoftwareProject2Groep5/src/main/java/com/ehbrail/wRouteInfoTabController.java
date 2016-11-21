@@ -167,10 +167,13 @@ public class wRouteInfoTabController implements Initializable {
 **/
 
 private void CreateExtendedIRailRoute(String time, String radioText){
-    if (vanField.getText().isEmpty() || naarField.getText().isEmpty()) errorLabel.setText("Gelieve een vertrek EN aankomst station mee te geven!");
+    if (vanField.getText().isEmpty() || naarField.getText().isEmpty()) {
+        errorLabel.setText("Gelieve een vertrek EN aankomst station mee te geven!");
+        TreeItem<String> rootItem = new TreeItem<String>("Routes");
+        treeRoute.setRoot(rootItem);
+    }
     else {
-        try {
-            Response response = getExtendedIRailRoute(vanField.getText(), naarField.getText(),dateFormat(dateText.getValue()),time,radioText);
+        try (Response response = getExtendedIRailRoute(vanField.getText(), naarField.getText(),dateFormat(dateText.getValue()),time,radioText)) {
             System.out.println(response.networkResponse());
             if (response.isSuccessful()) {
                 String jsonString = response.body().string();

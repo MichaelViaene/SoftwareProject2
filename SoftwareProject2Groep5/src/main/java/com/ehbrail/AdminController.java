@@ -3,11 +3,13 @@ package com.ehbrail;
 import com.model.Login;
 import com.model.Werknemer;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -52,7 +54,7 @@ public class AdminController implements Initializable {
         usernameAdm.setText("Welkom, " + werknemer.getVoornaam() +" " + werknemer.getNaam() +"! username: "+ login.getUsername() + " met bevoegdheid:"+ login.getBevoegdheid());
     }
 
-
+    @FXML private Button logoutButton;
     @FXML private TabPane aTabPane;
     @FXML private Tab aEmployeeTab;
     @FXML private aEmployeeTabController aEmployeeTabPageController;
@@ -62,5 +64,22 @@ public class AdminController implements Initializable {
 
     }
 
+    @FXML private void onClickLogOut(ActionEvent event) throws IOException {
+        logoutButton.getScene().getWindow().hide();
+        //meld dat je graag een garbage collection wilt doen.
+        System.gc();
+
+        Stage stage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
+        Scene scene = new Scene(root);
+        stage.setTitle("EhB-Rail  |  Login");
+        stage.getIcons().add(new Image("com/ehbrail/EHBRail.png"));
+        scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();
+
+
+    }
 
 }

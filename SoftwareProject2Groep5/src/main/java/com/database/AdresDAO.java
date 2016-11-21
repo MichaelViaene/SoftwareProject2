@@ -13,59 +13,39 @@ import java.util.List;
 public class AdresDAO {
     public ArrayList<Adres> getAll() {
         ArrayList<Adres> adresList = new ArrayList<>();
-        ResultSet rs = null;
-        Statement st = null;
-        try {
-            Connection con = Database.getConnection();
-            if (con == null) {
-                Database.openDatabase();
-                con = Database.getConnection();
+        try (Connection con = Database.getConnection()) {
+            try (Statement st = con.createStatement()){
+            	try (ResultSet rs = st.executeQuery("SELECT * FROM Adres;")){
+		
+		            while (rs.next()) {
+		                Adres adres = new Adres();
+		                adres.setAdres_id(rs.getInt("adres_id"));
+		                adres.setPlaatsnaam(rs.getString("plaatsnaam"));
+		                adres.setStraat(rs.getString("straat"));
+		                adres.setHuisnr(rs.getInt("huisnr"));
+		                adres.setBrievenbus(rs.getString("brievenbus"));
+		                adres.setPostcode(rs.getInt("postcode"));
+		
+		                adresList.add(adres);
+		            }
+            	} catch (Exception ex) {
+                    System.out.println(ex);
+            	}
             }
-
-            st = con.createStatement();
-            rs = st.executeQuery("SELECT * FROM Adres;");
-
-            while (rs.next()) {
-                Adres adres = new Adres();
-                adres.setAdres_id(rs.getInt("adres_id"));
-                adres.setPlaatsnaam(rs.getString("plaatsnaam"));
-                adres.setStraat(rs.getString("straat"));
-                adres.setHuisnr(rs.getInt("huisnr"));
-                adres.setBrievenbus(rs.getString("brievenbus"));
-                adres.setPostcode(rs.getInt("postcode"));
-
-                adresList.add(adres);
-            }
+            catch (Exception ex) {
+                System.out.println(ex);
+        	}
         }
         catch (Exception ex) {
             System.out.println(ex);
         }
-        finally {
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException ex) {System.out.println(ex);}
-            }
-
-            if (st != null) {
-                try {
-                    st.close();
-                } catch (SQLException ex) {System.out.println(ex);}
-            }
-
-        }
         return adresList;
     }
 
-    public void insertAdres(Adres adres) {
-        PreparedStatement preparedStatement = null;
+    public static void insertAdres(Adres adres) {
         AdresDAO adresDAO = new AdresDAO();
-        try {
-            Connection con = Database.getConnection();
-            if (con == null) {
-                Database.openDatabase();
-                con = Database.getConnection();
-            }
+        try (Connection con = Database.getConnection()){
+            
             if (adres != null) {
                 //Check of adres al in de DB zit
                 List<Adres> adresList = adresDAO.checkAdres(adres);
@@ -73,18 +53,24 @@ public class AdresDAO {
 
                     String query = "INSERT INTO Adres (adres_id,plaatsnaam,straat,huisnr,brievenbus,postcode) VALUES (NULL,?,?,?,?,?);";
                     con.setAutoCommit(false);
-                    //preparedStatement = con.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
-                    preparedStatement = con.prepareStatement(query);
-
-                    preparedStatement.setString(1, adres.getPlaatsnaam());
-                    preparedStatement.setString(2, adres.getStraat());
-                    preparedStatement.setInt(3, adres.getHuisnr());
-                    preparedStatement.setString(4, adres.getBrievenbus());
-                    preparedStatement.setInt(5, adres.getPostcode());
-
-                    preparedStatement.executeUpdate();
-                    preparedStatement.close();
-                    con.commit();
+                    try (PreparedStatement preparedStatement = con.prepareStatement(query,PreparedStatement.RETURN_GENERATED_KEYS)){
+	                    preparedStatement.setString(1, adres.getPlaatsnaam());
+	                    preparedStatement.setString(2, adres.getStraat());
+	                    preparedStatement.setInt(3, adres.getHuisnr());
+	                    preparedStatement.setString(4, adres.getBrievenbus());
+	                    preparedStatement.setInt(5, adres.getPostcode());
+	                    
+	                    preparedStatement.executeUpdate();
+	                    con.commit();
+                        try (ResultSet resultset = preparedStatement.getGeneratedKeys()){
+                            resultset.next();
+                            adres.setAdres_id(resultset.getInt(1));
+                        } catch (Exception ex) {
+                            System.out.println(ex);
+                        }
+                    } catch (Exception ex) {
+                        System.out.println(ex);
+                    }
                 }
             }
         } catch (SQLException e) {
@@ -94,35 +80,32 @@ public class AdresDAO {
 
     public ArrayList<Adres> checkAdres(Adres adres) throws SQLException{
         ArrayList<Adres> adresList = new ArrayList<>();
-        ResultSet rs = null;
-        PreparedStatement preparedStatement = null;
-        try {
-            Connection con = Database.getConnection();
-            if (con == null) {
-                Database.openDatabase();
-                con = Database.getConnection();
-            }
-
+        try (Connection con = Database.getConnection()){
             String sql = "SELECT * FROM Adres WHERE plaatsnaam= ? AND straat=? AND huisnr=? AND brievenbus=? AND postcode=?;";
-            preparedStatement = con.prepareStatement(sql);
-
-            preparedStatement.setString(1,adres.getPlaatsnaam());
-            preparedStatement.setString(2,adres.getStraat());
-            preparedStatement.setInt(3,adres.getHuisnr());
-            preparedStatement.setString(4,adres.getBrievenbus());
-            preparedStatement.setInt(5,adres.getPostcode());
-            rs = preparedStatement.executeQuery();
-
-            while (rs.next()) {
-                Adres adres1 = new Adres();
-                adres1.setAdres_id(rs.getInt("adres_id"));
-                adres1.setPlaatsnaam(rs.getString("plaatsnaam"));
-                adres1.setStraat(rs.getString("straat"));
-                adres1.setHuisnr(rs.getInt("huisnr"));
-                adres1.setBrievenbus(rs.getString("brievenbus"));
-                adres1.setPostcode(rs.getInt("postcode"));
-
-                adresList.add(adres1);
+            try (PreparedStatement preparedStatement = con.prepareStatement(sql)){
+	            preparedStatement.setString(1,adres.getPlaatsnaam());
+	            preparedStatement.setString(2,adres.getStraat());
+	            preparedStatement.setInt(3,adres.getHuisnr());
+	            preparedStatement.setString(4,adres.getBrievenbus());
+	            preparedStatement.setInt(5,adres.getPostcode());
+	            
+	            try (ResultSet rs = preparedStatement.executeQuery()){
+		            while (rs.next()) {
+		                Adres adres1 = new Adres();
+		                adres1.setAdres_id(rs.getInt("adres_id"));
+		                adres1.setPlaatsnaam(rs.getString("plaatsnaam"));
+		                adres1.setStraat(rs.getString("straat"));
+		                adres1.setHuisnr(rs.getInt("huisnr"));
+		                adres1.setBrievenbus(rs.getString("brievenbus"));
+		                adres1.setPostcode(rs.getInt("postcode"));
+		
+		                adresList.add(adres1);
+		            }
+                } catch (Exception ex) {
+                    System.out.println(ex);
+                }
+            } catch (Exception ex) {
+                System.out.println(ex);
             }
             if (adresList.size() > 0){
                 System.out.println("Dit adres stond al in de DB en werd dus niet toegevoegd!! Met ID: ");
@@ -134,36 +117,17 @@ public class AdresDAO {
         catch (Exception ex) {
             System.out.println(ex);
         }
-        finally {
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException ex) {System.out.println(ex);}
-            }
-
-            if (preparedStatement != null) {
-                try {
-                    preparedStatement.close();
-                } catch (SQLException ex) {System.out.println(ex);}
-            }
-        }
         return adresList;
     }
     
-    
-    
+
     //methode om de adresid te kennen na het creeren van een adres voor een klant bij klantDAO
     public int getAdresId(Adres adres){
     	if (adres == null)
 			return -1;
 
     	int adresid= 0;
-		Connection con = null;
-		Statement st = null;
-		try {
-			con = DBConnect.getConnection();
-			st = con.createStatement();
-
+		try (Connection con = Database.getConnection(); Statement st = con.createStatement() ) {
 			ResultSet rs = st.executeQuery("Select adres_id from Adres where huisnr =" + adres.getHuisnr()+ " AND postcode= " + adres.getPostcode() + " AND brievenbus =\"" + adres.getBrievenbus() + "\" AND plaatsnaam=\"" +adres.getPlaatsnaam() +"\" AND straat = \"" +adres.getStraat() + "\"");
 			while (rs.next()) {
 				adresid=rs.getInt(1);
@@ -171,19 +135,10 @@ public class AdresDAO {
 			return adresid;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				if (st != null)
-					st.close();
-				if (con != null)
-					con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
 		}
 		return -1;
-    	
     }
+
 
 //TODO update en delete methode voorzien
 }

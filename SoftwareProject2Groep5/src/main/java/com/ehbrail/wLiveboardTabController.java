@@ -43,9 +43,6 @@ public class wLiveboardTabController implements Initializable {
     @FXML private TableColumn<Liveboard, Integer> delay;
     @FXML private TableColumn<Liveboard, String> vehicle;
 
-
-
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         list = LoginController.getList();
@@ -58,15 +55,16 @@ public class wLiveboardTabController implements Initializable {
         vehicle.setCellValueFactory(new PropertyValueFactory<Liveboard, String>("vehicle"));
     }
 
-
     @FXML
     private void searchAction(ActionEvent event) throws IOException {
-        if (stationField.getText().isEmpty()) errorLabel.setText("Gelieve een station mee te geven!");
+        if (stationField.getText().isEmpty()){
+            errorLabel.setText("Gelieve een station mee te geven!");
+            tableView.getItems().clear();
+        }
         else {
-            try {
+            try (Response response = getIRailLiveboard(stationField.getText())) {
                 errorLabel.setText(" ");
                 totalLabel.setText(" ");
-                Response response = getIRailLiveboard(stationField.getText());
                 if (response.isSuccessful()){
                     String liveboardResponse = response.body().string();
                     SAXReader reader = new SAXReader();
@@ -79,7 +77,6 @@ public class wLiveboardTabController implements Initializable {
                    if (total != null)
                     {totalLabel.setText(total.valueOf("@number"));}
                     else errorLabel.setText("Er werd geen data gevonden voor dit station.");
-
                     ObservableList<Liveboard> data = FXCollections.observableArrayList();
                     for (Node node : nodes) {
                         data.add(new Liveboard(node.selectSingleNode("platform").getText(),
@@ -105,6 +102,5 @@ public class wLiveboardTabController implements Initializable {
             }
         }
     }
-
 
 }

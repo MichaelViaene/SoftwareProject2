@@ -114,6 +114,7 @@ public class VerlorenVoorwerpTabController implements Initializable {
 
 	public void loadDatabase(ActionEvent event) {
 		refresh();
+		clearVelden();
 	}
 
 	public void refresh() {

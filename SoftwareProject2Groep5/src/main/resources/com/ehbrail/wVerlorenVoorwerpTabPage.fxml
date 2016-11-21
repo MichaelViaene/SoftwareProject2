@@ -23,7 +23,7 @@
          </columns>
       </TableView>
       <TextField fx:id="textButton" layoutX="223.0" layoutY="74.0" promptText="station" />
-      <Button fx:id="searchButton" layoutX="385.0" layoutY="74.0" mnemonicParsing="false" onAction="#searchAction" prefHeight="25.0" prefWidth="109.0" text="Search" />
+      <Button fx:id="searchButton" layoutX="385.0" layoutY="74.0" mnemonicParsing="false" onAction="#searchAction" prefHeight="25.0" prefWidth="109.0" text="%button.zoeken" />
       <Button fx:id="loadButton" layoutX="19.0" layoutY="564.0" mnemonicParsing="false" onAction="#loadDatabase" prefHeight="29.0" prefWidth="59.0" text="Load" />
       <Label layoutX="14.0" layoutY="38.0" prefHeight="33.0" prefWidth="226.0" text="Nieuwe voorwerp">
          <font>

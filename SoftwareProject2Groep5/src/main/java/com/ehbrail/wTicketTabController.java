@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -32,6 +33,7 @@ import javafx.scene.control.Label;
  */
 
 public class wTicketTabController {
+		ArrayList<String> list;
 
 	   @FXML private TextField vanField;
 	   @FXML private TextField naarField;
@@ -119,10 +121,8 @@ public class wTicketTabController {
         	
         	System.out.println(ticket.toString());
     	}
-    	
     }
-    
-    
+
     
     
     

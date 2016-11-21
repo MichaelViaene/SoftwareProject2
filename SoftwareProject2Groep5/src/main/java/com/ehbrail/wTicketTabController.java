@@ -68,7 +68,7 @@ public class wTicketTabController {
     void onClickKoopTicket(ActionEvent event) {
     	String vertrekStation = vanField.getText();
     	String eindStation = naarField.getText();
-    	int type, klasse, heen, terug;
+    	int type, klasse, heen, terug,medewerkerID;
     	LocalDate datumHeen = datumHeenDatePicker.getValue();
     	LocalDate datumTerug = datumTerugDatePicker.getValue();
     	LocalDateTime datumAankoop = LocalDateTime.now(ZoneId.of( "Europe/Brussels" ));

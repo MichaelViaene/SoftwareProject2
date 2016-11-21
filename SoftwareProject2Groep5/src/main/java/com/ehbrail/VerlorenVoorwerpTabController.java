@@ -99,6 +99,8 @@ public class VerlorenVoorwerpTabController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		tableview.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+		
 		list = LoginController.getList();
 		TextFields.bindAutoCompletion(textButton, list);
 		TextFields.bindAutoCompletion(stationtext, list);

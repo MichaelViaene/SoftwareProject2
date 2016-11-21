@@ -45,6 +45,7 @@ public class wLiveboardTabController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+    	tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         list = LoginController.getList();
         TextFields.bindAutoCompletion(stationField,list);
 

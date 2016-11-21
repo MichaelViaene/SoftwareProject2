@@ -9,23 +9,28 @@ import com.database.LoginDAO;
 import com.model.Login;
 
 import com.model.Werknemer;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import static com.database.Database.testConn;
@@ -36,11 +41,11 @@ import static com.model.Login.verifyPassword;
 
 /** Controls the login screen interactions **/
 public class LoginController implements Initializable {
-
+    private ResourceBundle language;
     @FXML private TextField username;
     @FXML private PasswordField password;
     @FXML private Label message;
-
+    @FXML private Button login;
     private static ArrayList<String> list;
 
     public static ArrayList<String> getList() {
@@ -53,6 +58,7 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         list = fillListAllStations();
+        language = resources;
 
         /**
          * NIET VERWIJDEREN!!
@@ -62,6 +68,19 @@ public class LoginController implements Initializable {
             //list.forEach(System.out::println);
         }).start();
          **/
+    }
+
+    @FXML
+    private void goToPasswordField(KeyEvent ke){
+    	if(ke.getCode() == KeyCode.ENTER){
+    		password.requestFocus();
+    	}
+    }
+    
+    @FXML
+    private void goToLogin(KeyEvent ke){
+    	if(ke.getCode() == KeyCode.ENTER){
+    		login.fire();    	}
     }
 
     @FXML
@@ -81,18 +100,19 @@ public class LoginController implements Initializable {
                 Region root;
                 stage.getIcons().add(new Image("com/ehbrail/EHBRail.png"));
                 if (login.getBevoegdheid() == Login.Bevoegdheid.ADMIN) {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("Admin.fxml"));
+                    AdminController.setLogin(login);
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("Admin.fxml"),language);
                     root = (Region) loader.load();
                     stage.setMaximized(true);
                     stage.setTitle("EhB-Rail  |  ADMIN");
                     Scene scene = new Scene(root);
                     stage.setScene(scene);
                     AdminController adminController = loader.<AdminController>getController();
-                    adminController.setTopBar(login,werknemer);
+                    adminController.setTopBar(werknemer);
                     stage.show();
                 }
                 if (login.getBevoegdheid() == Login.Bevoegdheid.WERKNEMER) {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("Werknemer.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("Werknemer.fxml"),language);
                     root = (Region) loader.load();
                     stage.setMaximized(true);
                     //stage.setFullScreen(true);

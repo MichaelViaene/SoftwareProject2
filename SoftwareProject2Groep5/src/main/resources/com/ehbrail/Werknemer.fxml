@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -22,6 +23,7 @@
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets></Label>
+                  <Button fx:id="logoutButton" layoutX="995.0" layoutY="14.0" mnemonicParsing="false" onAction="#onClickLogOut" text="%button.afmelden" />
                </children>
             </Pane>
          </top>
@@ -38,11 +40,37 @@
                       <fx:include fx:id="wRouteInfoTabPage" source="wRouteInfoTabPage.fxml" />
                   </content>
                 </Tab>
-                <Tab fx:id="wVerlorenVoorwerp" text="Verloren Voorwerpen">
+                <Tab fx:id="wLiveboardTab" text="Liveboard">
                   <content>
-                      <fx:include fx:id="wVerlorenVoorwerpTabPage" source="wVerlorenVoorwerpTabPage.fxml"/>
+                      <fx:include fx:id="wLiveboardTabPage" source="wLiveboardTabPage.fxml" />
                   </content>
                 </Tab>
+                <Tab fx:id="wVerlorenVoorwerp" text="Verloren Voorwerpen">
+                  <content>
+                      <fx:include fx:id="wVerlorenVoorwerpTabPage" source="wVerlorenVoorwerpTabPage.fxml" />
+                  </content>
+                </Tab>
+                  <Tab fx:id="wTicketTab" text="Ticket">
+                    <content>
+                      <fx:include fx:id="wTicketTabPage" source="wTicketTabPage.fxml" />
+                    </content>
+                  </Tab>
+                  <Tab fx:id="wPasswordChangeTab" closable="false" text="Verander wachtwoord">
+                      <content>
+                          <fx:include fx:id="wPasswordChangeTabPage" source="wPasswordChangeTabPage.fxml" />
+                      </content>
+                  </Tab>
+                  <Tab fx:id="wAbonnementTab" text="Abonnementen">
+                  <content>
+                      <fx:include fx:id="wAbonnementTabPage" source="wAbonnementTab.fxml" />
+                  </content>
+                </Tab>
+                 <Tab fx:id="NieuwKlantTab" text="Nieuwe Klant">
+                  <content>
+                      <fx:include fx:id="KlantTab" source="NieuwKlantTab.fxml" />
+                  </content>
+                </Tab>
+                  
                 
               </tabs>
             </TabPane>

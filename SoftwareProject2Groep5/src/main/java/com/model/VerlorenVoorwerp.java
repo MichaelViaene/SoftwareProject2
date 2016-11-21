@@ -1,30 +1,41 @@
 package com.model;
+/**
+*
+* @author Ilias El Mesaoudi
+**/
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.util.Date;
+
+import java.sql.Date;
+
 
 public class VerlorenVoorwerp {
 
 	private int voorwerpid;
 	private String naam;
 	private String omschrijving;
-	private String datum;
+	private Date datum;
 	private String station;
+	private boolean aanwezig;
 
 	@Override
 	public String toString() {
 		return "VerlorenVoorwerp voorwerpid=" + voorwerpid + ", naam=" + naam + ", omschrijving=" + omschrijving
-				+ ", datum=" + datum + ", persoonnaam=" + station ;
+				+ ", datum=" + datum + ", station=" + station + ",aanwezig=" + aanwezig;
+	}
+
+	public boolean getAanwezig() {
+		return aanwezig;
+	}
+
+	public void setAanwezig(boolean aanwezig) {
+		this.aanwezig = aanwezig;
 	}
 
 	public VerlorenVoorwerp() {
 	}
 
-	public VerlorenVoorwerp(int voorwerpid, String naam, String omschrijving, String datum,
+	public VerlorenVoorwerp(int voorwerpid, String naam, String omschrijving, Date datum,
 			String station) {
-		super();
 		this.voorwerpid = voorwerpid;
 		this.naam = naam;
 		this.omschrijving = omschrijving;
@@ -32,7 +43,7 @@ public class VerlorenVoorwerp {
 		this.station = station;
 	}
 
-	public VerlorenVoorwerp(String naam, String omschrijving, String datum, String station) {
+	public VerlorenVoorwerp(String naam, String omschrijving, Date datum, String station) {
 		this.naam = naam;
 		this.omschrijving = omschrijving;
 		this.datum = datum;
@@ -63,11 +74,11 @@ public class VerlorenVoorwerp {
 		this.omschrijving = omschrijving;
 	}
 
-	public String getDatum() {
+	public Date getDatum() {
 		return datum;
 	}
 
-	public void setDatum(String datum) {
+	public void setDatum(Date datum) {
 		this.datum = datum;
 	}
 

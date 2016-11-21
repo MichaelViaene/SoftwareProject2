@@ -48,8 +48,8 @@
             <ChoiceBox fx:id="addAuthCBox" layoutX="777.0" layoutY="218.0" prefHeight="31.0" prefWidth="193.0" />
             <Text layoutX="673.0" layoutY="239.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Authorisation:" wrappingWidth="94.07715582847595" />
             <Button layoutX="765.0" layoutY="264.0" mnemonicParsing="false" onAction="#addWerknemer" prefHeight="31.0" prefWidth="101.0" text="Add" />
-            <Button layoutX="241.0" layoutY="638.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="75.0" text="Delete" onAction="#deleteWerknemer" />
-            <TextField fx:id="removeIdBox" layoutX="179.0" layoutY="638.0" prefHeight="31.0" prefWidth="64.0" promptText="ID" />
+            <Button fx:id="deleteButton" layoutX="241.0" layoutY="638.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="75.0" text="Delete" onAction="#deleteWerknemer" />
+            <Label fx:id="removeIdBox" layoutX="179.0" layoutY="638.0" prefHeight="31.0" prefWidth="64.0" text="ID" />
             <Label layoutX="30.0" layoutY="643.0" text="Remove Employee:">
                <font>
                   <Font name="System Bold" size="15.0" />
@@ -60,8 +60,8 @@
                   <Font name="System Bold" size="15.0" />
                </font>
             </Label>
-            <Button layoutX="523.0" layoutY="638.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="75.0" text="Reset" onAction="#resetWerknemer" />
-            <TextField fx:id="resetIdBox" layoutX="461.0" layoutY="638.0" prefHeight="31.0" prefWidth="64.0" promptText="ID" />
+            <Button fx:id="resetButton" layoutX="523.0" layoutY="638.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="75.0" text="Reset" onAction="#resetWerknemer" />
+            <Label fx:id="resetIdBox" layoutX="461.0" layoutY="638.0" prefHeight="31.0" prefWidth="64.0" text="ID" />
             <CheckBox fx:id="inactiveCheckBox" layoutX="402.0" layoutY="53.0" mnemonicParsing="false" selected="true" text="Show Inactive Employees" />
             <Label layoutX="673.0" layoutY="374.0" text="Edit Existing Employee:">
                <font>

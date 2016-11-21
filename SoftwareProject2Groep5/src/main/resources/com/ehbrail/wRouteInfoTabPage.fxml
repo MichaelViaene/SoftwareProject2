@@ -20,16 +20,16 @@
    <children>
       <Accordion layoutX="635.0" layoutY="184.0" prefHeight="206.0" prefWidth="269.0">
          <panes>
-          <TitledPane animated="false" text="Optional">
+          <TitledPane animated="false" text="%RouteInfo.optioneel">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <RadioButton fx:id="vertrekRadio" layoutX="14.0" layoutY="9.0" mnemonicParsing="false" text="Vertrek">
+                        <RadioButton fx:id="vertrekRadio" layoutX="14.0" layoutY="9.0" mnemonicParsing="false" text="%RouteInfo.vertrek">
                            <toggleGroup>
                               <ToggleGroup fx:id="timeSel" />
                            </toggleGroup>
                         </RadioButton>
-                        <RadioButton fx:id="aankomstRadio" layoutX="104.0" layoutY="9.0" mnemonicParsing="false" text="Aankomst" toggleGroup="$timeSel" />
+                        <RadioButton fx:id="aankomstRadio" layoutX="104.0" layoutY="9.0" mnemonicParsing="false" text="%RouteInfo.aankomst" toggleGroup="$timeSel" />
                         <DatePicker fx:id="dateText" layoutX="14.0" layoutY="39.0" />
                         <HBox layoutX="14.0" layoutY="78.0">
                            <children>
@@ -71,7 +71,7 @@
       <Label fx:id="errorLabel" layoutX="51.0" layoutY="140.0" prefHeight="25.0" prefWidth="779.0" textFill="RED" />
       <Button fx:id="getFirstRouteButton" layoutX="71.0" layoutY="104.0" mnemonicParsing="false" onAction="#onClickGetFirstRoute" text="%RouteInfo.vroegste" />
       <Button fx:id="getLastRouteButton" layoutX="159.0" layoutY="104.0" mnemonicParsing="false" onAction="#onClickGetLastRoute" text="%RouteInfo.laatste" />
-      <Button fx:id="getLaterRouteButton" layoutX="414.0" layoutY="104.0" mnemonicParsing="false" onAction="#onClickGetLaterRoute" text="Later &gt;" />
-      <Button fx:id="getEarlierRouteButton" layoutX="334.0" layoutY="104.0" mnemonicParsing="false" onAction="#onClickGetEarlierRoute" text="&lt; Vroeger" />
+      <Button fx:id="getLaterRouteButton" layoutX="429.0" layoutY="104.0" mnemonicParsing="false" onAction="#onClickGetLaterRoute" text="%RouteInfo.later" />
+      <Button fx:id="getEarlierRouteButton" layoutX="334.0" layoutY="104.0" mnemonicParsing="false" onAction="#onClickGetEarlierRoute" text="%RouteInfo.vroeger" />
    </children>
 </AnchorPane>

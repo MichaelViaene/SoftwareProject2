@@ -47,6 +47,8 @@ public class wTrainInfoTabController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+    	tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+    	
         stopID.setCellValueFactory(new PropertyValueFactory<TrainInfo, Integer>("stopID"));
         station.setCellValueFactory(new PropertyValueFactory<TrainInfo, String>("station"));
         time.setCellValueFactory(new PropertyValueFactory<TrainInfo, LocalDateTime>("time"));

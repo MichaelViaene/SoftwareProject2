@@ -11,9 +11,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.ResourceBundle;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JOptionPane;
-
 import org.controlsfx.control.textfield.TextFields;
 
 import com.database.TicketDAO;
@@ -22,6 +19,8 @@ import com.database.TicketDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
@@ -37,7 +36,7 @@ import javafx.scene.control.Label;
  *
  */
 
-public class wTicketTabController implements Comparable<wTicketTabController>, Initializable{
+public class wTicketTabController implements Initializable{
 
 	ArrayList<String> list;
 		
@@ -63,6 +62,7 @@ public class wTicketTabController implements Comparable<wTicketTabController>, I
 	   @FXML private Label terugLabel;
 	   
 
+	      
 	   @FXML
 	    void showPaneTerug(ActionEvent event) {
 		   painTerug.setVisible(false);
@@ -82,23 +82,26 @@ public class wTicketTabController implements Comparable<wTicketTabController>, I
         
     @FXML
     void onClickKoopTicket(ActionEvent event) {
-    	
     	String vertrekStation = vanField.getText();
-    	String eindStation = naarField.getText();
-    	int type, klasse, heen, terug;
-    	LocalDate datumHeen = datumHeenDatePicker.getValue();
-    	LocalDate datumTerug = datumTerugDatePicker.getValue();
-    	LocalDateTime datumAankoop = LocalDateTime.now(ZoneId.of( "Europe/Brussels" ));
-    	LocalDate todayLocalDate = LocalDate.now(ZoneId.of( "Europe/Brussels" ));
+   		String eindStation = naarField.getText();
+   		int type, klasse, heen, terug;
+   		LocalDate datumHeen = datumHeenDatePicker.getValue();
+   		LocalDate datumTerug = datumTerugDatePicker.getValue();
+   		LocalDateTime datumAankoop = LocalDateTime.now(ZoneId.of( "Europe/Brussels" ));
+   		LocalDate todayLocalDate = LocalDate.now(ZoneId.of( "Europe/Brussels" ));
+   		list = LoginController.getList();
     	/*
 		Voorbeeld localDate, LocaldateTime (present)
 		LocalDate todayLocalDate = LocalDate.now(ZoneId.of( "Europe/Brussels" ) );
 		LocalDateTime todayLocalDateTime = LocalDateTime.now(ZoneId.of( "Europe/Brussels" ));
-    	*/
-    	if (datumHeen == null || vertrekStation == "" || eindStation == "" ){
-    		//doe niets + andere checks hier
-    		//eventuele popup
-    		JOptionPane.showMessageDialog(null, "Foutive gegevens!");
+    	*/   		
+    	if (controleerVanField() == false || controleerNaarField() == false || datumHeen == null || vertrekStation.isEmpty() || eindStation.isEmpty() || datumHeen.isBefore(todayLocalDate) || (heenEnTerugRadio.isSelected() && (datumTerug == null || datumTerug.isBefore(datumHeen)))){
+    		Alert alert = new Alert(AlertType.ERROR);
+    		alert.setTitle("Error Dialog");
+    		alert.setHeaderText(null);
+    		alert.setContentText("Foutieve gegevens!");
+
+    		alert.showAndWait();
     	} else {
     		if(heenRadio.isSelected()){
         		type = 0; //Indien heen reis
@@ -106,7 +109,7 @@ public class wTicketTabController implements Comparable<wTicketTabController>, I
         	} else{
         		type = 1; //Indien heen en terug reis
         	}
-        	if(eersteKlasseRadio.isSelected()){
+    		if(eersteKlasseRadio.isSelected()){
         		klasse = 1; //Indien eerste klasse
         	} else {
         		klasse = 2; // indien tweede klasse
@@ -125,7 +128,14 @@ public class wTicketTabController implements Comparable<wTicketTabController>, I
         	Ticket ticket = new Ticket(vertrekStation,eindStation,1,klasse,type,1,datumAankoop,datumHeen,datumTerug,WerknemerController.getLogin().getMedewerker_id());
         	
         	TicketDAO.writeTicket(ticket);
-        	JOptionPane.showMessageDialog(null, "Ticket aangemaakt!");
+        	
+        	Alert alert = new Alert(AlertType.INFORMATION);
+        	alert.setTitle("Information Dialog");
+        	alert.setHeaderText(null);
+        	alert.setContentText("Ticket aangemaakt!");
+
+        	alert.showAndWait();
+        	
         	System.out.println(ticket.toString());
         	vanField.clear();
         	naarField.clear();
@@ -140,6 +150,26 @@ public class wTicketTabController implements Comparable<wTicketTabController>, I
     	}
     	
     }  
+    public boolean controleerVanField(){
+    	list = LoginController.getList();
+    	for (int i = 0; i < list.size();i++){
+    		if(list.get(i).equals(vanField.getText())){
+    			return true;
+    		}
+    	}
+    	
+    	return false;
+    }
+    public boolean controleerNaarField(){
+    	list = LoginController.getList();
+    	for (int i = 0; i < list.size();i++){
+    		if(list.get(i).equals(naarField.getText())){
+    			return true;
+    		}
+    	}
+    	
+    	return false;
+    }
     
     @FXML private void switchStations(ActionEvent event) throws IOException {
         try {
@@ -152,10 +182,5 @@ public class wTicketTabController implements Comparable<wTicketTabController>, I
         }
     }
 
-	@Override
-	public int compareTo(wTicketTabController arg0) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 }

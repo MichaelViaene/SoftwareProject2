@@ -35,11 +35,6 @@
                       <fx:include fx:id="aEmployeeTabPage" source="aEmployeeTabPage.fxml" />
                   </content>
                 </Tab>
-                <Tab fx:id="aRapportingTab" text="Rapporting">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                  </content>
-                </Tab>
                   <Tab fx:id="aPasswordChangeTab" closable="false" text="Verander wachtwoord">
                       <content>
                           <fx:include fx:id="aPasswordChangeTabPage" source="aPasswordChangeTabPage.fxml" />

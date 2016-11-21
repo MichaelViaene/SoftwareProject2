@@ -19,7 +19,7 @@
                   <Font size="15.0" />
                </font>
             </Text>
-            <TextField layoutX="168.0" layoutY="225.0" prefHeight="25.0" prefWidth="181.0" />
+            <TextField fx:id="formuleField" layoutX="168.0" layoutY="225.0" prefHeight="25.0" prefWidth="181.0" />
             <Text layoutX="28.0" layoutY="242.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nieuwe Formule:" />
             <SplitPane dividerPositions="0.29797979797979796" layoutX="560.0" layoutY="175.0" prefHeight="50.0" prefWidth="200.0">
               <items>
@@ -37,9 +37,9 @@
                   </AnchorPane>
               </items>
             </SplitPane>
-            <Label layoutX="168.0" layoutY="167.0" text="Oude Formule" />
+            <Label fx:id="formuleLabel" layoutX="168.0" layoutY="167.0" text="Oude Formule" />
             <Text layoutX="28.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Oude Formule" />
-            <Button layoutX="168.0" layoutY="310.0" mnemonicParsing="false" text="Submit" />
+            <Button fx:id="submitFormulaButton" layoutX="168.0" layoutY="310.0" mnemonicParsing="false" text="Submit" />
          </children>
       </Pane>
    </children>

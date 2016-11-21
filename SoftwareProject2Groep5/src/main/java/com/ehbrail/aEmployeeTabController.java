@@ -28,7 +28,7 @@ public class aEmployeeTabController implements Initializable {
     @FXML private TextField naamField;
     @FXML private TextField voornaamField;
     @FXML private ComboBox<aEmployeeTabController.actief> actiefBox;
-    @FXML private Label errorLabel;
+    @FXML private Label formuleLabel;
 
     ObservableList<actief> actiefList = FXCollections.observableArrayList(actief.onactief,actief.actief);
 

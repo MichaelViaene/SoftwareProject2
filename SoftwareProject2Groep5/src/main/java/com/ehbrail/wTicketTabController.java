@@ -2,20 +2,26 @@ package com.ehbrail;
 import com.model.Ticket;
 
 import java.io.IOException;
+import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.ResourceBundle;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
+
+import org.controlsfx.control.textfield.TextFields;
 
 import com.database.TicketDAO;
 
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
@@ -31,8 +37,10 @@ import javafx.scene.control.Label;
  *
  */
 
-public class wTicketTabController {
+public class wTicketTabController implements Comparable<wTicketTabController>, Initializable{
 
+	ArrayList<String> list;
+		
 	   @FXML private TextField vanField;
 	   @FXML private TextField naarField;
 	   @FXML private Button switchStationsButton;
@@ -53,6 +61,7 @@ public class wTicketTabController {
 	   @FXML private ToggleGroup klasse;
 	   @FXML private RadioButton tweedeKlasseRadio;
 	   @FXML private Label terugLabel;
+	   
 
 	   @FXML
 	    void showPaneTerug(ActionEvent event) {
@@ -63,22 +72,30 @@ public class wTicketTabController {
 	   void showPaneHeenTrug(ActionEvent event) {
 		   painTerug.setVisible(true);
 	   }
+       
+       @Override
+       public void initialize(URL location, ResourceBundle resources) {
+       list = LoginController.getList();
+        TextFields.bindAutoCompletion(vanField,list);
+        TextFields.bindAutoCompletion(naarField,list);
+       }
         
     @FXML
     void onClickKoopTicket(ActionEvent event) {
+    	
     	String vertrekStation = vanField.getText();
     	String eindStation = naarField.getText();
-    	int type, klasse, heen, terug,medewerkerID;
+    	int type, klasse, heen, terug;
     	LocalDate datumHeen = datumHeenDatePicker.getValue();
     	LocalDate datumTerug = datumTerugDatePicker.getValue();
     	LocalDateTime datumAankoop = LocalDateTime.now(ZoneId.of( "Europe/Brussels" ));
-    	
+    	LocalDate todayLocalDate = LocalDate.now(ZoneId.of( "Europe/Brussels" ));
     	/*
 		Voorbeeld localDate, LocaldateTime (present)
 		LocalDate todayLocalDate = LocalDate.now(ZoneId.of( "Europe/Brussels" ) );
 		LocalDateTime todayLocalDateTime = LocalDateTime.now(ZoneId.of( "Europe/Brussels" ));
     	*/
-    	if (datumHeen == null || vertrekStation == "" || eindStation == ""){
+    	if (datumHeen == null || vertrekStation == "" || eindStation == "" ){
     		//doe niets + andere checks hier
     		//eventuele popup
     		JOptionPane.showMessageDialog(null, "Foutive gegevens!");
@@ -105,22 +122,25 @@ public class wTicketTabController {
         		terug = 1;
         	}
         		
-        	Ticket ticket = new Ticket(vertrekStation,eindStation,1,klasse,type,1,datumAankoop,datumHeen,datumTerug);
+        	Ticket ticket = new Ticket(vertrekStation,eindStation,1,klasse,type,1,datumAankoop,datumHeen,datumTerug,WerknemerController.getLogin().getMedewerker_id());
         	
         	TicketDAO.writeTicket(ticket);
-        	
+        	JOptionPane.showMessageDialog(null, "Ticket aangemaakt!");
         	System.out.println(ticket.toString());
+        	vanField.clear();
+        	naarField.clear();
+        	datumHeenDatePicker.setValue(null);
+        	datumTerugDatePicker.setValue(null);
+        	tweedeKlasseRadio.setSelected(true);
+        	heenVertrekRadio.setSelected(true);
+        	terugVertrekRadio.setSelected(true);
+        	heenRadio.setSelected(true);
+        	painTerug.setVisible(false);
+        	
     	}
     	
-    }
+    }  
     
-    
-    
-    
-    
-    
-    
-
     @FXML private void switchStations(ActionEvent event) throws IOException {
         try {
             String temp = vanField.getText();
@@ -131,5 +151,11 @@ public class wTicketTabController {
             System.out.println(e);
         }
     }
+
+	@Override
+	public int compareTo(wTicketTabController arg0) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 }

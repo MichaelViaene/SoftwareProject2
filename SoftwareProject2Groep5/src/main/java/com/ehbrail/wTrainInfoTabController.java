@@ -55,12 +55,16 @@ public class wTrainInfoTabController implements Initializable {
 
     @FXML
     private void searchAction(ActionEvent event) throws IOException {
-        if (treinID.getText().isEmpty()) errorRequestLabel.setText("Gelieve een trein ID mee te geven.");
+        if (treinID.getText().isEmpty()){
+            errorRequestLabel.setText("Gelieve een trein ID mee te geven.");
+            tableView.getItems().clear();
+        }
         else {
-            try {
+            // Staat in try-with-resources. Je moet altijd zorgen dat de Response gesloten wordt nadat je ermee klaar bent.
+            try (Response response = getTrainInfoByID(treinID.getText())) {
                 //vb treinID = IC545    S23671
                 errorRequestLabel.setText("");
-                Response response = getTrainInfoByID(treinID.getText());
+
                 if (response.isSuccessful()) {
                     String trainResponse = response.body().string();
                     SAXReader reader = new SAXReader();

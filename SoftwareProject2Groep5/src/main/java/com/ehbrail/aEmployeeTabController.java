@@ -170,6 +170,9 @@ public class aEmployeeTabController implements Initializable {
                     editIdLabel.setText(Integer.toString(werknemer.getWerknemerId()));
                     removeIdBox.setText(Integer.toString(werknemer.getWerknemerId()));
                     resetIdBox.setText(Integer.toString(werknemer.getWerknemerId()));
+                    editNameBox.setText(werknemer.getNaam());
+                    editSurnameBox.setText(werknemer.getVoornaam());
+                    editAuthCBox.setValue(werknemer.getLogin().getBevoegdheid().toString());
                     reset = werknemer;
                 }
             }

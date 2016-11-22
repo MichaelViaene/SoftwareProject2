@@ -33,9 +33,9 @@ public class Database {
 		return test;
 	}
 // Legacy code, mag weg indien er geen problemen meer zijn -Jenne	
-/*
-	private static Connection con = null;
 
+	private static Connection con = null;
+	/*
 	public static Connection getConn(){
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -44,7 +44,7 @@ public class Database {
 
 		return null;
 	}
-
+*/
 	public static void openDatabase() {
 
 		if (con == null) {
@@ -57,7 +57,7 @@ public class Database {
 			}
 		}
 	}
-
+/*
 	public static void closeDatabase() {
 		if (con != null) {
 			try {

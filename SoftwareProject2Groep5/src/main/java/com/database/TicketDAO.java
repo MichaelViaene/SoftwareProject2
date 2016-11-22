@@ -26,13 +26,7 @@ public class TicketDAO {
 	            preparedStatement.setInt(6, ticket.getKlasse());
 	            preparedStatement.setDouble(7, ticket.getPrijs());
 	            preparedStatement.setInt(8, ticket.getType());
-	
-	            /*
-	            Waar is de betreffende medewerkerID? Die moet accesable zijn zolang het programma draait.
-	            Hardcoded 2 momenteel hieronder
-	            */
-	
-	            preparedStatement.setInt(9, 1);
+	            preparedStatement.setInt(9, ticket.getMedewerker_id());
 	
 	            preparedStatement.execute();
             } catch (Exception ex) {

@@ -7,6 +7,8 @@ package com.model;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import com.ehbrail.WerknemerController;
+
 /**
  * @author Vik Mortier
  *
@@ -20,6 +22,7 @@ public class Ticket {
 	private int ticket_id;
 	private int klasse;
 	private int type;
+	private int medewerker_id;
 	private double prijs;
 
 	private LocalDateTime datumAankoop;
@@ -37,7 +40,7 @@ public class Ticket {
 		super();
 	}
 
-	public Ticket(String vertrekStation, String eindStation, int ticket_id, int klasse, int type, double prijs, LocalDateTime datumAankoop, LocalDate datumHeen, LocalDate datumTerug) {
+	public Ticket(String vertrekStation, String eindStation, int ticket_id, int klasse, int type, double prijs, LocalDateTime datumAankoop, LocalDate datumHeen, LocalDate datumTerug, int medewerker_id) {
 		this.vertrekStation = vertrekStation;
 		this.eindStation = eindStation;
 		this.ticket_id = ticket_id;
@@ -47,6 +50,15 @@ public class Ticket {
 		this.datumAankoop = datumAankoop;
 		this.datumHeen = datumHeen;
 		this.datumTerug = datumTerug;
+		this.medewerker_id = medewerker_id;
+	}
+
+	public int getMedewerker_id() {
+		return medewerker_id;
+	}
+
+	public void setMedewerker_id(int medewerker_id) {
+		this.medewerker_id = medewerker_id;
 	}
 
 	public String getVertrekStation() {
@@ -133,6 +145,7 @@ public class Ticket {
 				", datumAankoop=" + datumAankoop +
 				", datumHeen=" + datumHeen +
 				", datumTerug=" + datumTerug +
+				", medewerker_id=" + medewerker_id +
 				'}';
 	}
 }

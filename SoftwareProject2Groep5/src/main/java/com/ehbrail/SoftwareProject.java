@@ -65,15 +65,16 @@ public class SoftwareProject extends Application {
         return comboBox;
     }
 
-   private void loadView(Locale locale){
-       try {
-           FXMLLoader fxmlLoader = new FXMLLoader();
-           fxmlLoader.setResources(ResourceBundle.getBundle("Language", locale));
-           Pane pane = (AnchorPane) fxmlLoader.load(this.getClass().getResource("Login.fxml").openStream());
-           borderPane.setCenter(pane);
-       }
-       catch (IOException e){e.printStackTrace();}
-   }
+    private void loadView(Locale locale){
+        try {
+            Locale.setDefault(locale);
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setResources(ResourceBundle.getBundle("Language", locale));
+            Pane pane = (AnchorPane) fxmlLoader.load(this.getClass().getResource("Login.fxml").openStream());
+            borderPane.setCenter(pane);
+        }
+        catch (IOException e){e.printStackTrace();}
+    }
 
 
    /**

@@ -16,7 +16,7 @@
          <top>
             <Pane prefHeight="52.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label fx:id="usernameAdm" layoutX="24.0" layoutY="6.0" prefHeight="38.0" prefWidth="1086.0" text="User" textFill="#1b8a3a">
+                  <Label fx:id="usernameAdm" layoutX="24.0" layoutY="6.0" prefHeight="38.0" prefWidth="1086.0" text="%user" textFill="#1b8a3a">
                      <font>
                         <Font size="20.0" />
                      </font>
@@ -30,12 +30,12 @@
          <center>
             <TabPane fx:id="aTabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
               <tabs>
-                <Tab fx:id="aEmployeeTab" text="Manage Employees">
+                <Tab fx:id="aEmployeeTab" text="%manageEmployee">
                   <content>
                       <fx:include fx:id="aEmployeeTabPage" source="aEmployeeTabPage.fxml" />
                   </content>
                 </Tab>
-                  <Tab fx:id="aPasswordChangeTab" closable="false" text="Verander wachtwoord">
+                  <Tab fx:id="aPasswordChangeTab" closable="false" text="%veranderWachtwoord">
                       <content>
                           <fx:include fx:id="aPasswordChangeTabPage" source="aPasswordChangeTabPage.fxml" />
                       </content>

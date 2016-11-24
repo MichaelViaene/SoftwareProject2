@@ -232,7 +232,7 @@ public class wTicketTabController implements Initializable{
 			String klasseTekst = String.valueOf(ticket.getKlasse())+"e";
 			String vertrekStation = ticket.getVertrekStation();
 			String eindStation = ticket.getEindStation();
-			String prijs = (String.valueOf(ticket.getPrijs()));       //Zorg dat je de double naar String cast.
+			String prijs = String.format("%.2f",ticket.getPrijs());
 			LocalDateTime datumAankoop = ticket.getDatumAankoop() ; //LocalDateTime.now(ZoneId.of( "Europe/Brussels" ));
 			LocalDate datumHeen = ticket.getDatumHeen()  ; // LocalDate.of(2016,12,16);
 

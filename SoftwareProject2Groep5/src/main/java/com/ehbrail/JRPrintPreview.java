@@ -2,6 +2,7 @@ package com.ehbrail;
 
 /**
  * Created by jorda on 24/11/2016.
+ * Onderstaande code komt van https://github.com/vitomirs/JRPrintPreview
  */
 
         import javafx.beans.value.ObservableValue;

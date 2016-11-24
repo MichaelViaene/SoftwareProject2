@@ -2,6 +2,8 @@ package com.ehbrail;
 
 import com.model.Login;
 import com.model.Werknemer;
+import com.sun.istack.internal.logging.Logger;
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,6 +29,8 @@ import java.util.ResourceBundle;
 */
 
 public class SoftwareProject extends Application {
+	final static Logger logger = Logger.getLogger(SoftwareProject.class);
+	
     private BorderPane borderPane = new BorderPane();
    @Override
    public void start(Stage stage) throws Exception {
@@ -77,6 +81,7 @@ public class SoftwareProject extends Application {
     * @param args the command line arguments
     */
    public static void main(String[] args) {
+	   logger.info("Test");
        launch(args);
    }
    

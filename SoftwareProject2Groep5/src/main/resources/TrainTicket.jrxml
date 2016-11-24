@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2016-11-24T00:41:28 -->
+<!-- 2016-11-24T03:37:38 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Blank_A4_Landscape" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="952c9f9e-7d9d-437f-811e-9e1cbbe61ecb">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<parameter name="ticket_id" class="java.lang.Integer" isForPrompting="false"/>
@@ -29,6 +29,7 @@
 	<parameter name="datumHeen_day" class="java.lang.Integer" isForPrompting="false">
 		<parameterDescription><![CDATA[]]></parameterDescription>
 	</parameter>
+	<parameter name="realPath" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -36,7 +37,7 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="79" splitType="Stretch"/>
+		<band height="87" splitType="Stretch"/>
 	</title>
 	<pageHeader>
 		<band height="35" splitType="Stretch"/>
@@ -75,12 +76,12 @@
 			</line>
 			<image>
 				<reportElement x="660" y="190" width="30" height="30" uuid="a074335f-1078-40ef-8745-7dba9fbc264b"/>
-				<imageExpression><![CDATA["src/main/resources/com/ehbrail/EHBRail.png"]]></imageExpression>
+				<imageExpression><![CDATA[$P{realPath}+"/EHBRail.png"]]></imageExpression>
 			</image>
 			<image>
 				<reportElement mode="Opaque" x="321" y="-60" width="161" height="157" uuid="4c6c7c4b-769e-4c79-b289-38cffcba273d"/>
 				<graphicElement fill="Solid"/>
-				<imageExpression><![CDATA["src/main/resources/com/ehbrail/railway-station-xxl.png"]]></imageExpression>
+				<imageExpression><![CDATA[$P{realPath}+"/railway-station-xxl.png"]]></imageExpression>
 			</image>
 			<textField>
 				<reportElement mode="Transparent" x="100" y="-60" width="420" height="14" uuid="bf2834fa-8b3c-4c38-8740-1e0aa343c1e3"/>
@@ -149,7 +150,7 @@
 				<textElement markup="none">
 					<font fontName="Courier New"/>
 				</textElement>
-				<textFieldExpression><![CDATA[ $P{vertrekStation}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{vertrekStation}]]></textFieldExpression>
 			</textField>
 			<line>
 				<reportElement positionType="FixRelativeToBottom" x="291" y="120" width="1" height="44" uuid="ee8c231d-4ac1-410f-b6dc-0517519043a9"/>
@@ -160,8 +161,7 @@
 			<textField isStretchWithOverflow="true">
 				<reportElement x="570" y="50" width="50" height="14" forecolor="#941119" uuid="459db95f-4412-46f7-9407-44079fc7c3ce"/>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA[$P{klasseLabel}
-]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{klasseLabel}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="570" y="70" width="50" height="20" uuid="377342c0-e264-4a87-8119-7116225181cc"/>
@@ -207,7 +207,7 @@
 			</textField>
 			<image>
 				<reportElement mode="Transparent" x="631" y="-64" width="93" height="90" uuid="469b0391-82a2-43a9-8177-a27ca2e2becf"/>
-				<imageExpression><![CDATA["src/main/resources/com/ehbrail/logoV4.png"]]></imageExpression>
+				<imageExpression><![CDATA[$P{realPath}+"/logoV4.png"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="640" y="38" width="80" height="72" uuid="a40d0985-e633-4ade-91c3-17cd34d60fef"/>

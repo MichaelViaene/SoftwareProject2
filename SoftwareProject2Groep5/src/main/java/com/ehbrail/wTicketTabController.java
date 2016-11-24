@@ -266,9 +266,9 @@ public class wTicketTabController implements Initializable{
 			params.put("datumHeen_day",datumHeen_day);
 
 			System.out.println("Generating PDF...");
-			//JasperReport jasperReport = JasperCompileManager.compileReport("src/main/resources/TrainTicket.jrxml");
-			//jasperPrint = JasperFillManager.fillReport(jasperReport,params, new JREmptyDataSource());
-			jasperPrint = JasperFillManager.fillReport("src/main/resources/TrainTicket.jasper",params,new JREmptyDataSource() );
+			JasperReport jasperReport = JasperCompileManager.compileReport("src/main/resources/TrainTicket.jrxml");
+			jasperPrint = JasperFillManager.fillReport(jasperReport,params, new JREmptyDataSource());
+			//jasperPrint = JasperFillManager.fillReport("src/main/resources/TrainTicket.jasper",params,new JREmptyDataSource() );
 
 			/**
 			Stage stage = new Stage();

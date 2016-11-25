@@ -208,23 +208,23 @@ public class wTicketTabController implements Initializable{
 			JasperPrint jasperPrint = null;
 			HashMap<String,Object> params = new HashMap<String,Object>();
 			//parameters voor Resourcebundle
-			String van = "Van";
-			String tot = "Tot";
-			String op = "Op";
-			String klasseLabel = "Klasse";
+			String van = language.getString("RouteInfo.van");
+			String tot = language.getString("RouteInfo.naar");
+			String op = language.getString("Ticket.op");
+			String klasseLabel = language.getString("Abonnement.klasse");
 
 			//Parameters van ticket
 			int ticket_id = 15;
 
 			if (ticket.getType() == 0) {
-				String typeTekst = "Geldig voor een enkele reis";
-				String type = "ENKEL";
+				String typeTekst = language.getString("Ticket.enkelereis");
+				String type = language.getString("Ticket.enkel");
 				params.put("typeTekst",typeTekst);
 				params.put("type",type);
 			}
 			if (ticket.getType() == 1){
-				String typeTekst = "Geldig voor een heen-en terug reis";
-				String type = "HEEN EN TERUG";
+				String typeTekst = language.getString("Ticket.heenenterugreis");
+				String type = language.getString("Ticket.heenenterug");
 				params.put("typeTekst",typeTekst);
 				params.put("type",type);
 			}

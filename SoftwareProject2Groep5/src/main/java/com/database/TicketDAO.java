@@ -57,9 +57,10 @@ public class TicketDAO {
 	                ticket.setDatumAankoop(resultSet.getTimestamp("datum_aankoop").toLocalDateTime());
 	                ticket.setDatumHeen(resultSet.getDate("datum_heen").toLocalDate());
 	                ticket.setDatumTerug(resultSet.getDate("datum_terug").toLocalDate());
-	                ticket.setKlasse(resultSet.getInt("class"));
+	                ticket.setKlasse(resultSet.getInt("klasse"));
 	                ticket.setPrijs(resultSet.getDouble("prijs"));
 	                ticket.setType(resultSet.getInt("type"));
+                    ticket.setMedewerker_id(resultSet.getInt("medewerker_id"));
 	
 	                /* resultSet.getInt("medewerker_id");
 	                   nog niet geimplementeerd.

@@ -35,6 +35,11 @@
                       <fx:include fx:id="aEmployeeTabPage" source="aEmployeeTabPage.fxml" />
                   </content>
                 </Tab>
+                  <Tab fx:id="aReportTab" text="Reports">
+                      <content>
+                          <fx:include fx:id="aReportTabPage" source="aReportTabPage.fxml" />
+                      </content>
+                  </Tab>
                   <Tab fx:id="aPasswordChangeTab" closable="false" text="%veranderWachtwoord">
                       <content>
                           <fx:include fx:id="aPasswordChangeTabPage" source="aPasswordChangeTabPage.fxml" />

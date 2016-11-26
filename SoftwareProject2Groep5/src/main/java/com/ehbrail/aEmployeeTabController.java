@@ -324,7 +324,7 @@ public class aEmployeeTabController implements Initializable {
     @FXML
     private void deleteWerknemer (ActionEvent actionEvent){
 
-        if(removeIdBox.getText() != null && removeIdBox.getText().contains("ID")){
+        if(!removeIdBox.getText().isEmpty()){
 
         Werknemer werknemer = new Werknemer();
         werknemer.setActief(false);
@@ -357,7 +357,7 @@ public class aEmployeeTabController implements Initializable {
     @FXML
     private void resetWerknemer (ActionEvent actionEvent) {
 
-        if(resetIdBox.getText() != null && resetIdBox.getText().contains("ID")) {
+        if(!resetIdBox.getText().isEmpty()) {
 
             reset.getLogin().setPassword(Login.createHash(reset.getVoornaam() + reset.getWerknemerId()));
             reset.getLogin().setMedewerker_id(reset.getWerknemerId());

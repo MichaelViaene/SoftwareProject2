@@ -2,6 +2,8 @@ package com.ehbrail;
 
 import com.model.Login;
 import com.model.Werknemer;
+import com.sun.istack.internal.logging.Logger;
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,6 +29,8 @@ import java.util.ResourceBundle;
 */
 
 public class SoftwareProject extends Application {
+	final static Logger logger = Logger.getLogger(SoftwareProject.class);
+	
     private BorderPane borderPane = new BorderPane();
    @Override
    public void start(Stage stage) throws Exception {
@@ -61,21 +65,23 @@ public class SoftwareProject extends Application {
         return comboBox;
     }
 
-   private void loadView(Locale locale){
-       try {
-           FXMLLoader fxmlLoader = new FXMLLoader();
-           fxmlLoader.setResources(ResourceBundle.getBundle("Language", locale));
-           Pane pane = (AnchorPane) fxmlLoader.load(this.getClass().getResource("Login.fxml").openStream());
-           borderPane.setCenter(pane);
-       }
-       catch (IOException e){e.printStackTrace();}
-   }
+    private void loadView(Locale locale){
+        try {
+            Locale.setDefault(locale);
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setResources(ResourceBundle.getBundle("Language", locale));
+            Pane pane = (AnchorPane) fxmlLoader.load(this.getClass().getResource("Login.fxml").openStream());
+            borderPane.setCenter(pane);
+        }
+        catch (IOException e){e.printStackTrace();}
+    }
 
 
    /**
     * @param args the command line arguments
     */
    public static void main(String[] args) {
+	   logger.info("Test");
        launch(args);
    }
    

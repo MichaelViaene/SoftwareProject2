@@ -16,7 +16,7 @@
          <top>
             <Pane prefHeight="52.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label fx:id="usernameWerknemer" layoutX="24.0" layoutY="6.0" prefHeight="38.0" prefWidth="954.0" text="User" textFill="#1b8a3a">
+                  <Label fx:id="usernameWerknemer" layoutX="24.0" layoutY="6.0" prefHeight="38.0" prefWidth="954.0" text="%user" textFill="#1b8a3a">
                      <font>
                         <Font size="20.0" />
                      </font>
@@ -30,12 +30,12 @@
          <center>
             <TabPane fx:id="wtabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
               <tabs>
-                <Tab fx:id="wTrainInfoTab" text="Train Info">
+                <Tab fx:id="wTrainInfoTab" text="%tab.trainInfo">
                   <content>
                       <fx:include fx:id="wTrainInfoTabPage" source="wTrainInfoTabPage.fxml" />
                   </content>
                 </Tab>
-                <Tab fx:id="wRouteInfoTab" text="Route Info">
+                <Tab fx:id="wRouteInfoTab" text="%tab.routeInfo">
                   <content>
                       <fx:include fx:id="wRouteInfoTabPage" source="wRouteInfoTabPage.fxml" />
                   </content>
@@ -45,7 +45,7 @@
                       <fx:include fx:id="wLiveboardTabPage" source="wLiveboardTabPage.fxml" />
                   </content>
                 </Tab>
-                <Tab fx:id="wVerlorenVoorwerp" text="Verloren Voorwerpen">
+                <Tab fx:id="wVerlorenVoorwerp" text="%tab.verlorenVoorwerpen">
                   <content>
                       <fx:include fx:id="wVerlorenVoorwerpTabPage" source="wVerlorenVoorwerpTabPage.fxml" />
                   </content>
@@ -55,17 +55,17 @@
                       <fx:include fx:id="wTicketTabPage" source="wTicketTabPage.fxml" />
                     </content>
                   </Tab>
-                  <Tab fx:id="wPasswordChangeTab" closable="false" text="Verander wachtwoord">
+                  <Tab fx:id="wPasswordChangeTab" closable="false" text="%tab.veranderWachtwoord">
                       <content>
                           <fx:include fx:id="wPasswordChangeTabPage" source="wPasswordChangeTabPage.fxml" />
                       </content>
                   </Tab>
-                  <Tab fx:id="wAbonnementTab" text="Abonnementen">
+                  <Tab fx:id="wAbonnementTab" text="%tab.abonnementen">
                   <content>
                       <fx:include fx:id="wAbonnementTabPage" source="wAbonnementTab.fxml" />
                   </content>
                 </Tab>
-                 <Tab fx:id="NieuwKlantTab" text="Nieuwe Klant">
+                 <Tab fx:id="NieuwKlantTab" text="%tab.nieuweKlant">
                   <content>
                       <fx:include fx:id="KlantTab" source="NieuwKlantTab.fxml" />
                   </content>

@@ -151,9 +151,15 @@ public class VerlorenVoorwerpTabController implements Initializable {
 
 	@FXML
 	void insertVoorwerp(ActionEvent event) {
-
+		boolean controleStation = true;
+		
+		if (list.contains(stationtext.getText())) {
+			controleStation = true;
+		}else {
+			controleStation = false;
+		}
 		if (!(omschrijvingtext.getText() == "" || datumtext.getValue() == null || stationtext.getText() == ""
-				|| naamtext.getText() == "")) {
+				|| naamtext.getText() == "" || controleStation == false)) {
 			String text = omschrijvingtext.getText();
 			if (treintext.getText().isEmpty()) {
 
@@ -185,7 +191,7 @@ public class VerlorenVoorwerpTabController implements Initializable {
 			Alert alert = new Alert(Alert.AlertType.WARNING);
 			alert.setTitle("Ongeldige Velden");
 			alert.setHeaderText(null);
-			alert.setContentText("Alle velden moeten ingevuld worden.");
+			alert.setContentText("Controleer dat alle velden moeten ingevuld worden.\n Controleer of station veldig is.");
 			alert.show();
 		}
 	}

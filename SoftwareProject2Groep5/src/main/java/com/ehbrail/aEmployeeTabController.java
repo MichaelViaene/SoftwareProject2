@@ -97,6 +97,8 @@ public class aEmployeeTabController implements Initializable {
     private ObservableList<Werknemer> data;
     private List<Werknemer> dataArray;
     private Werknemer reset = new Werknemer();
+    private FilteredList<Werknemer> filteredData;
+    SortedList<Werknemer> sortedList;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -123,14 +125,21 @@ public class aEmployeeTabController implements Initializable {
         bevoegdheid.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getLogin().getBevoegdheid().toString()));
         actief.setCellValueFactory(new PropertyValueFactory<>("actief"));
 
-        FilteredList<Werknemer> filteredData = new FilteredList<Werknemer>(data, p-> true );
+        filteredData = new FilteredList<Werknemer>(data, p -> true );
+
         filterBox.textProperty().addListener(((observable, oldValue, newValue) -> {
             filteredData.setPredicate(Werknemer -> {
+
+                if (!inactiveCheckBox.isSelected() && !Werknemer.isActief()) {
+                    return false;
+                }
+
                 if ((newValue == null) || newValue.isEmpty()) {
                     return true;
                 }
 
                 String lowerCaseFilter = newValue.toLowerCase();
+
 
                 if (Werknemer.getNaam().toLowerCase().contains(lowerCaseFilter)) {
                     return true;
@@ -145,18 +154,35 @@ public class aEmployeeTabController implements Initializable {
             });
         }));
 
+        sortedList = new SortedList<>(filteredData);
+
         inactiveCheckBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                filteredData.setPredicate(obj -> {
-                    if(!inactiveCheckBox.isSelected() && !obj.isActief()){
+                filteredData.setPredicate(Werknemer -> {
+                    if(!inactiveCheckBox.isSelected() && !Werknemer.isActief()){
                         return false;
                     }
-                        return true;
-                });
 
+                    String lowerCaseFilter = filterBox.getText().trim().toLowerCase();
+
+                    if (Werknemer.getNaam().toLowerCase().contains(lowerCaseFilter)) {
+                        return true;
+                    } else if (Werknemer.getVoornaam().toLowerCase().contains(lowerCaseFilter)) {
+                        return true;
+                    } else if (Werknemer.getLogin().getUsername().toLowerCase().contains(lowerCaseFilter)) {
+                        return true;
+                    } else if (Werknemer.getLogin().getBevoegdheid().toString().contains(lowerCaseFilter)){
+                        return true;
+                    }
+                    return false;
+                });
             }
         });
+
+        sortedList.comparatorProperty().bind(tableView.comparatorProperty());
+        tableView.setItems(sortedList);
+
 
         tableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Werknemer>() {
             @Override
@@ -178,18 +204,21 @@ public class aEmployeeTabController implements Initializable {
                 }
             }
         });
-
-
-        SortedList<Werknemer> sortedList = new SortedList<Werknemer>(filteredData);
-        sortedList.comparatorProperty().bind(tableView.comparatorProperty());
-        tableView.setItems(sortedList);
     }
 
 
     private void refresh() {
         dataArray = WerknemerDAO.getAllWerknemers();
         data = FXCollections.observableArrayList(dataArray);
-        tableView.setItems(data);
+        populate();
+        tableView.setItems(filteredData);
+    }
+
+    private void populate() {
+        filteredData = new FilteredList<Werknemer>(data, p -> true );
+        if(!inactiveCheckBox.isSelected()){
+            inactiveCheckBox.setSelected(true);
+        }
     }
 
     @FXML
@@ -353,4 +382,6 @@ public class aEmployeeTabController implements Initializable {
             alert.showAndWait();
         }
     }
+
+
 }

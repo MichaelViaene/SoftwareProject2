@@ -31,7 +31,24 @@ import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
 import net.sf.jasperreports.swing.JRViewer;
 import net.sf.jasperreports.view.JasperViewer;
+import java.util.*;
 
+import javafx.embed.swing.SwingNode;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
+import javafx.stage.Stage;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.export.HtmlExporter;
+import net.sf.jasperreports.export.Exporter;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
+import net.sf.jasperreports.swing.JRViewer;
+import net.sf.jasperreports.view.JasperViewer;
 import org.controlsfx.control.textfield.TextFields;
 
 import com.database.TicketDAO;
@@ -62,7 +79,6 @@ public class wTicketTabController implements Initializable{
 	ArrayList<String> list;
 
 	private ResourceBundle language;
-
 	   @FXML private TextField vanField;
 	   @FXML private TextField naarField;
 	   @FXML private Button switchStationsButton;
@@ -83,7 +99,7 @@ public class wTicketTabController implements Initializable{
 	   @FXML private ToggleGroup klasse;
 	   @FXML private RadioButton tweedeKlasseRadio;
 	   @FXML private Label terugLabel;
-	   
+
 
 	      
 	   @FXML
@@ -99,7 +115,11 @@ public class wTicketTabController implements Initializable{
        @Override
        public void initialize(URL location, ResourceBundle resources) {
 
+
 		  language = resources;
+
+		  language = resources;
+
        list = LoginController.getList();
         TextFields.bindAutoCompletion(vanField,list);
         TextFields.bindAutoCompletion(naarField,list);
@@ -154,6 +174,7 @@ public class wTicketTabController implements Initializable{
         	
         	TicketDAO.writeTicket(ticket);
 
+
         	
         	Alert alert = new Alert(AlertType.INFORMATION);
         	alert.setTitle("Information Dialog");
@@ -165,6 +186,9 @@ public class wTicketTabController implements Initializable{
 
 
 			createPDF(ticket,language);
+
+
+
 
         	System.out.println(ticket.toString());
         	vanField.clear();
@@ -301,4 +325,5 @@ public class wTicketTabController implements Initializable{
 		}
 		catch (Exception e){e.printStackTrace();}
 	}
+
 }

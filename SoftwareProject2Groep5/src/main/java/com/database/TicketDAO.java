@@ -26,13 +26,7 @@ public class TicketDAO {
 	            preparedStatement.setInt(6, ticket.getKlasse());
 	            preparedStatement.setDouble(7, ticket.getPrijs());
 	            preparedStatement.setInt(8, ticket.getType());
-	
-	            /*
-	            Waar is de betreffende medewerkerID? Die moet accesable zijn zolang het programma draait.
-	            Hardcoded 2 momenteel hieronder
-	            */
-	
-	            preparedStatement.setInt(9, 1);
+	            preparedStatement.setInt(9, ticket.getMedewerker_id());
 	
 	            preparedStatement.execute();
             } catch (Exception ex) {
@@ -63,9 +57,10 @@ public class TicketDAO {
 	                ticket.setDatumAankoop(resultSet.getTimestamp("datum_aankoop").toLocalDateTime());
 	                ticket.setDatumHeen(resultSet.getDate("datum_heen").toLocalDate());
 	                ticket.setDatumTerug(resultSet.getDate("datum_terug").toLocalDate());
-	                ticket.setKlasse(resultSet.getInt("class"));
+	                ticket.setKlasse(resultSet.getInt("klasse"));
 	                ticket.setPrijs(resultSet.getDouble("prijs"));
 	                ticket.setType(resultSet.getInt("type"));
+                    ticket.setMedewerker_id(resultSet.getInt("medewerker_id"));
 	
 	                /* resultSet.getInt("medewerker_id");
 	                   nog niet geimplementeerd.

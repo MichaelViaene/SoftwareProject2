@@ -19,7 +19,7 @@ public class AbonnementDAO {
 
                 String query = "INSERT INTO Abonnement (klant_id, begindatum, einddatum, actief, klasse, vertrek, aankomst, prijs,medewerker_id,station)" + "values (?,?,?, ?, ?, ?, ?, ?, ?, ?)" ;
                 try (PreparedStatement preparedStatement = con.prepareStatement(query)){
-	                preparedStatement.setInt(1, 1); //HARDCODED TIJDELIJK
+	                preparedStatement.setInt(1, 5); //HARDCODED TIJDELIJK
 	                preparedStatement.setObject(2, abonnement.getBeginDatum());
 	                preparedStatement.setObject(3, abonnement.getEindDatum());
 	                preparedStatement.setInt(4, abonnement.getActief());

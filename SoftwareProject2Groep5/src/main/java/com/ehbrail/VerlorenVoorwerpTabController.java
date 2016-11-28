@@ -15,11 +15,11 @@ import org.controlsfx.control.textfield.TextFields;
 
 import com.database.KlantDAO;
 import com.database.VerlorenVoorwerpDAO;
-import com.model.Klant;
 import com.model.VerlorenVoorwerp;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -59,9 +59,6 @@ public class VerlorenVoorwerpTabController implements Initializable {
 	@FXML
 	private TextField textButton;
 
-	@FXML
-	private Button searchButton;
-
 	// load alle gegevens uit databse
 	@FXML
 	private Button loadButton;
@@ -85,6 +82,9 @@ public class VerlorenVoorwerpTabController implements Initializable {
 	@FXML
 	private TextField treintext;
 
+	@FXML
+	private Button reset;
+
 	// delete velden
 	@FXML
 	private TextField idtext;
@@ -99,6 +99,8 @@ public class VerlorenVoorwerpTabController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		tableview.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
 		list = LoginController.getList();
 		TextFields.bindAutoCompletion(textButton, list);
 		TextFields.bindAutoCompletion(stationtext, list);
@@ -110,23 +112,41 @@ public class VerlorenVoorwerpTabController implements Initializable {
 		omschrijving.setCellValueFactory(new PropertyValueFactory<VerlorenVoorwerp, String>("omschrijving"));
 		datum.setCellValueFactory(new PropertyValueFactory<VerlorenVoorwerp, Date>("datum"));
 		station.setCellValueFactory(new PropertyValueFactory<VerlorenVoorwerp, String>("station"));
+
+		FilteredList<VerlorenVoorwerp> filteredData = new FilteredList<VerlorenVoorwerp>(data, p -> true);
+		textButton.textProperty().addListener(((observable, oldValue, newValue) -> {
+			filteredData.setPredicate(VerlorenVoorwerp -> {
+				if ((newValue == null) || newValue.isEmpty()) {
+					return true;
+				}
+
+				String lowerCaseFilter = newValue.toLowerCase();
+
+				if (VerlorenVoorwerp.getStation().toLowerCase().contains(lowerCaseFilter)) {
+					return true;
+				} else if (VerlorenVoorwerp.getNaam().toLowerCase().contains(lowerCaseFilter)) {
+					return true;
+				} else if (VerlorenVoorwerp.getOmschrijving().toLowerCase().contains(lowerCaseFilter)) {
+					return true;
+				}
+				return false;
+			});
+		}));
+		
+		SortedList<VerlorenVoorwerp> sortedList = new SortedList<VerlorenVoorwerp>(filteredData);
+        sortedList.comparatorProperty().bind(tableview.comparatorProperty());
+        tableview.setItems(sortedList);
+
 	}
 
 	public void loadDatabase(ActionEvent event) {
 		refresh();
+		clearVelden();
 	}
 
 	public void refresh() {
 		data = FXCollections.observableArrayList(VerlorenVoorwerpDAO.getAll());
 		tableview.setItems(data);
-	}
-
-	public void searchAction(ActionEvent event) {
-		data = FXCollections.observableArrayList(VerlorenVoorwerpDAO.getVoorwerpByStation(textButton.getText()));
-		tableview.setItems(null);
-		tableview.setItems(data);
-		textButton.clear();
-
 	}
 
 	@FXML
@@ -150,9 +170,11 @@ public class VerlorenVoorwerpTabController implements Initializable {
 			Alert alert = new Alert(Alert.AlertType.INFORMATION);
 			alert.setTitle("Information Dialog");
 			alert.setHeaderText("Information Alert");
-			if (toegevoegd == true){
+			if (toegevoegd == true) {
 				alert.setContentText("Verloren voorwerp werd toegevoegd.");
-			} else {alert.setContentText("FOUTMELDING: Verloren voorwerp werd NIET toegevoegd.");}
+			} else {
+				alert.setContentText("FOUTMELDING: Verloren voorwerp werd NIET toegevoegd.");
+			}
 			alert.show();
 
 			refresh();
@@ -252,6 +274,13 @@ public class VerlorenVoorwerpTabController implements Initializable {
 		omschrijvingtext.clear();
 		stationtext.clear();
 		treintext.clear();
+		idtext.clear();
+		textButton.clear();
+	}
+
+	@FXML
+	void resetAll(ActionEvent event) {
+		clearVelden();
 	}
 
 }

@@ -61,12 +61,15 @@ public class WerknemerController implements Initializable{
     }
 
     // Login login;
-    private Werknemer werknemer;
+    private static Werknemer werknemer;
     @FXML Label usernameWerknemer;
-
-    public Werknemer getWerknemer() {
-        return werknemer;
+    
+    public static Werknemer getWerknemer()
+    {
+    	return werknemer;
     }
+
+    
     public void setWerknemer(Werknemer werknemer) {
         this.werknemer = werknemer;
     }

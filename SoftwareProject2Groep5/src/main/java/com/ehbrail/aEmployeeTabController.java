@@ -199,6 +199,7 @@ public class aEmployeeTabController implements Initializable {
                     editNameBox.setText(werknemer.getNaam());
                     editSurnameBox.setText(werknemer.getVoornaam());
                     editAuthCBox.setValue(werknemer.getLogin().getBevoegdheid().toString());
+                    actiefCheckBox.setSelected(werknemer.isActief());
                     reset = werknemer;
                 }
             }
@@ -356,9 +357,7 @@ public class aEmployeeTabController implements Initializable {
 
     @FXML
     private void resetWerknemer (ActionEvent actionEvent) {
-
         if(!resetIdBox.getText().isEmpty()) {
-
             reset.getLogin().setPassword(Login.createHash(reset.getVoornaam() + reset.getWerknemerId()));
             reset.getLogin().setMedewerker_id(reset.getWerknemerId());
             boolean succesResetWerknemer = LoginDAO.changePassbyMedewerker(reset.getLogin());

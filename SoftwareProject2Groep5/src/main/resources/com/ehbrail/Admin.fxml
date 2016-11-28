@@ -10,13 +10,13 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ehbrail.AdminController">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ehbrail.AdminController">
    <children>
-      <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0">
+      <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
             <Pane prefHeight="52.0" prefWidth="600.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label fx:id="usernameAdm" layoutX="24.0" layoutY="6.0" prefHeight="38.0" prefWidth="1086.0" text="User" textFill="#1b8a3a">
+                  <Label fx:id="usernameAdm" layoutX="24.0" layoutY="6.0" prefHeight="38.0" prefWidth="1086.0" text="%user" textFill="#1b8a3a">
                      <font>
                         <Font size="20.0" />
                      </font>
@@ -30,17 +30,25 @@
          <center>
             <TabPane fx:id="aTabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
               <tabs>
-                <Tab fx:id="aEmployeeTab" text="Manage Employees">
+                <Tab fx:id="aEmployeeTab" text="%manageEmployee">
                   <content>
                       <fx:include fx:id="aEmployeeTabPage" source="aEmployeeTabPage.fxml" />
                   </content>
                 </Tab>
-                  <Tab fx:id="aPasswordChangeTab" closable="false" text="Verander wachtwoord">
+                  <Tab fx:id="aReportTab" text="Reports">
+                      <content>
+                          <fx:include fx:id="aReportTabPage" source="aReportTabPage.fxml" />
+                      </content>
+                  </Tab>
+                  <Tab fx:id="aPasswordChangeTab" closable="false" text="%veranderWachtwoord">
                       <content>
                           <fx:include fx:id="aPasswordChangeTabPage" source="aPasswordChangeTabPage.fxml" />
                       </content>
                   </Tab>
               </tabs>
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
             </TabPane>
          </center>
       </BorderPane>

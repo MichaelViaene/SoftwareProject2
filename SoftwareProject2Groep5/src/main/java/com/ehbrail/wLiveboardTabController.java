@@ -30,6 +30,7 @@ import static com.ehbrail.WerknemerController.toLocalDateTime;
  * Created by jorda on 7/11/2016.
  */
 public class wLiveboardTabController implements Initializable {
+	private ResourceBundle language;
     private ArrayList<String> list;
     @FXML Label errorLabel;
     @FXML private Button searchButton;
@@ -45,6 +46,8 @@ public class wLiveboardTabController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+    	language = resources;
+    	
     	tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         list = LoginController.getList();
         TextFields.bindAutoCompletion(stationField,list);
@@ -59,7 +62,7 @@ public class wLiveboardTabController implements Initializable {
     @FXML
     private void searchAction(ActionEvent event) throws IOException {
         if (stationField.getText().isEmpty()){
-            errorLabel.setText("Gelieve een station mee te geven!");
+            errorLabel.setText(language.getString("giveStation"));
             tableView.getItems().clear();
         }
         else {
@@ -77,7 +80,7 @@ public class wLiveboardTabController implements Initializable {
                     Node total = document.selectSingleNode("liveboard/departures");
                    if (total != null)
                     {totalLabel.setText(total.valueOf("@number"));}
-                    else errorLabel.setText("Er werd geen data gevonden voor dit station.");
+                    else errorLabel.setText(language.getString("noDataForThisStation"));
                     ObservableList<Liveboard> data = FXCollections.observableArrayList();
                     for (Node node : nodes) {
                         data.add(new Liveboard(node.selectSingleNode("platform").getText(),

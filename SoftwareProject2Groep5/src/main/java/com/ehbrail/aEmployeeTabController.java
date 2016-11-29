@@ -278,13 +278,13 @@ public class aEmployeeTabController implements Initializable {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle(language.getString("alertUpdated"));
                 alert.setHeaderText(language.getString("alertUpdateSuccesfull"));
-                alert.setContentText("Name: " + werknemer.getNaam() + " Surname: " + werknemer.getVoornaam());
+                alert.setContentText(language.getString("Klant.voornaam") + ": " + werknemer.getVoornaam() + " " + language.getString("Klant.naam") + ": " + werknemer.getNaam());
                 alert.showAndWait();
                 refresh();
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error: Could not update Employee");
-                alert.setHeaderText("Error: Could not update Employee, please try again!");
+                alert.setTitle(language.getString("alertUpdate"));
+                alert.setHeaderText(language.getString("alertUpdateUitgebreid"));
                 alert.showAndWait();
             }
 
@@ -292,8 +292,8 @@ public class aEmployeeTabController implements Initializable {
         else {
 
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error: You need to enter all the fields correctly!");
-            alert.setHeaderText("please try again!");
+            alert.setTitle(language.getString("alertFieldsCorrect"));
+            alert.setHeaderText(language.getString("alertTryAgain"));
             alert.showAndWait();
         }
 
@@ -312,21 +312,21 @@ public class aEmployeeTabController implements Initializable {
 
         if(succesDeleteWerknemer) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Employee 'Deleted'");
-            alert.setHeaderText("The employee has been succesfully 'deleted'.");
+            alert.setTitle(language.getString("employeeDeleted"));
+            alert.setHeaderText(language.getString("alertEmployeeDeleted"));
             alert.showAndWait();
             refresh();
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error: Could not delete Employee");
-            alert.setHeaderText("Error: Could not delete Employee, please try again!");
+            alert.setTitle(language.getString("alertCouldntDelete"));
+            alert.setHeaderText(language.getString("alertCouldntDeleteUitgebreid"));
             alert.showAndWait();
         }
         } else {
 
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Please select a user in the table");
-            alert.setHeaderText("please try again!");
+            alert.setTitle(language.getString("alertFieldsCorrect"));
+            alert.setHeaderText(language.getString("alertTryAgain"));
             alert.showAndWait();
         }
 
@@ -341,21 +341,21 @@ public class aEmployeeTabController implements Initializable {
 
             if (succesResetWerknemer) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Employee Password Reset");
-                alert.setHeaderText("The employee has been succesfully Reset.");
-                alert.setContentText("Password: " + reset.getVoornaam() + reset.getWerknemerId());
+                alert.setTitle(language.getString("alertResetPassword"));
+                alert.setHeaderText(language.getString("alertSuccesReset"));
+                alert.setContentText(language.getString("Wachtwoord") + ": " + reset.getVoornaam() + reset.getWerknemerId());
                 alert.showAndWait();
                 refresh();
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error: Could not reset Employee");
-                alert.setHeaderText("Error: Could not reset Employee, please try again!");
+                alert.setTitle(language.getString("alertCouldntReset"));
+                alert.setHeaderText(language.getString("alertCouldntReset")+" "+ language.getString("alertTryAgain"));
                 alert.showAndWait();
             }
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Please select a user in the table");
-            alert.setHeaderText("please try again!");
+            alert.setTitle(language.getString("alertSelectUser"));
+            alert.setHeaderText(language.getString("alertTryAgain"));
             alert.showAndWait();
         }
     }

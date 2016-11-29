@@ -30,12 +30,16 @@ import javafx.scene.control.ToggleGroup;
  */
 
 public class wAbonnementTabController implements Initializable {
+	
+	private ResourceBundle language;
 
 	ObservableList<String> listReductie = FXCollections.observableArrayList("Senior", "18-25", "-18");
 	ArrayList<String> list;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		language = resources;
+		
 		kortingenid.setItems(listReductie);
 		list = LoginController.getList();
 		TextFields.bindAutoCompletion(vanField, list);
@@ -131,8 +135,8 @@ public class wAbonnementTabController implements Initializable {
 				naar = naarField.getText();
 			}
 			if (belgieRadioButton.isSelected()) {
-				van = "België";
-				naar = "België";
+				van = language.getString("belgie");
+				naar = language.getString("belgie");
 			}
 
 			begin = datepickerBegin.getValue();
@@ -158,14 +162,14 @@ public class wAbonnementTabController implements Initializable {
 			Alert alert = new Alert(Alert.AlertType.INFORMATION);
 			alert.setTitle("Information Dialog");
 			alert.setHeaderText("Information Alert");
-			alert.setContentText("Abonnement werd gecreëerd.");
+			alert.setContentText(language.getString("abonnementCreated"));
 			alert.show();
 
 		} else {
 			Alert alert = new Alert(Alert.AlertType.WARNING);
 			alert.setTitle("Ongeldige Velden");
 			alert.setHeaderText(null);
-			alert.setContentText("Alle velden moeten ingevuld worden.");
+			alert.setContentText(language.getString("alertFieldsCorrect"));
 			alert.show();
 
 		}

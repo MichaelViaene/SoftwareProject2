@@ -111,11 +111,11 @@ public class wTicketTabController implements Initializable{
 		LocalDate todayLocalDate = LocalDate.now(ZoneId.of( "Europe/Brussels" ) );
 		LocalDateTime todayLocalDateTime = LocalDateTime.now(ZoneId.of( "Europe/Brussels" ));
     	*/   		
-    	if (controleerVanField() == false || controleerNaarField() == false || datumHeen == null || vertrekStation.isEmpty() || eindStation.isEmpty() || datumHeen.isBefore(todayLocalDate) || (heenEnTerugRadio.isSelected() && (datumTerug == null || datumTerug.isBefore(datumHeen)))){
+    	if (vertrekStation.equals(eindStation) || controleerVanField() == false || controleerNaarField() == false || datumHeen == null || vertrekStation.isEmpty() || eindStation.isEmpty() || datumHeen.isBefore(todayLocalDate) || (heenEnTerugRadio.isSelected() && (datumTerug == null || datumTerug.isBefore(datumHeen)))){
     		Alert alert = new Alert(AlertType.ERROR);
     		alert.setTitle("Error Dialog");
     		alert.setHeaderText(null);
-    		alert.setContentText(language.getString("foutieveGegevens"));
+    		alert.setContentText(language.getString("giveStation") + language.getString("controleDate") + language.getString("controleNietZelfdeStation"));
 
     		alert.showAndWait();
     	} else {

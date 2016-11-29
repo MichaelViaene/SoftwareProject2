@@ -103,7 +103,7 @@ public class KlantController implements Initializable {
 
 		} else {
 			Alert alert = new Alert(Alert.AlertType.WARNING);
-			alert.setTitle("Ongeldige Velden");
+			alert.setTitle(language.getString("alertOngeldigeVelden"));
 			alert.setHeaderText(null);
 			alert.setContentText(language.getString("alertFieldsCorrect"));
 			alert.show();

@@ -61,7 +61,15 @@ public class wLiveboardTabController implements Initializable {
 
     @FXML
     private void searchAction(ActionEvent event) throws IOException {
-        if (stationField.getText().isEmpty()){
+    	boolean controleStation = true;
+		
+		if (list.contains(stationField.getText())) {
+			controleStation = true;
+		}else {
+			controleStation = false;
+		}
+    	
+        if (stationField.getText().isEmpty() || controleStation == false){
             errorLabel.setText(language.getString("giveStation"));
             tableView.getItems().clear();
         }

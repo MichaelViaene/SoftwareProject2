@@ -3,6 +3,7 @@ package com.ehbrail;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -24,13 +25,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Alert.AlertType;
 
 /**
  * Created by Ilias El Mesaoudi on 14/11/2016.
  */
 
 public class wAbonnementTabController implements Initializable {
-	
+
 	private ResourceBundle language;
 
 	ObservableList<String> listReductie = FXCollections.observableArrayList("Senior", "18-25", "-18");
@@ -39,12 +41,14 @@ public class wAbonnementTabController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		language = resources;
-		
+
 		kortingenid.setItems(listReductie);
 		list = LoginController.getList();
 		TextFields.bindAutoCompletion(vanField, list);
 		TextFields.bindAutoCompletion(naarField, list);
 
+		ritRadioButton.setSelected(true);
+		tweedeRadioButton.setSelected(true);
 	}
 
 	@FXML
@@ -124,11 +128,23 @@ public class wAbonnementTabController implements Initializable {
 		LocalDate begin;
 		LocalDate einde;
 		double prijs = 300;
+		LocalDate todayLocalDate = LocalDate.now(ZoneId.of("Europe/Brussels"));
+		begin = datepickerBegin.getValue();
+		einde = datepickerEinde.getValue();
 
-		if ((ritRadioButton.isSelected() || belgieRadioButton.isSelected()) && (vanField.getText() != ""
-				&& naarField.getText() != "" && datepickerBegin.getValue() != null && datepickerEinde.getValue() != null
-				&& (eersteRadioButton.isSelected() || tweedeRadioButton.isSelected())
-				&& kortingenid.getValue() != null)) {
+		if (vanField.getText().equals(naarField.getText()) || controleerVanField() == false
+				|| controleerNaarField() == false || begin == null || vanField.getText().isEmpty()
+				|| naarField.getText().isEmpty() || begin.isBefore(todayLocalDate)
+				|| (ritRadioButton.isSelected() && (einde == null || einde.isBefore(begin)))) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText(null);
+			alert.setContentText(language.getString("giveStation") + language.getString("controleDate")
+					+ language.getString("controleNietZelfdeStation"));
+
+			alert.showAndWait();
+
+		} else {
 
 			if (ritRadioButton.isSelected()) {
 				van = vanField.getText();
@@ -138,9 +154,6 @@ public class wAbonnementTabController implements Initializable {
 				van = language.getString("belgie");
 				naar = language.getString("belgie");
 			}
-
-			begin = datepickerBegin.getValue();
-			einde = datepickerEinde.getValue();
 
 			if (eersteRadioButton.isSelected()) {
 				klasse = 1;
@@ -157,19 +170,12 @@ public class wAbonnementTabController implements Initializable {
 			}
 
 			AbonnementDAO.writeAbonnement(new Abonnement(1, 1, WerknemerController.getLogin().getMedewerker_id(),
-					klasse, 1, prijs, null, van, naar, begin, einde, "Brussel",1));
+					klasse, 1, prijs, null, van, naar, begin, einde, "Brussel", 1));
 			clearVelden();
 			Alert alert = new Alert(Alert.AlertType.INFORMATION);
 			alert.setTitle("Information Dialog");
 			alert.setHeaderText("Information Alert");
 			alert.setContentText(language.getString("abonnementCreated"));
-			alert.show();
-
-		} else {
-			Alert alert = new Alert(Alert.AlertType.WARNING);
-			alert.setTitle(language.getString("alertOngeldigeVelden"));
-			alert.setHeaderText(null);
-			alert.setContentText(language.getString("alertFieldsCorrect"));
 			alert.show();
 
 		}
@@ -189,18 +195,17 @@ public class wAbonnementTabController implements Initializable {
 
 		String totaal = String.valueOf(prijs);
 		prijsid.setText(totaal);
-		
-		
+
 	}
 
 	public void clearVelden() {
 
 		vanField.clear();
 		naarField.clear();
-		ritRadioButton.setSelected(false);
+		ritRadioButton.setSelected(true);
 		belgieRadioButton.setSelected(false);
 		eersteRadioButton.setSelected(false);
-		tweedeRadioButton.setSelected(false);
+		tweedeRadioButton.setSelected(true);
 		datepickerBegin.setValue(null);
 		datepickerEinde.setValue(null);
 		prijsid.setText(null);
@@ -208,4 +213,25 @@ public class wAbonnementTabController implements Initializable {
 
 	}
 
+	public boolean controleerVanField() {
+		list = LoginController.getList();
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).equals(vanField.getText())) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public boolean controleerNaarField() {
+		list = LoginController.getList();
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).equals(naarField.getText())) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 }

@@ -38,11 +38,11 @@
       <DatePicker fx:id="datepickerEinde" layoutX="123.0" layoutY="233.0" />
       <Label layoutX="47.0" layoutY="236.0" text="%Abonnement.einde" />
       <Label layoutX="49.0" layoutY="284.0" text="%Abonnement.klasse" />
-      <RadioButton fx:id="eersteRadioButton" layoutX="102.0" layoutY="284.0" mnemonicParsing="false" text="%Abonnement.eerste">
+      <RadioButton fx:id="tweedeRadioButton" layoutX="102.0" layoutY="284.0" mnemonicParsing="false" text="%Abonnement.tweede">
          <toggleGroup>
             <ToggleGroup fx:id="klasse" />
          </toggleGroup></RadioButton>
-      <RadioButton fx:id="tweedeRadioButton" layoutX="194.0" layoutY="284.0" mnemonicParsing="false" text="%Abonnement.tweede" toggleGroup="$klasse" />
+      <RadioButton fx:id="eersteRadioButton" layoutX="194.0" layoutY="284.0" mnemonicParsing="false" text="%Abonnement.eerste" toggleGroup="$klasse" />
       <ChoiceBox fx:id="kortingenid" layoutX="48.0" layoutY="331.0" prefWidth="150.0" />
       <Label layoutX="51.0" layoutY="426.0" prefHeight="17.0" prefWidth="95.0" text="%Abonnement.prijsberekening" />
       <Label fx:id="prijsid" layoutX="146.0" layoutY="428.0" prefHeight="17.0" prefWidth="150.0" />

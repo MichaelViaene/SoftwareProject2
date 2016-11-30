@@ -110,12 +110,20 @@ public class wTicketTabController implements Initializable{
 		Voorbeeld localDate, LocaldateTime (present)
 		LocalDate todayLocalDate = LocalDate.now(ZoneId.of( "Europe/Brussels" ) );
 		LocalDateTime todayLocalDateTime = LocalDateTime.now(ZoneId.of( "Europe/Brussels" ));
-    	*/   		
-    	if (vertrekStation.equals(eindStation) || controleerVanField() == false || controleerNaarField() == false || datumHeen == null || vertrekStation.isEmpty() || eindStation.isEmpty() || datumHeen.isBefore(todayLocalDate) || (heenEnTerugRadio.isSelected() && (datumTerug == null || datumTerug.isBefore(datumHeen)))){
+    	*/  
+   		if (vertrekStation.equals(eindStation)) {
+   			Alert alert = new Alert(AlertType.ERROR);
+    		alert.setTitle("Error Dialog");
+    		alert.setHeaderText(null);
+    		alert.setContentText(language.getString("controleNietZelfdeStation"));
+    		alert.showAndWait();
+		}  		
+   		
+    	if (controleerVanField() == false || controleerNaarField() == false || datumHeen == null || vertrekStation.isEmpty() || eindStation.isEmpty() || datumHeen.isBefore(todayLocalDate) || (heenEnTerugRadio.isSelected() && (datumTerug == null || datumTerug.isBefore(datumHeen)))){
     		Alert alert = new Alert(AlertType.ERROR);
     		alert.setTitle("Error Dialog");
     		alert.setHeaderText(null);
-    		alert.setContentText(language.getString("giveStation") + language.getString("controleDate") + language.getString("controleNietZelfdeStation"));
+    		alert.setContentText(language.getString("giveStation") + language.getString("controleDate"));
 
     		alert.showAndWait();
     	} else {

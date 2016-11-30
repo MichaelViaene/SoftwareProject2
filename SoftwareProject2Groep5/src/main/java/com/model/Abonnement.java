@@ -29,7 +29,16 @@ public class Abonnement {
 	private String beginStation;
 	private String eindStation;
 	private String station; // waar abonnement werd aangemaakt
+	private int korting_id;
 	
+	public int getKorting_id() {
+		return korting_id;
+	}
+
+	public void setKorting_id(int korting_id) {
+		this.korting_id = korting_id;
+	}
+
 	public String getStation() {
 		return station;
 	}
@@ -45,7 +54,7 @@ public class Abonnement {
 		super();
 	}
 
-	public Abonnement(int abonnement_id, int klant_id, int medewerker_id, int klasse, int actief, double prijs, Route route, String beginStation, String eindStation, LocalDate beginDatum, LocalDate eindDatum,String station) {
+	public Abonnement(int abonnement_id, int klant_id, int medewerker_id, int klasse, int actief, double prijs, Route route, String beginStation, String eindStation, LocalDate beginDatum, LocalDate eindDatum,String station,int korting_id) {
 		this.abonnement_id = abonnement_id;
 		this.klant_id = klant_id;
 		this.klasse = klasse;
@@ -58,6 +67,7 @@ public class Abonnement {
 		this.eindDatum = eindDatum;
 		this.medewerker_id=medewerker_id;
 		this.station= station;
+		this.korting_id = korting_id;
 	}
 
 	public int getAbonnement_id() {

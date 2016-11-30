@@ -157,7 +157,7 @@ public class wAbonnementTabController implements Initializable {
 			}
 
 			AbonnementDAO.writeAbonnement(new Abonnement(1, 1, WerknemerController.getLogin().getMedewerker_id(),
-					klasse, 1, prijs, null, van, naar, begin, einde, "Brussel"));
+					klasse, 1, prijs, null, van, naar, begin, einde, "Brussel",1));
 			clearVelden();
 			Alert alert = new Alert(Alert.AlertType.INFORMATION);
 			alert.setTitle("Information Dialog");

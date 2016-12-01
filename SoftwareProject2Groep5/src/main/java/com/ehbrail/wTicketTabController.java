@@ -111,14 +111,20 @@ public class wTicketTabController implements Initializable{
 		LocalDate todayLocalDate = LocalDate.now(ZoneId.of( "Europe/Brussels" ) );
 		LocalDateTime todayLocalDateTime = LocalDateTime.now(ZoneId.of( "Europe/Brussels" ));
     	*/   		
-    	if (controleerVanField() == false || controleerNaarField() == false || datumHeen == null || vertrekStation.isEmpty() || eindStation.isEmpty() || datumHeen.isBefore(todayLocalDate) || (heenEnTerugRadio.isSelected() && (datumTerug == null || datumTerug.isBefore(datumHeen)))){
+    	if (controleerVanField() == false || controleerNaarField() == false || vertrekStation.isEmpty() || eindStation.isEmpty() ){
     		Alert alert = new Alert(AlertType.ERROR);
     		alert.setTitle("Error Dialog");
     		alert.setHeaderText(null);
-    		alert.setContentText("Foutieve gegevens!");
-
+    		alert.setContentText("FOUTIEVE STATIONS");
     		alert.showAndWait();
-    	} else {
+    	} else if (datumHeen == null || datumHeen.isBefore(todayLocalDate) || (heenEnTerugRadio.isSelected() && (datumTerug == null || datumTerug.isBefore(datumHeen)))){
+    		Alert alert = new Alert(AlertType.ERROR);
+    		alert.setTitle("Error Dialog");
+    		alert.setHeaderText(null);
+    		alert.setContentText("FOUTIEVE DATUMS");
+    		alert.showAndWait();
+    	}
+    	else {
     		if(heenRadio.isSelected()){
         		type = 0; //Indien heen reis
         		datumTerug = datumHeen;
@@ -143,7 +149,7 @@ public class wTicketTabController implements Initializable{
         		
         	Ticket ticket = new Ticket(vertrekStation,eindStation,1,klasse,type,1,datumAankoop,datumHeen,datumTerug,WerknemerController.getLogin().getMedewerker_id());
         	
-        	TicketDAO.writeTicket(ticket);
+        	//TicketDAO.writeTicket(ticket);
 
 			createPDF(ticket,language);
 

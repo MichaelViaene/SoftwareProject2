@@ -113,6 +113,7 @@ public class wTicketTabController implements Initializable {
 		TextFields.bindAutoCompletion(naarField, list);
 	}
 
+<<<<<<< Dev_Ilias
 	@FXML
 	void onClickKoopTicket(ActionEvent event) {
 		String vertrekStation = vanField.getText();
@@ -129,6 +130,41 @@ public class wTicketTabController implements Initializable {
 		 * todayLocalDateTime = LocalDateTime.now(ZoneId.of( "Europe/Brussels"
 		 * ));
 		 */
+=======
+	   @FXML
+	   void showPaneHeenTrug(ActionEvent event) {
+		   painTerug.setVisible(true);
+	   }
+       
+       @Override
+       public void initialize(URL location, ResourceBundle resources) {
+		  language = resources;
+       list = LoginController.getList();
+        TextFields.bindAutoCompletion(vanField,list);
+        TextFields.bindAutoCompletion(naarField,list);
+       }
+        
+    @FXML
+    void onClickKoopTicket(ActionEvent event) {
+    	String vertrekStation = vanField.getText();
+   		String eindStation = naarField.getText();
+   		int type, klasse, heen, terug;
+   		LocalDate datumHeen = datumHeenDatePicker.getValue();
+   		LocalDate datumTerug = datumTerugDatePicker.getValue();
+   		LocalDateTime datumAankoop = LocalDateTime.now(ZoneId.of( "Europe/Brussels" ));
+   		LocalDate todayLocalDate = LocalDate.now(ZoneId.of( "Europe/Brussels" ));
+   		list = LoginController.getList();
+    	/*
+		Voorbeeld localDate, LocaldateTime (present)
+		LocalDate todayLocalDate = LocalDate.now(ZoneId.of( "Europe/Brussels" ) );
+		LocalDateTime todayLocalDateTime = LocalDateTime.now(ZoneId.of( "Europe/Brussels" ));
+    	*/   		
+    	if (vertrekStation.equals(eindStation) || controleerVanField() == false || controleerNaarField() == false || datumHeen == null || vertrekStation.isEmpty() || eindStation.isEmpty() || datumHeen.isBefore(todayLocalDate) || (heenEnTerugRadio.isSelected() && (datumTerug == null || datumTerug.isBefore(datumHeen)))){
+    		Alert alert = new Alert(AlertType.ERROR);
+    		alert.setTitle("Error Dialog");
+    		alert.setHeaderText(null);
+    		alert.setContentText(language.getString("giveStation") + language.getString("controleDate") + language.getString("controleNietZelfdeStation"));
+>>>>>>> 1fc5e10 korting toegevoegd op database ( ook bij klasse en dao) en alert verandert bij ticket 
 
 		if (vertrekStation.equals(eindStation) || controleerVanField() == false || controleerNaarField() == false
 				|| datumHeen == null || vertrekStation.isEmpty() || eindStation.isEmpty()

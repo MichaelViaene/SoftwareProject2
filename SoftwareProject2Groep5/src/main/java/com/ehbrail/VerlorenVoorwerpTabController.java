@@ -164,12 +164,8 @@ public class VerlorenVoorwerpTabController implements Initializable {
 		}else {
 			controleStation = false;
 		}
-		if (controleStation == false) {
-			
-		}
-		
 		if (!(omschrijvingtext.getText() == "" || datumtext.getValue() == null || stationtext.getText() == ""
-				|| naamtext.getText() == "")) {
+				|| naamtext.getText() == "" || controleStation == false)) {
 			String text = omschrijvingtext.getText();
 			if (treintext.getText().isEmpty()) {
 

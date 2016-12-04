@@ -17,6 +17,8 @@ public class Klant {
 	private boolean actief;
 	private String naam;
 	private String voornaam;
+	
+	public Klant() {}
 
 	public Klant(int adresid, LocalDate geboortedatum, String gsmnummer, String commentaar, boolean actief, String naam,
 			String voornaam) {

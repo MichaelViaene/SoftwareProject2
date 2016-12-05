@@ -74,9 +74,20 @@ public class wTicketTabController implements Initializable{
 	   @FXML private ToggleGroup klasse;
 	   @FXML private RadioButton tweedeKlasseRadio;
 	   @FXML private Label terugLabel;
+	   @FXML private Button resetTicketButton;
 
-
-
+	    @FXML
+	    void onClickResetTicket(ActionEvent event) {
+	    	vanField.clear();
+        	naarField.clear();
+        	datumHeenDatePicker.setValue(null);
+        	datumTerugDatePicker.setValue(null);
+        	tweedeKlasseRadio.setSelected(true);
+        	heenVertrekRadio.setSelected(true);
+        	terugVertrekRadio.setSelected(true);
+        	heenRadio.setSelected(true);
+        	painTerug.setVisible(false);
+	    }
 	      
 	   @FXML
 	    void showPaneTerug(ActionEvent event) {
@@ -111,7 +122,7 @@ public class wTicketTabController implements Initializable{
 		LocalDate todayLocalDate = LocalDate.now(ZoneId.of( "Europe/Brussels" ) );
 		LocalDateTime todayLocalDateTime = LocalDateTime.now(ZoneId.of( "Europe/Brussels" ));
     	*/   		
-    	if (controleerVanField() == false || controleerNaarField() == false || vertrekStation.isEmpty() || eindStation.isEmpty() ){
+    	if (controleerVanField() == false || vertrekStation.equals(eindStation) || controleerNaarField() == false || vertrekStation.isEmpty() || eindStation.isEmpty() ){
     		Alert alert = new Alert(AlertType.ERROR);
     		alert.setTitle("Error Dialog");
     		alert.setHeaderText(null);
@@ -149,9 +160,9 @@ public class wTicketTabController implements Initializable{
         		
         	Ticket ticket = new Ticket(vertrekStation,eindStation,1,klasse,type,1,datumAankoop,datumHeen,datumTerug,WerknemerController.getLogin().getMedewerker_id());
         	
-        	TicketDAO.writeTicket(ticket);
+        	//TicketDAO.writeTicket(ticket);
 
-			createPDF(ticket,language);
+			//createPDF(ticket,language);
 
         	Alert alert = new Alert(AlertType.INFORMATION);
         	alert.setTitle("Information Dialog");

@@ -129,12 +129,8 @@ public class wTicketTabController implements Initializable {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error Dialog");
 			alert.setHeaderText(null);
-			alert.setContentText(language.getString("giveStation") + language.getString("controleDate")
-					+ language.getString("controleNietZelfdeStation"));
-
     		alert.setContentText("FOUTIEVE DATUMS");
 			alert.showAndWait();
-
     	}
     	else {
 			if (heenRadio.isSelected()) {
@@ -164,6 +160,7 @@ public class wTicketTabController implements Initializable {
 
 			TicketDAO.writeTicket(ticket);
 
+			createPDF(ticket,language);
 
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("Information Dialog");
@@ -171,7 +168,6 @@ public class wTicketTabController implements Initializable {
 			alert.setContentText(language.getString("ticketAangemaakt"));
 			alert.showAndWait();
 
-			createPDF(ticket,language);
 			System.out.println(ticket.toString());
 			vanField.clear();
 			naarField.clear();

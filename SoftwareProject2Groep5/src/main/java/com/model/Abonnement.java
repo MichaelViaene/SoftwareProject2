@@ -12,6 +12,19 @@ public class Abonnement {
 	private int abonnement_id;
 	private int klant_id;
 	private int medewerker_id;
+	private int klasse;
+	private int actief;
+	private double prijs;
+	private Route route;
+	private String beginStation;
+	private String eindStation;
+	private String station; // waar abonnement werd aangemaakt
+	private int korting_id;
+	private LocalDate beginDatum;
+	private LocalDate eindDatum;
+	
+	
+	
 	public int getMedewerker_id() {
 		return medewerker_id;
 	}
@@ -20,17 +33,6 @@ public class Abonnement {
 		this.medewerker_id = medewerker_id;
 	}
 
-	private int klasse;
-	private int actief;
-	
-	private double prijs;
-	
-	private Route route;
-	private String beginStation;
-	private String eindStation;
-	private String station; // waar abonnement werd aangemaakt
-	private int korting_id;
-	
 	public int getKorting_id() {
 		return korting_id;
 	}
@@ -47,8 +49,6 @@ public class Abonnement {
 		this.station = station;
 	}
 
-	private LocalDate beginDatum;
-	private LocalDate eindDatum;
 
 	public Abonnement() {
 		super();

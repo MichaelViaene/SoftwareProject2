@@ -119,11 +119,6 @@ public class wTicketTabController implements Initializable {
 		 * todayLocalDateTime = LocalDateTime.now(ZoneId.of( "Europe/Brussels"
 		 * ));
 		 */
-
-		if (vertrekStation.equals(eindStation) || controleerVanField() == false || controleerNaarField() == false
-				|| datumHeen == null || vertrekStation.isEmpty() || eindStation.isEmpty()
-				|| datumHeen.isBefore(todayLocalDate)
-				|| (heenEnTerugRadio.isSelected() && (datumTerug == null || datumTerug.isBefore(datumHeen)))) {
     	if (controleerVanField() == false || controleerNaarField() == false || vertrekStation.isEmpty() || eindStation.isEmpty() ){
     		Alert alert = new Alert(AlertType.ERROR);
     		alert.setTitle("Error Dialog");
@@ -188,7 +183,6 @@ public class wTicketTabController implements Initializable {
 			heenRadio.setSelected(true);
 			painTerug.setVisible(false);
 
-		}
 		}
 	}
 

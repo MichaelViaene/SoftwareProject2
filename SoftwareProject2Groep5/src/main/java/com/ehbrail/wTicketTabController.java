@@ -7,6 +7,30 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.ResourceBundle;
+
+import java.util.*;
+
+import javafx.embed.swing.SwingNode;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
+import javafx.stage.Stage;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.export.HtmlExporter;
+import net.sf.jasperreports.export.Exporter;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
+import net.sf.jasperreports.swing.JRViewer;
+import net.sf.jasperreports.view.JasperViewer;
 import java.util.*;
 
 import javafx.embed.swing.SwingNode;
@@ -53,6 +77,7 @@ import javafx.scene.control.Label;
 public class wTicketTabController implements Initializable{
 
 	ArrayList<String> list;
+
 	private ResourceBundle language;
 	   @FXML private TextField vanField;
 	   @FXML private TextField naarField;
@@ -76,7 +101,6 @@ public class wTicketTabController implements Initializable{
 	   @FXML private Label terugLabel;
 
 
-
 	      
 	   @FXML
 	    void showPaneTerug(ActionEvent event) {
@@ -90,7 +114,12 @@ public class wTicketTabController implements Initializable{
        
        @Override
        public void initialize(URL location, ResourceBundle resources) {
+
+
 		  language = resources;
+
+		  language = resources;
+
        list = LoginController.getList();
         TextFields.bindAutoCompletion(vanField,list);
         TextFields.bindAutoCompletion(naarField,list);
@@ -151,14 +180,26 @@ public class wTicketTabController implements Initializable{
         	
         	TicketDAO.writeTicket(ticket);
 
-			createPDF(ticket,language);
 
+        	
         	Alert alert = new Alert(AlertType.INFORMATION);
         	alert.setTitle("Information Dialog");
         	alert.setHeaderText(null);
         	alert.setContentText("Ticket aangemaakt!");
-        	alert.showAndWait();
 
+        	alert.showAndWait();
+<<<<<<< HEAD
+
+=======
+        	
+
+
+			createPDF(ticket,language);
+
+
+
+
+>>>>>>> refs/heads/Dev_Pieter
         	System.out.println(ticket.toString());
         	vanField.clear();
         	naarField.clear();
@@ -294,7 +335,5 @@ public class wTicketTabController implements Initializable{
 		}
 		catch (Exception e){e.printStackTrace();}
 	}
-
-
 
 }

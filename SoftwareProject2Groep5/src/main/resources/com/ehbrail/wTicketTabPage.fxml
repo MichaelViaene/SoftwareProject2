@@ -38,16 +38,16 @@
          <toggleGroup>
             <ToggleGroup fx:id="heenVertrekAankomst" />
          </toggleGroup></RadioButton>
-      <RadioButton fx:id="heenAankomstRadio" layoutX="451.0" layoutY="275.0" mnemonicParsing="false" text="%RouteInfo.aankomst" toggleGroup="$heenVertrekAankomst" />
-      <Pane fx:id="painTerug" layoutX="45.0" layoutY="314.0" prefHeight="66.0" prefWidth="701.0" visible="false">
+      <RadioButton fx:id="heenAankomstRadio" layoutX="475.0" layoutY="275.0" mnemonicParsing="false" text="%RouteInfo.aankomst" toggleGroup="$heenVertrekAankomst" />
+      <Pane fx:id="painTerug" layoutX="45.0" layoutY="314.0" prefHeight="66.0" prefWidth="701.0">
          <children>
             <Label fx:id="terugLabel" layoutX="-1.0" layoutY="13.0" text="%terug" />
-            <DatePicker fx:id="datumTerugDatePicker" layoutX="50.0" layoutY="9.0" />
-            <RadioButton fx:id="terugVertrekRadio" layoutX="268.0" layoutY="13.0" mnemonicParsing="false" selected="true" text="%RouteInfo.vertrek">
+            <DatePicker fx:id="datumTerugDatePicker" layoutX="89.0" layoutY="9.0" />
+            <RadioButton fx:id="terugVertrekRadio" layoutX="299.0" layoutY="13.0" mnemonicParsing="false" selected="true" text="%RouteInfo.vertrek">
                <toggleGroup>
                   <ToggleGroup fx:id="terugVertrekAankomst" />
                </toggleGroup></RadioButton>
-            <RadioButton fx:id="terugAankomstRadio" layoutX="373.0" layoutY="13.0" mnemonicParsing="false" text="%RouteInfo.aankomst" toggleGroup="$terugVertrekAankomst" />
+            <RadioButton fx:id="terugAankomstRadio" layoutX="429.0" layoutY="13.0" mnemonicParsing="false" text="%RouteInfo.aankomst" toggleGroup="$terugVertrekAankomst" />
          </children>
       </Pane>
       <RadioButton fx:id="eersteKlasseRadio" layoutX="195.0" layoutY="219.0" mnemonicParsing="false" text="%Abonnement.eerste">

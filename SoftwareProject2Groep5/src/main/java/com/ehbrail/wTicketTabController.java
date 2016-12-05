@@ -188,18 +188,7 @@ public class wTicketTabController implements Initializable{
         	alert.setContentText("Ticket aangemaakt!");
 
         	alert.showAndWait();
-<<<<<<< HEAD
-
-=======
-        	
-
-
 			createPDF(ticket,language);
-
-
-
-
->>>>>>> refs/heads/Dev_Pieter
         	System.out.println(ticket.toString());
         	vanField.clear();
         	naarField.clear();

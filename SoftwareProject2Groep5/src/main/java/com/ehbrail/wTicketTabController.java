@@ -8,6 +8,12 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.ResourceBundle;
+
 import java.util.*;
 
 import javafx.embed.swing.SwingNode;
@@ -54,46 +60,29 @@ public class wTicketTabController implements Initializable {
 
 	ArrayList<String> list;
 	private ResourceBundle language;
-	@FXML
-	private TextField vanField;
-	@FXML
-	private TextField naarField;
-	@FXML
-	private Button switchStationsButton;
-	@FXML
-	private Button koopTicketButton;
-	@FXML
-	private RadioButton heenEnTerugRadio;
-	@FXML
-	private ToggleGroup heenTerug;
-	@FXML
-	private RadioButton heenRadio;
-	@FXML
-	private DatePicker datumHeenDatePicker;
-	@FXML
-	private RadioButton heenVertrekRadio;
-	@FXML
-	private ToggleGroup heenVertrekAankomst;
-	@FXML
-	private RadioButton heenAankomstRadio;
-	@FXML
-	private Pane painTerug;
-	@FXML
-	private DatePicker datumTerugDatePicker;
-	@FXML
-	private RadioButton terugVertrekRadio;
-	@FXML
-	private ToggleGroup terugVertrekAankomst;
-	@FXML
-	private RadioButton terugAankomstRadio;
-	@FXML
-	private RadioButton eersteKlasseRadio;
-	@FXML
-	private ToggleGroup klasse;
-	@FXML
-	private RadioButton tweedeKlasseRadio;
-	@FXML
-	private Label terugLabel;
+	   @FXML private TextField vanField;
+	   @FXML private TextField naarField;
+	   @FXML private Button switchStationsButton;
+	   @FXML private Button koopTicketButton;
+	   @FXML private RadioButton heenEnTerugRadio;
+	   @FXML private ToggleGroup heenTerug;
+	   @FXML private RadioButton heenRadio;
+	   @FXML private DatePicker datumHeenDatePicker;
+	   @FXML private RadioButton heenVertrekRadio;
+	   @FXML private ToggleGroup heenVertrekAankomst;
+	   @FXML private RadioButton heenAankomstRadio;
+	   @FXML private Pane painTerug;
+	   @FXML private DatePicker datumTerugDatePicker;
+	   @FXML private RadioButton terugVertrekRadio;
+	   @FXML private ToggleGroup terugVertrekAankomst;
+	   @FXML private RadioButton terugAankomstRadio;
+	   @FXML private RadioButton eersteKlasseRadio;
+	   @FXML private ToggleGroup klasse;
+	   @FXML private RadioButton tweedeKlasseRadio;
+	   @FXML private Label terugLabel;
+
+
+	      
 
 	@FXML
 	void showPaneTerug(ActionEvent event) {
@@ -101,13 +90,14 @@ public class wTicketTabController implements Initializable {
 	}
 
 	@FXML
-	void showPaneHeenTrug(ActionEvent event) {
+	void showPaneHeenTerug(ActionEvent event) {
 		painTerug.setVisible(true);
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		language = resources;
+		
 		list = LoginController.getList();
 		TextFields.bindAutoCompletion(vanField, list);
 		TextFields.bindAutoCompletion(naarField, list);
@@ -129,20 +119,20 @@ public class wTicketTabController implements Initializable {
 		 * todayLocalDateTime = LocalDateTime.now(ZoneId.of( "Europe/Brussels"
 		 * ));
 		 */
-
-		if (vertrekStation.equals(eindStation) || controleerVanField() == false || controleerNaarField() == false
-				|| datumHeen == null || vertrekStation.isEmpty() || eindStation.isEmpty()
-				|| datumHeen.isBefore(todayLocalDate)
-				|| (heenEnTerugRadio.isSelected() && (datumTerug == null || datumTerug.isBefore(datumHeen)))) {
+    	if (controleerVanField() == false || controleerNaarField() == false || vertrekStation.isEmpty() || eindStation.isEmpty() ){
+    		Alert alert = new Alert(AlertType.ERROR);
+    		alert.setTitle("Error Dialog");
+    		alert.setHeaderText(null);
+    		alert.setContentText("FOUTIEVE STATIONS");
+    		alert.showAndWait();
+    	} else if (datumHeen == null || datumHeen.isBefore(todayLocalDate) || (heenEnTerugRadio.isSelected() && (datumTerug == null || datumTerug.isBefore(datumHeen)))){
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error Dialog");
 			alert.setHeaderText(null);
-			alert.setContentText(language.getString("giveStation") + language.getString("controleDate")
-					+ language.getString("controleNietZelfdeStation"));
-
+    		alert.setContentText("FOUTIEVE DATUMS");
 			alert.showAndWait();
-
-		} else {
+    	}
+    	else {
 			if (heenRadio.isSelected()) {
 				type = 0; // Indien heen reis
 				datumTerug = datumHeen;
@@ -170,7 +160,7 @@ public class wTicketTabController implements Initializable {
 
 			TicketDAO.writeTicket(ticket);
 
-			createPDF(ticket, language);
+			createPDF(ticket,language);
 
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("Information Dialog");
@@ -190,7 +180,6 @@ public class wTicketTabController implements Initializable {
 			painTerug.setVisible(false);
 
 		}
-
 	}
 
 	public boolean controleerVanField() {

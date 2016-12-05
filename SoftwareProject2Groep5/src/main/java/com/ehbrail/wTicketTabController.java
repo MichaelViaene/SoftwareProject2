@@ -1,8 +1,14 @@
 package com.ehbrail;
+import com.model.Station;
 import com.model.Ticket;
+import static com.ehbrail.ApiCalls.getIRailRoute;
+import net.*;
+import net.objecthunter.exp4j.Expression;
+import net.objecthunter.exp4j.ExpressionBuilder;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.StringReader;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -25,7 +31,13 @@ import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
 import net.sf.jasperreports.swing.JRViewer;
 import net.sf.jasperreports.view.JasperViewer;
+import okhttp3.Response;
+
 import org.controlsfx.control.textfield.TextFields;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.io.SAXReader;
+import org.xml.sax.InputSource;
 
 import com.database.TicketDAO;
 
@@ -140,7 +152,8 @@ public class wTicketTabController implements Initializable{
         	} else{
         		terug = 1;
         	}
-        		
+        	
+        	double prijs=berekenPrijs(vertrekStation, eindStation);
         	Ticket ticket = new Ticket(vertrekStation,eindStation,1,klasse,type,1,datumAankoop,datumHeen,datumTerug,WerknemerController.getLogin().getMedewerker_id());
         	
         	TicketDAO.writeTicket(ticket);
@@ -189,6 +202,73 @@ public class wTicketTabController implements Initializable{
     	}
     	
     	return false;
+    }
+    
+    private double berekenAfstand(String vertrekStation, String eindStation){
+    	Station aankomst=new Station(), vertrek= new Station();
+    	try (Response resp=getIRailRoute(vertrekStation, eindStation)){
+    		if (resp.isSuccessful()){
+                String routeResponse = resp.body().string();
+                SAXReader reader = new SAXReader();
+                Document document = reader.read(new InputSource(new StringReader(routeResponse)));
+
+                org.dom4j.Node startNode = document.selectSingleNode("connection/departure/station");
+                org.dom4j.Node eindNode = document.selectSingleNode("connection/arrival/station");
+                if(startNode==null || eindNode==null){
+                	//label om error te weergeven als de stations niet teruggevonden worden.
+                }
+                else{
+                	vertrek.setLatitude(Double.parseDouble(startNode.valueOf("station/@locationX")));
+                	vertrek.setLongitude((Double.parseDouble(startNode.valueOf("station/@locationY"))));		
+                	aankomst.setLatitude(Double.parseDouble(eindNode.valueOf("station/@locationX")));
+                	aankomst.setLongitude((Double.parseDouble(eindNode.valueOf("station/@locationY"))));		
+                }
+    		}
+		} catch (IOException | DocumentException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+    	
+    	double hulp=Math.pow(Math.sin(Math.toRadians(aankomst.getLatitude()-vertrek.getLatitude())/2),2)+
+    			Math.cos(Math.toRadians(aankomst.getLatitude()))*Math.cos(Math.toRadians(vertrek.getLatitude()))*
+    			Math.pow(Math.sin(Math.toRadians((aankomst.getLongitude()-vertrek.getLongitude())/2)),2);
+    	double afstand=2*Math.atan2(Math.sqrt(hulp),Math.sqrt(1-hulp))*6371;
+    	return afstand;
+    }
+    
+    private int getAantalTussenStations(String vertrekStation, String eindStation){
+    	int aantal=0;
+    	
+    	try (Response resp=getIRailRoute(vertrekStation, eindStation)){
+    		if (resp.isSuccessful()){
+                String routeResponse = resp.body().string();
+                SAXReader reader = new SAXReader();
+                Document document = reader.read(new InputSource(new StringReader(routeResponse)));
+
+                org.dom4j.Node tussenNode = document.selectSingleNode("connection/vias");
+                if(tussenNode==null){
+                	//label om error te weergeven als de stations niet teruggevonden worden.
+                }
+                else{
+                	aantal=Integer.parseInt(tussenNode.valueOf("@number"));
+                }
+    		}
+		} catch (IOException | DocumentException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+    	
+    	return aantal;
+    }
+    
+    private double berekenPrijs(String vertrekStation, String eindStation){
+    	double prijs;
+    	double afstand = berekenAfstand(vertrekStation, eindStation);
+    	int aantal=getAantalTussenStations(vertrekStation,eindStation);
+    	Expression e=new ExpressionBuilder("x+y").variables("x","y").build().setVariable("x", afstand).setVariable("y", aantal);
+    	
+    	prijs=e.evaluate();
+    	return prijs;
     }
     
     @FXML private void switchStations(ActionEvent event) throws IOException {

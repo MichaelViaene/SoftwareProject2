@@ -75,9 +75,11 @@ public class wLiveboardTabController implements Initializable {
                     //Node station = document.selectSingleNode("liveboard/station");
                     //System.out.println(station.valueOf("@standardname"));
                     Node total = document.selectSingleNode("liveboard/departures");
-                   if (total != null)
-                    {totalLabel.setText(total.valueOf("@number"));}
-                    else errorLabel.setText("Er werd geen data gevonden voor dit station.");
+                    if (total != null){
+                	   totalLabel.setText(total.valueOf("@number"));
+                	}
+                    else 
+                    	errorLabel.setText("Er werd geen data gevonden voor dit station.");
                     ObservableList<Liveboard> data = FXCollections.observableArrayList();
                     for (Node node : nodes) {
                         data.add(new Liveboard(node.selectSingleNode("platform").getText(),

@@ -1,23 +1,22 @@
 package com.database;
 
 import java.sql.*;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.util.ArrayList;
+import com.model.Formule;
 
 
 
 public class FormuleDAO {
 
-    public String getFormuleActive() {
-    	String form=new String();
+    public static Formule getFormuleActive() {
+    	Formule form=new Formule();
     	try (Connection con = Database.getConnection()){
             String query = "SELECT * FROM Formule WHERE active=1";
             try (PreparedStatement preparedStatement = con.prepareStatement(query)){
 	            try (ResultSet resultSet = preparedStatement.executeQuery()){
 		            //login_id(int11),username(vchar45),passwoord(vchar64),bevoegdheid(int11),medewerker_id(int11)
 		            while (resultSet.next()) {
-		            	form=resultSet.getString("formule");
+		            	form.setFormule(resultSet.getString("formule"));
 		            }
 	            } catch (Exception ex) {
                     System.out.println(ex);
@@ -28,6 +27,7 @@ public class FormuleDAO {
         } catch (Exception ex) {
             System.out.println(ex);
         }
+    	form.setActive(true);
         return form;
     }
 
@@ -53,7 +53,7 @@ public class FormuleDAO {
         return true;
     }
 
-    public static boolean updateFormule(String formule, boolean active) {
+    public static boolean updateFormule(String formule,boolean active) {
         try (Connection con = Database.getConnection()){
             String query = "Update Formule SET active = ? WHERE formule = ? ";
             try (PreparedStatement preparedStatement = con.prepareStatement(query)){
@@ -70,15 +70,15 @@ public class FormuleDAO {
         return true;
     }    
 
-    public static ArrayList<String>getAllFormules() {
-        ArrayList<String> formules =new ArrayList<String>();
+    public static ArrayList<Formule>getAllFormules() {
+        ArrayList<Formule> formules =new ArrayList<Formule>();
         try (Connection con = Database.getConnection()){
-            String query = "SELECT * FROM formule";
+            String query = "SELECT * FROM Formule";
             try (PreparedStatement preparedStatement = con.prepareStatement(query)){
 	            try (ResultSet resultSet = preparedStatement.executeQuery()){
 		            //login_id(int11),username(vchar45),passwoord(vchar64),bevoegdheid(int11),medewerker_id(int11)
 		            while (resultSet.next()) {
-		                formules.add(resultSet.getString("formule"));
+		                formules.add(new Formule(resultSet.getString("formule"),resultSet.getBoolean("active")));
 		            }
 	            }
             } catch (Exception ex) {
@@ -90,4 +90,33 @@ public class FormuleDAO {
         return formules;
     }
 
+    public static Formule getFormule(String formule){
+    	Formule form=new Formule();
+    	form.setFormule(formule);
+    	
+    	try (Connection con = Database.getConnection()){
+    		String query="SELECT * from Formule WHERE formule=?";
+    		try(PreparedStatement preparedStatement=con.prepareStatement(query)){
+    			preparedStatement.setString(1, formule);
+    			preparedStatement.executeUpdate();
+    			try (ResultSet resultSet = preparedStatement.executeQuery()){
+		            //login_id(int11),username(vchar45),passwoord(vchar64),bevoegdheid(int11),medewerker_id(int11)
+		            while (resultSet.next()) {
+		                form.setFormule(resultSet.getString("formule"));
+		                form.setActive(resultSet.getBoolean("active"));
+		            }
+	            }
+            	catch (Exception x) {
+            		System.out.println(x);
+            	}
+    		}
+    		catch(Exception ex){
+    			System.out.println(ex);
+    		}
+    	}catch(Exception ex){
+    		System.out.println(ex);
+    	}
+    	
+    	return form;
+    }
 }

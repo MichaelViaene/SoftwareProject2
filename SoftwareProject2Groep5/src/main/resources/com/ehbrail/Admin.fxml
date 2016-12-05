@@ -45,6 +45,11 @@
                           <fx:include fx:id="aPasswordChangeTabPage" source="aPasswordChangeTabPage.fxml" />
                       </content>
                   </Tab>
+                  <Tab fx:id="aPrizeFormulaTab" closable="false" text="Prijsberekening">
+                      <content>
+                          <fx:include fx:id="aPrizeFormulaTabPage" source="aPrizeFormulaTabPage.fxml" />
+                      </content>
+                  </Tab>
               </tabs>
                <BorderPane.margin>
                   <Insets />

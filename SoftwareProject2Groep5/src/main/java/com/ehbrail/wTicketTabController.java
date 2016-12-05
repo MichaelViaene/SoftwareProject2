@@ -39,6 +39,7 @@ import org.dom4j.DocumentException;
 import org.dom4j.io.SAXReader;
 import org.xml.sax.InputSource;
 
+import com.database.FormuleDAO;
 import com.database.TicketDAO;
 
 
@@ -265,7 +266,7 @@ public class wTicketTabController implements Initializable{
     	double prijs;
     	double afstand = berekenAfstand(vertrekStation, eindStation);
     	int aantal=getAantalTussenStations(vertrekStation,eindStation);
-    	Expression e=new ExpressionBuilder("x+y").variables("x","y").build().setVariable("x", afstand).setVariable("y", aantal);
+    	Expression e=new ExpressionBuilder(FormuleDAO.getFormuleActive().getFormule()).variables("x","y").build().setVariable("x", afstand).setVariable("y", aantal);
     	
     	prijs=e.evaluate();
     	return prijs;

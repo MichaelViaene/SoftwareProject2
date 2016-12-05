@@ -29,6 +29,10 @@ public class Klant {
 		this.naam = naam;
 		this.voornaam = voornaam;
 	}
+	public Klant() {
+
+	}
+
 
 	public int getKlantid() {
 		return klantid;

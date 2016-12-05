@@ -2,6 +2,7 @@ package com.ehbrail;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -10,10 +11,15 @@ import java.util.ResourceBundle;
 import org.controlsfx.control.textfield.TextFields;
 
 import com.database.AbonnementDAO;
+import com.database.KlantDAO;
 import com.model.Abonnement;
+import com.model.Klant;
+import com.model.VerlorenVoorwerp;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -23,9 +29,12 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
  * Created by Ilias El Mesaoudi on 14/11/2016.
@@ -34,22 +43,10 @@ import javafx.scene.control.Alert.AlertType;
 public class wAbonnementTabController implements Initializable {
 
 	private ResourceBundle language;
+	ObservableList<Klant> lijstKlanten = FXCollections.observableArrayList(KlantDAO.getAll());
 
-	ObservableList<String> listReductie = FXCollections.observableArrayList("Senior", "18-25", "-18");
+	ObservableList<String> lijstReductie = FXCollections.observableArrayList("Senior", "18-25", "-18");
 	ArrayList<String> list;
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		language = resources;
-
-		kortingenid.setItems(listReductie);
-		list = LoginController.getList();
-		TextFields.bindAutoCompletion(vanField, list);
-		TextFields.bindAutoCompletion(naarField, list);
-
-		ritRadioButton.setSelected(true);
-		tweedeRadioButton.setSelected(true);
-	}
 
 	@FXML
 	private TextField vanField;
@@ -95,6 +92,65 @@ public class wAbonnementTabController implements Initializable {
 
 	@FXML
 	private ToggleGroup klasse;
+
+	@FXML
+	private TextField textButton;
+
+	@FXML
+	private TableView<Klant> tableview;
+
+	@FXML
+	private TableColumn<Klant, Integer> id;
+
+	@FXML
+	private TableColumn<Klant, String> voornaamid;
+
+	@FXML
+	private TableColumn<Klant, String> achternaamid;
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		tableview.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+		tableview.setItems(lijstKlanten);
+
+		language = resources;
+
+		id.setCellValueFactory(new PropertyValueFactory<Klant, Integer>("klantid"));
+		voornaamid.setCellValueFactory(new PropertyValueFactory<Klant, String>("voornaam"));
+		achternaamid.setCellValueFactory(new PropertyValueFactory<Klant, String>("naam"));
+
+		kortingenid.setItems(lijstReductie);
+		list = LoginController.getList();
+		TextFields.bindAutoCompletion(vanField, list);
+		TextFields.bindAutoCompletion(naarField, list);
+
+		ritRadioButton.setSelected(true);
+		tweedeRadioButton.setSelected(true);
+
+		FilteredList<Klant> filteredData = new FilteredList<Klant>(lijstKlanten, p -> true);
+		textButton.textProperty().addListener(((observable, oldValue, newValue) -> {
+			filteredData.setPredicate(Klant -> {
+				if ((newValue == null) || newValue.isEmpty()) {
+					return true;
+				}
+
+				String lowerCaseFilter = newValue.toLowerCase();
+
+				if (Klant.getNaam().toLowerCase().contains(lowerCaseFilter)) {
+					return true;
+				} else if (Klant.getVoornaam().toLowerCase().contains(lowerCaseFilter)) {
+					return true;
+				}
+				return false;
+			});
+		}));
+
+		SortedList<Klant> sortedList = new SortedList<Klant>(filteredData);
+		sortedList.comparatorProperty().bind(tableview.comparatorProperty());
+		tableview.setItems(sortedList);
+
+	}
 
 	@FXML
 	private void switchStations(ActionEvent event) throws IOException {
@@ -169,7 +225,8 @@ public class wAbonnementTabController implements Initializable {
 				prijs = prijs - 150;
 			}
 
-			AbonnementDAO.writeAbonnement(new Abonnement(1, 1, WerknemerController.getLogin().getMedewerker_id(),klasse, 1, prijs, null, van, naar, begin, einde, "Brussel"));
+			AbonnementDAO.writeAbonnement(new Abonnement(1, 1, WerknemerController.getLogin().getMedewerker_id(),
+					klasse, 1, prijs, null, van, naar, begin, einde, "Brussel"));
 
 			clearVelden();
 			Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -210,6 +267,7 @@ public class wAbonnementTabController implements Initializable {
 		datepickerEinde.setValue(null);
 		prijsid.setText(null);
 		kortingenid.setValue(null);
+		tableview.setItems(lijstKlanten);
 
 	}
 

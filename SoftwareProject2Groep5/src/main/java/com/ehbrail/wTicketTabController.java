@@ -160,9 +160,9 @@ public class wTicketTabController implements Initializable{
         		
         	Ticket ticket = new Ticket(vertrekStation,eindStation,1,klasse,type,1,datumAankoop,datumHeen,datumTerug,WerknemerController.getLogin().getMedewerker_id());
         	
-        	//TicketDAO.writeTicket(ticket);
+        	TicketDAO.writeTicket(ticket);
 
-			//createPDF(ticket,language);
+			createPDF(ticket,language);
 
         	Alert alert = new Alert(AlertType.INFORMATION);
         	alert.setTitle("Information Dialog");

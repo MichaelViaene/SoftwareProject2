@@ -90,16 +90,14 @@ public class wTicketTabController implements Initializable {
 	}
 
 	@FXML
-	void showPaneHeenTrug(ActionEvent event) {
+	void showPaneHeenTerug(ActionEvent event) {
 		painTerug.setVisible(true);
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		language = resources;
-
-		  language = resources;
-
+		
 		list = LoginController.getList();
 		TextFields.bindAutoCompletion(vanField, list);
 		TextFields.bindAutoCompletion(naarField, list);

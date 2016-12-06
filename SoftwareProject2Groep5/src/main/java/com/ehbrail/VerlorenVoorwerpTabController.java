@@ -36,7 +36,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 
 public class VerlorenVoorwerpTabController implements Initializable {
-	
+
 	private ResourceBundle language;
 	// tableview
 	@FXML
@@ -101,14 +101,12 @@ public class VerlorenVoorwerpTabController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+
 		language = resources;
-		
-		
+
 		tableview.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
 		list = LoginController.getList();
-		TextFields.bindAutoCompletion(textButton, list);
 		TextFields.bindAutoCompletion(stationtext, list);
 
 		refresh();
@@ -138,10 +136,10 @@ public class VerlorenVoorwerpTabController implements Initializable {
 				return false;
 			});
 		}));
-		
+
 		SortedList<VerlorenVoorwerp> sortedList = new SortedList<VerlorenVoorwerp>(filteredData);
-        sortedList.comparatorProperty().bind(tableview.comparatorProperty());
-        tableview.setItems(sortedList);
+		sortedList.comparatorProperty().bind(tableview.comparatorProperty());
+		tableview.setItems(sortedList);
 
 	}
 
@@ -158,10 +156,10 @@ public class VerlorenVoorwerpTabController implements Initializable {
 	@FXML
 	void insertVoorwerp(ActionEvent event) {
 		boolean controleStation = true;
-		
+
 		if (list.contains(stationtext.getText())) {
 			controleStation = true;
-		}else {
+		} else {
 			controleStation = false;
 		}
 		if (!(omschrijvingtext.getText() == "" || datumtext.getValue() == null || stationtext.getText() == ""
@@ -210,7 +208,7 @@ public class VerlorenVoorwerpTabController implements Initializable {
 			Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 			alert.setTitle("Confirmation Dialog");
 			alert.setHeaderText(null);
-			alert.setContentText(MessageFormat.format(language.getString("alertVoorDelete"),id));
+			alert.setContentText(MessageFormat.format(language.getString("alertVoorDelete"), id));
 			Optional<ButtonType> action = alert.showAndWait();
 			if (action.get() == ButtonType.OK) {
 				VerlorenVoorwerpDAO.deleteVoorwerp(id);
@@ -233,7 +231,7 @@ public class VerlorenVoorwerpTabController implements Initializable {
 		boolean controleStation = true;
 		if (list.contains(stationtext.getText())) {
 			controleStation = true;
-		}else {
+		} else {
 			controleStation = false;
 		}
 		if (!(omschrijvingtext.getText() == "" || datumtext.getValue() == null || stationtext.getText() == ""

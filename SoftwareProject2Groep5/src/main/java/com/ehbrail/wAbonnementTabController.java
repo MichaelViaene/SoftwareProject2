@@ -35,6 +35,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 
 /**
  * Created by Ilias El Mesaoudi on 14/11/2016.
@@ -107,6 +108,9 @@ public class wAbonnementTabController implements Initializable {
 
 	@FXML
 	private TableColumn<Klant, String> achternaamid;
+
+	@FXML
+	private Label klantidOnclick;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -226,7 +230,7 @@ public class wAbonnementTabController implements Initializable {
 			}
 
 			AbonnementDAO.writeAbonnement(new Abonnement(1, 1, WerknemerController.getLogin().getMedewerker_id(),
-					klasse, 1, prijs, null, van, naar, begin, einde, "Brussel",1));
+					klasse, 1, prijs, null, van, naar, begin, einde, "Brussel", 1));
 
 			clearVelden();
 			Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -253,6 +257,17 @@ public class wAbonnementTabController implements Initializable {
 		String totaal = String.valueOf(prijs);
 		prijsid.setText(totaal);
 
+	}
+
+	@FXML
+	void selectInformaties(MouseEvent event) {
+		if (event.getClickCount() == 2 && tableview.getSelectionModel().getSelectedItem() != null) {
+
+			Klant klant = tableview.getSelectionModel().getSelectedItem();
+			String str = Integer.toString(klant.getKlantid());
+			klantidOnclick.setText(str);
+
+		}
 	}
 
 	public void clearVelden() {

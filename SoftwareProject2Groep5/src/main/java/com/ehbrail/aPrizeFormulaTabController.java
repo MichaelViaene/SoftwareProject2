@@ -18,6 +18,8 @@ import org.controlsfx.control.Notifications;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.database.LoginDAO.changePassbyLogin;
 import static com.database.LoginDAO.getLoginByID;
@@ -55,7 +57,7 @@ public class aPrizeFormulaTabController implements Initializable {
         Image img = new Image("/com/ehbrail/checkmark.png");
         Login login = getLoginByID(AdminController.getLogin().getLogin_id());
         if (!newFormulaField.getText().isEmpty()){
-        	if(newFormulaField.getText().contains("x")||newFormulaField.getText().contains("y")){
+        	if(checkContent(newFormulaField.getText())){
         		updateFormule(FormuleDAO.getFormuleActive().getFormule(),false); 
         		if(FormuleDAO.getFormule(newFormulaField.getText())==new Formule(newFormulaField.getText(),false)){
         			if(updateFormule(newFormulaField.getText(),true)){
@@ -90,5 +92,13 @@ public class aPrizeFormulaTabController implements Initializable {
         	else createAlertBox("Foute formule",null,"De formule bevat onbekende characters!");
         }
         else createAlertBox("Ongeldige velden",null,"Het formule veld moet ingevuld worden.");
+    }
+    
+    public boolean checkContent(String inhoud){
+    	Pattern p= Pattern.compile("xyzXYZ+-*//0-9");
+    	Matcher m=p.matcher(inhoud);
+    	
+    	return m.matches();
+    	
     }
 }

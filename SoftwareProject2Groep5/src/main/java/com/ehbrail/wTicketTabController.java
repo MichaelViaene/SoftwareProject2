@@ -263,10 +263,11 @@ public class wTicketTabController implements Initializable{
     }
     
     private double berekenPrijs(String vertrekStation, String eindStation){
-    	double prijs;
+    	double prijs,duur;
     	double afstand = berekenAfstand(vertrekStation, eindStation);
     	int aantal=getAantalTussenStations(vertrekStation,eindStation);
-    	Expression e=new ExpressionBuilder(FormuleDAO.getFormuleActive().getFormule()).variables("x","y").build().setVariable("x", afstand).setVariable("y", aantal);
+    	duur=getDuratieRoute(vertrekStation,eindStation);
+    	Expression e=new ExpressionBuilder(FormuleDAO.getFormuleActive().getFormule()).variables("x","y","z").build().setVariable("x", afstand).setVariable("y", aantal).setVariable("z", duur);
     	
     	prijs=e.evaluate();
     	return prijs;
@@ -372,7 +373,31 @@ public class wTicketTabController implements Initializable{
 		}
 		catch (Exception e){e.printStackTrace();}
 	}
+    
+    public double getDuratieRoute(String vertrekStation, String eindStation){
+    	double duur=0;
+    	   	
+    	try (Response resp=getIRailRoute(vertrekStation, eindStation)){
+    		if (resp.isSuccessful()){
+                String routeResponse = resp.body().string();
+                SAXReader reader = new SAXReader();
+                Document document = reader.read(new InputSource(new StringReader(routeResponse)));
 
+                org.dom4j.Node tussenNode = document.selectSingleNode("connection/vias");
+                if(tussenNode==null){
+                	//label om error te weergeven als de stations niet teruggevonden worden.
+                }
+                else{
+                	duur+=Integer.parseInt(tussenNode.valueOf("@number"));
+                }
+    		}
+		} catch (IOException | DocumentException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+    	
+    	return duur;
+    }
 
 
 }

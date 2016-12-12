@@ -11,7 +11,8 @@ public class TrainInfo {
     private LocalDateTime time;
     private String platform;
 
-
+    public TrainInfo() {}
+    
     public TrainInfo(int stopID, String station, LocalDateTime time, String platform) {
         this.stopID = stopID;
         this.station = station;

@@ -45,8 +45,6 @@ private Route route;
         List<Integer> perrons = Arrays.asList(1, 2, 3, 4, 5);
         List<Integer> expected = Arrays.asList(1, 2, 3, 4, 5);
 
-        //All passed / true
-
         //1. Test equal.
         assertThat(perrons, is(expected));
 
@@ -54,8 +52,7 @@ private Route route;
         assertThat(perrons, hasItems(2));
 
         //3. Check List Size
-        assertThat(perrons, hasSize(4));
-
+        assertThat(perrons, hasSize(5));
         assertThat(perrons.size(), is(5));
 
         //4.  List order
@@ -68,16 +65,37 @@ private Route route;
 
         //5. check empty list
         assertThat(perrons, not(IsEmptyCollection.empty()));
-
         assertThat(new ArrayList<>(), IsEmptyCollection.empty());
-
-		//6. Test numeric comparisons
-        //assertThat(perrons, everyItem(greaterThanOrEqualTo(1)));
-
-        //assertThat(perrons, everyItem(lessThan(10)));
-
     }
 	
+//	@Test
+//    public void testStationsList() {
+//
+//        List<Station> stations = Arrays.asList(1, 2, 3, 4, 5);
+//        List<Station> expected = Arrays.asList(1, 2, 3, 4, 5);
+//
+//        //1. Test equal.
+//        assertThat(stations, is(expected));
+//
+//        //2. Check List has this value
+//        //assertThat(stations, hasItems(2));
+//
+//        //3. Check List Size
+//        assertThat(stations, hasSize(5));
+//        assertThat(stations.size(), is(5));
+//
+//        //4.  List order
+//
+//        // Ensure Correct order
+//        assertThat(stations, contains(1, 2, 3, 4, 5));
+//
+//        // Can be any order
+//        assertThat(stations, containsInAnyOrder(5, 4, 3, 2, 1));
+//
+//        //5. check empty list
+//        assertThat(stations, not(IsEmptyCollection.empty()));
+//        assertThat(new ArrayList<>(), IsEmptyCollection.empty());
+//    }
 	
 
 }

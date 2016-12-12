@@ -276,7 +276,7 @@ public class wAbonnementTabController implements Initializable {
 	public void clearVelden() {
 
 		vanField.clear();
-		naarField.clear();		
+		naarField.clear();
 		ritRadioButton.setSelected(true);
 		belgieRadioButton.setSelected(false);
 		eersteRadioButton.setSelected(false);
@@ -315,7 +315,7 @@ public class wAbonnementTabController implements Initializable {
 	void reset(ActionEvent event) {
 
 		vanField.clear();
-		naarField.clear();		
+		naarField.clear();
 		ritRadioButton.setSelected(true);
 		belgieRadioButton.setSelected(false);
 		eersteRadioButton.setSelected(false);
@@ -327,7 +327,6 @@ public class wAbonnementTabController implements Initializable {
 		tableview.setItems(lijstKlanten);
 		klantidOnclick.setText("");
 
-		
 	}
 
 }

@@ -62,6 +62,6 @@
       <TextField fx:id="textButton" layoutX="715.0" layoutY="84.0" promptText="%filter" />
       <Label layoutX="53.0" layoutY="462.0" text="%klantid" />
       <Label fx:id="klantidOnclick" layoutX="129.0" layoutY="462.0" />
-      <Button fx:id="resetButton" layoutX="333.0" layoutY="498.0" mnemonicParsing="false" onAction="#reset" prefHeight="25.0" prefWidth="121.0" text="%reset" />
+      <Button fx:id="resetButton" layoutX="325.0" layoutY="498.0" mnemonicParsing="false" onAction="#reset" prefHeight="26.0" prefWidth="121.0" text="%reset" />
    </children>
 </AnchorPane>

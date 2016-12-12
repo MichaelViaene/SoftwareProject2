@@ -15,7 +15,7 @@
          <content>
             <VBox>
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Reports" wrappingWidth="95.13671875">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%reports" wrappingWidth="95.13671875">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -25,7 +25,7 @@
                       <CategoryAxis side="BOTTOM" fx:id="xAxis" />
                     </xAxis>
                     <yAxis>
-                      <NumberAxis label="#Tickets heen" side="LEFT" />
+                      <NumberAxis label="%aTicketsHeen" side="LEFT" />
                     </yAxis>
                   </BarChart>
                </children>

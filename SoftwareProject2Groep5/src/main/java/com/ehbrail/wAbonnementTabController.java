@@ -112,6 +112,9 @@ public class wAbonnementTabController implements Initializable {
 	@FXML
 	private Label klantidOnclick;
 
+	@FXML
+	private Button resetButton;
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		tableview.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
@@ -273,7 +276,7 @@ public class wAbonnementTabController implements Initializable {
 	public void clearVelden() {
 
 		vanField.clear();
-		naarField.clear();
+		naarField.clear();		
 		ritRadioButton.setSelected(true);
 		belgieRadioButton.setSelected(false);
 		eersteRadioButton.setSelected(false);
@@ -307,4 +310,24 @@ public class wAbonnementTabController implements Initializable {
 
 		return false;
 	}
+
+	@FXML
+	void reset(ActionEvent event) {
+
+		vanField.clear();
+		naarField.clear();		
+		ritRadioButton.setSelected(true);
+		belgieRadioButton.setSelected(false);
+		eersteRadioButton.setSelected(false);
+		tweedeRadioButton.setSelected(true);
+		datepickerBegin.setValue(null);
+		datepickerEinde.setValue(null);
+		prijsid.setText(null);
+		kortingenid.setValue(null);
+		tableview.setItems(lijstKlanten);
+		klantidOnclick.setText("");
+
+		
+	}
+
 }

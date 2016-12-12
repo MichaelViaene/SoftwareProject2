@@ -78,7 +78,7 @@ public class WerknemerController implements Initializable{
         this.login = login;
         //WerknemerController.login = login;
         this.werknemer = werknemer;
-        usernameWerknemer.setText(MessageFormat.format(this.language.getString("WelkomBericht"),werknemer.getVoornaam(), werknemer.getNaam(),login.getUsername(),login.getBevoegdheid()));
+        usernameWerknemer.setText(MessageFormat.format(this.language.getString("WelkomBericht"),werknemer.getVoornaam(), werknemer.getNaam(),login.getUsername(),language.getString("werknemer")));
     }
 
     @FXML private Button logoutButton;

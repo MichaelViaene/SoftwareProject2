@@ -21,6 +21,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.security.auth.callback.LanguageCallback;
+
 import static com.ehbrail.ApiCalls.getTrainInfoByID;
 import static com.ehbrail.WerknemerController.convertISO8601;
 
@@ -28,6 +30,8 @@ import static com.ehbrail.WerknemerController.convertISO8601;
  * Created by jorda on 28/10/2016.
  */
 public class wTrainInfoTabController implements Initializable {
+	
+	private ResourceBundle language;
 
     @FXML
     Label errorRequestLabel;
@@ -47,6 +51,7 @@ public class wTrainInfoTabController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+    	language = resources;
     	tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
     	
         stopID.setCellValueFactory(new PropertyValueFactory<TrainInfo, Integer>("stopID"));
@@ -58,7 +63,7 @@ public class wTrainInfoTabController implements Initializable {
     @FXML
     private void searchAction(ActionEvent event) throws IOException {
         if (treinID.getText().isEmpty()){
-            errorRequestLabel.setText("Gelieve een trein ID mee te geven.");
+            errorRequestLabel.setText(language.getString("EnterTrainId"));
             tableView.getItems().clear();
         }
         else {
@@ -76,7 +81,7 @@ public class wTrainInfoTabController implements Initializable {
                     Node totalStopNode = document.selectSingleNode("vehicleinformation/stops[@number]");
                     if (totalStopNode != null)
                     {totalStops.setText("Total stops: " + totalStopNode.valueOf("@number"));}
-                    else errorRequestLabel.setText("Er werd geen data gevonden voor deze trein.");
+                    else errorRequestLabel.setText(language.getString("NoDataForThisTrain"));
 
 
                     ObservableList<TrainInfo> data = FXCollections.observableArrayList();

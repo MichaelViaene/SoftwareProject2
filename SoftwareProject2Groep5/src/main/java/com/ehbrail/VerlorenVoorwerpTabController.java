@@ -13,9 +13,10 @@ import java.util.ResourceBundle;
 
 import org.controlsfx.control.textfield.TextFields;
 
-import com.database.KlantDAO;
 import com.database.VerlorenVoorwerpDAO;
+import com.ibm.icu.text.MessageFormat;
 import com.model.VerlorenVoorwerp;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -36,6 +37,7 @@ import javafx.scene.input.MouseEvent;
 
 public class VerlorenVoorwerpTabController implements Initializable {
 
+	private ResourceBundle language;
 	// tableview
 	@FXML
 	private TableView<VerlorenVoorwerp> tableview;
@@ -99,10 +101,12 @@ public class VerlorenVoorwerpTabController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+
+		language = resources;
+
 		tableview.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
 		list = LoginController.getList();
-		TextFields.bindAutoCompletion(textButton, list);
 		TextFields.bindAutoCompletion(stationtext, list);
 
 		refresh();
@@ -132,10 +136,10 @@ public class VerlorenVoorwerpTabController implements Initializable {
 				return false;
 			});
 		}));
-		
+
 		SortedList<VerlorenVoorwerp> sortedList = new SortedList<VerlorenVoorwerp>(filteredData);
-        sortedList.comparatorProperty().bind(tableview.comparatorProperty());
-        tableview.setItems(sortedList);
+		sortedList.comparatorProperty().bind(tableview.comparatorProperty());
+		tableview.setItems(sortedList);
 
 	}
 
@@ -151,9 +155,15 @@ public class VerlorenVoorwerpTabController implements Initializable {
 
 	@FXML
 	void insertVoorwerp(ActionEvent event) {
+		boolean controleStation = true;
 
+		if (list.contains(stationtext.getText())) {
+			controleStation = true;
+		} else {
+			controleStation = false;
+		}
 		if (!(omschrijvingtext.getText() == "" || datumtext.getValue() == null || stationtext.getText() == ""
-				|| naamtext.getText() == "")) {
+				|| naamtext.getText() == "" || controleStation == false)) {
 			String text = omschrijvingtext.getText();
 			if (treintext.getText().isEmpty()) {
 
@@ -171,9 +181,9 @@ public class VerlorenVoorwerpTabController implements Initializable {
 			alert.setTitle("Information Dialog");
 			alert.setHeaderText("Information Alert");
 			if (toegevoegd == true) {
-				alert.setContentText("Verloren voorwerp werd toegevoegd.");
+				alert.setContentText(language.getString("alertObjectToegevoegd"));
 			} else {
-				alert.setContentText("FOUTMELDING: Verloren voorwerp werd NIET toegevoegd.");
+				alert.setContentText(language.getString("alertObjectNietToegevoegd"));
 			}
 			alert.show();
 
@@ -183,9 +193,9 @@ public class VerlorenVoorwerpTabController implements Initializable {
 
 		{
 			Alert alert = new Alert(Alert.AlertType.WARNING);
-			alert.setTitle("Ongeldige Velden");
+			alert.setTitle(language.getString("alertOngeldigeVelden"));
 			alert.setHeaderText(null);
-			alert.setContentText("Alle velden moeten ingevuld worden.");
+			alert.setContentText(language.getString("alertControleerVeldEnStation"));
 			alert.show();
 		}
 	}
@@ -198,7 +208,7 @@ public class VerlorenVoorwerpTabController implements Initializable {
 			Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 			alert.setTitle("Confirmation Dialog");
 			alert.setHeaderText(null);
-			alert.setContentText("Ben je zeker dat je " + id + " wilt deleten?");
+			alert.setContentText(MessageFormat.format(language.getString("alertVoorDelete"), id));
 			Optional<ButtonType> action = alert.showAndWait();
 			if (action.get() == ButtonType.OK) {
 				VerlorenVoorwerpDAO.deleteVoorwerp(id);
@@ -209,7 +219,7 @@ public class VerlorenVoorwerpTabController implements Initializable {
 			Alert alert = new Alert(Alert.AlertType.ERROR);
 			alert.setTitle("Error");
 			alert.setHeaderText("Error");
-			alert.setContentText("textveld moet ingevuld worden\nid moet een cijfer zijn");
+			alert.setContentText(language.getString("alertTextVeld"));
 			alert.show();
 		}
 		refresh();
@@ -218,9 +228,14 @@ public class VerlorenVoorwerpTabController implements Initializable {
 
 	@FXML
 	void updateVoorwerp(ActionEvent event) {
-
+		boolean controleStation = true;
+		if (list.contains(stationtext.getText())) {
+			controleStation = true;
+		} else {
+			controleStation = false;
+		}
 		if (!(omschrijvingtext.getText() == "" || datumtext.getValue() == null || stationtext.getText() == ""
-				|| naamtext.getText() == "")) {
+				|| naamtext.getText() == "" || controleStation == false)) {
 
 			LocalDate localDate = datumtext.getValue();
 			Date date = Date.valueOf(localDate);
@@ -244,9 +259,9 @@ public class VerlorenVoorwerpTabController implements Initializable {
 			refresh();
 		} else {
 			Alert alert = new Alert(Alert.AlertType.WARNING);
-			alert.setTitle("Ongeldige Velden");
+			alert.setTitle(language.getString("alertOngeldigeVelden"));
 			alert.setHeaderText(null);
-			alert.setContentText("Alle velden moeten ingevuld worden.");
+			alert.setContentText(language.getString("alertControleerVeldEnStation"));
 			alert.show();
 		}
 

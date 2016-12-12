@@ -25,6 +25,7 @@ import static com.database.LoginDAO.getLoginByID;
  * Created by jorda on 10/11/2016.
  */
 public class aPasswordChangeTabController implements Initializable {
+	private ResourceBundle language;
     @FXML private Label accountLabel;
     @FXML private PasswordField oldPasswordField;
     @FXML private PasswordField newPasswordField;
@@ -34,6 +35,7 @@ public class aPasswordChangeTabController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+    	language = resources;
         accountLabel.setText(AdminController.getLogin().getUsername());
     }
 
@@ -58,19 +60,19 @@ public class aPasswordChangeTabController implements Initializable {
                         newPasswordField.clear();
                         copyNewPasswordField.clear();
                         Notifications.create()
-                                .title("Succes")
-                                .text("Succesfully set a new password!")
+                                .title(language.getString("succes"))
+                                .text(language.getString("notifSucces"))
                                 .darkStyle()
                                 .position(Pos.TOP_CENTER)
                                 .graphic(new ImageView(img))
                                 .show();
                     }
-                    else createAlertBox("Oops, Something went wrong!",null,"Failed to set new password!");
+                    else createAlertBox(language.getString("oops"),null,language.getString("failNewPassword"));
                 }
-                else createAlertBox("Wrong Password",null,"Beide nieuwe wachtwoorden zijn niet aan elkaar gelijk!");
+                else createAlertBox(language.getString("wrongPassword"),null,language.getString("passwordNotEqual"));
             }
-           else createAlertBox("Wrong Password",null,"Wachtwoord is niet correct!");
+           else createAlertBox(language.getString("wrongPassword"),null,language.getString("passwordNotCorrect"));
         }
-        else createAlertBox("Ongeldige velden",null,"Alle velden moeten ingevuld worden.");
+        else createAlertBox(language.getString("ongeldigeVelden"),null,language.getString("ongeldigeVelden"));
     }
 }

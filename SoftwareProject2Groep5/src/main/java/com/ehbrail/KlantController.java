@@ -1,5 +1,10 @@
 package com.ehbrail;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
+import javax.security.auth.callback.LanguageCallback;
+
 import com.database.AdresDAO;
 import com.database.KlantDAO;
 import com.model.Adres;
@@ -7,12 +12,15 @@ import com.model.Klant;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 
-public class KlantController {
+public class KlantController implements Initializable {
+		
+	private ResourceBundle language;
 
 	@FXML
 	private TextField voornaamid;
@@ -47,8 +55,17 @@ public class KlantController {
 	@FXML
 	private Button cancelButton;
 
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		language = resources;
+		
+	}
+	
+	
 	@FXML
 	void toevoegen(ActionEvent event) {
+		
+		
 		
 		//TODO controles aanpassen
 		if (voornaamid.getText() != "" && naamid.getText() != "" && datepicker.getValue() != null
@@ -81,14 +98,14 @@ public class KlantController {
 			Alert alert = new Alert(Alert.AlertType.INFORMATION);
 			alert.setTitle("Information Dialog");
 			alert.setHeaderText("Information Alert");
-			alert.setContentText("Klant informaties werden toegevoegd");
+			alert.setContentText(language.getString("klantToegevoegd"));
 			alert.show();
 
 		} else {
 			Alert alert = new Alert(Alert.AlertType.WARNING);
-			alert.setTitle("Ongeldige Velden");
+			alert.setTitle(language.getString("alertOngeldigeVelden"));
 			alert.setHeaderText(null);
-			alert.setContentText("Alle velden moeten ingevuld worden.");
+			alert.setContentText(language.getString("alertFieldsCorrect"));
 			alert.show();
 		}
 
@@ -105,4 +122,6 @@ public class KlantController {
 		huisnummerid.clear();
 		brievenbusid.clear();
 	}
+
+	
 }

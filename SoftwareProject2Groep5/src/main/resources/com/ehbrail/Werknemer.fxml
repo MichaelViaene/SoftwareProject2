@@ -79,7 +79,7 @@
                               <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <Label fx:id="usernameAdm" prefHeight="38.0" prefWidth="973.0" text="%user" textFill="#1b8a3a">
+                              <Label fx:id="usernameWerknemer" prefHeight="38.0" prefWidth="973.0" text="%user" textFill="#1b8a3a">
                                  <font>
                                     <Font size="20.0" />
                                  </font>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="593.0" prefWidth="813.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ehbrail.EditKlantController">
+   <children>
+      <TextField fx:id="textButton" layoutX="28.0" layoutY="320.0" promptText="%filter" />
+      <Label layoutX="28.0" layoutY="27.0" prefHeight="32.0" prefWidth="222.0" text="%editKlant">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <TableView fx:id="tableview" layoutX="28.0" layoutY="68.0" onMouseClicked="#selectInformaties" prefHeight="250.0" prefWidth="497.0">
+         <columns>
+            <TableColumn fx:id="id" prefWidth="43.0" text="id" />
+            <TableColumn fx:id="voornaamid" prefWidth="236.0" text="%Klant.voornaam" />
+            <TableColumn fx:id="achternaamid" prefWidth="232.0" text="%Klant.naam" />
+         </columns>
+      </TableView>
+   </children>
+</Pane>

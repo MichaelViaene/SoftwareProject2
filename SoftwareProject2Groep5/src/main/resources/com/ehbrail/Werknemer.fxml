@@ -82,7 +82,7 @@
 
 						<Tab fx:id="EditKlantGegevens" text="%editKlant">
 							<content>
-								<fx:include fx:id="EditKlantTab" source="EditKlantGegevens.fxml" />
+								<fx:include fx:id="EditKlantTab" source="wEditKlantGegevens.fxml" />
 							</content>
 						</Tab>
 

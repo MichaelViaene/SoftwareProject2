@@ -118,7 +118,7 @@ public class EditKlantController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		language = resources;
 
-		tableview.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+		tableview.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
 
 		tableview.setItems(lijstKlanten);
 

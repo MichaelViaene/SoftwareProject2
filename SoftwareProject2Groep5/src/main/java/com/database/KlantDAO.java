@@ -67,6 +67,36 @@ public class KlantDAO {
 		return list;
 
 	}
+	
+	public static boolean updateVoorwerp(Klant klant) {
+		if (klant == null) {
+			return false;
+		}
+		try (Connection con = Database.getConnection()){
+			String pushStatement = "UPDATE Klant SET geboortedatum= ?, gsmnummer=?, commentaar=?, naam=?, voornaam=? WHERE klant_id=?;";
+
+			con.setAutoCommit(false);
+			try (PreparedStatement update = con.prepareStatement(pushStatement)){
+				update.setObject(1, klant.getGeboortedatum());
+				update.setString(2, klant.getGsmnummer());
+				update.setString(3, klant.getCommentaar());
+				update.setString(4, klant.getNaam());
+				update.setString(5, klant.getVoornaam());
+				update.setInt(6, klant.getKlantid());
+	
+				int aantalVeranderingen = update.executeUpdate();
+				con.commit();
+	
+				if (aantalVeranderingen == 1)
+					return true;
+				return false;
+			} catch (Exception ex) {
+                 System.out.println(ex);
+             }
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} return false;
+	}
 
 
 }

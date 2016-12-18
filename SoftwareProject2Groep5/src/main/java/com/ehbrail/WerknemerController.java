@@ -163,7 +163,7 @@ public class WerknemerController implements Initializable{
              * Default Quote character is double quote
              * Start reading from line 1
              */
-            csvReader = new CSVReader(new FileReader("src/main/resources/com/ehbrail/stations.csv"),',','"',1);
+            csvReader = new CSVReader(new FileReader("src/main/resources/com/ehbrail/stations.csv"),';','"',1);
             //mapping of columns with their positions
             ColumnPositionMappingStrategy mappingStrategy = new ColumnPositionMappingStrategy();
             //Set mappingStrategy type to StationsCSV Type

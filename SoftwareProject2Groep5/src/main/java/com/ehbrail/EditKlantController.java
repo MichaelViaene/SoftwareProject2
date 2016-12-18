@@ -108,7 +108,7 @@ public class EditKlantController implements Initializable {
 	@FXML
 	private Label idHidden;
 
-	private ObservableList<Klant> data;
+	private ObservableList<Klant> data = FXCollections.observableArrayList(KlantDAO.getAll());;
 
 	ArrayList<String> list;
 
@@ -159,6 +159,8 @@ public class EditKlantController implements Initializable {
 			AdresDAO.updateVoorwerp(adres);
 
 			refresh();
+			clear();
+			
 		}
 
 	}
@@ -239,6 +241,22 @@ public class EditKlantController implements Initializable {
 	public void refresh() {
 		data = FXCollections.observableArrayList(KlantDAO.getAll());
 		tableview.setItems(data);
+	}
+	
+	public void clear(){
+		adresidHidden.setText("");
+		idHidden.setText("");
+		voornaamText.clear();
+		naamText.clear();
+		datepicker.setValue(null);
+		gsmText.clear();
+		commentaarText.clear();
+		plaatsnaamText.clear();
+		postcodeText.clear();
+		straatText.clear();
+		huisnummerText.clear();
+		brievenbusText.clear();
+		filter.clear();
 	}
 
 }

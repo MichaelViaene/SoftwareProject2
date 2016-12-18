@@ -1,6 +1,7 @@
 package com.database;
 
 import com.model.Adres;
+import com.model.Klant;
 import com.model.VerlorenVoorwerp;
 
 import java.sql.*;
@@ -169,6 +170,37 @@ public class AdresDAO {
 
 		return null;
 	}
+	
+	public static boolean updateVoorwerp(Adres adres) {
+		if (adres== null) {
+			return false;
+		}
+		try (Connection con = Database.getConnection()){
+			String pushStatement = "UPDATE Adres SET plaatsnaam= ?, straat=?, huisnr=?, brievenbus=?, postcode=? WHERE adres_id=?;";
+
+			con.setAutoCommit(false);
+			try (PreparedStatement update = con.prepareStatement(pushStatement)){
+				update.setString(1, adres.getPlaatsnaam());
+				update.setString(2, adres.getStraat());
+				update.setInt(3, adres.getHuisnr());
+				update.setString(4, adres.getBrievenbus());
+				update.setInt(5, adres.getPostcode());
+				update.setInt(6, adres.getAdres_id());
+	
+				int aantalVeranderingen = update.executeUpdate();
+				con.commit();
+	
+				if (aantalVeranderingen == 1)
+					return true;
+				return false;
+			} catch (Exception ex) {
+                 System.out.println(ex);
+             }
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} return false;
+	}
+	
 
 	// TODO update en delete methode voorzien
 }

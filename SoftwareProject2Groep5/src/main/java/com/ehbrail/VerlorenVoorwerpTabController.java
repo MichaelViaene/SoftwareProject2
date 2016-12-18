@@ -111,6 +111,7 @@ public class VerlorenVoorwerpTabController implements Initializable {
 
 		refresh();
 
+		omschrijvingtext.setWrapText(true);
 		voorwerpid.setCellValueFactory(new PropertyValueFactory<VerlorenVoorwerp, Integer>("voorwerpid"));
 		naam.setCellValueFactory(new PropertyValueFactory<VerlorenVoorwerp, String>("naam"));
 		omschrijving.setCellValueFactory(new PropertyValueFactory<VerlorenVoorwerp, String>("omschrijving"));

@@ -102,6 +102,9 @@ public class WerknemerController implements Initializable{
     @FXML private Tab wAbonnementTab;
     @FXML private wAbonnementTabController wAbonnementTabController;
     
+    @FXML private Tab EditKlantGegevens;
+    @FXML private EditKlantController editKlantController;
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         language = resources;

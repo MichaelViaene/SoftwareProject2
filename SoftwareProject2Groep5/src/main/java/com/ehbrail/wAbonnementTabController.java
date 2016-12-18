@@ -276,7 +276,7 @@ public class wAbonnementTabController implements Initializable {
 	public void clearVelden() {
 
 		vanField.clear();
-		naarField.clear();
+		naarField.clear();		
 		ritRadioButton.setSelected(true);
 		belgieRadioButton.setSelected(false);
 		eersteRadioButton.setSelected(false);
@@ -286,6 +286,8 @@ public class wAbonnementTabController implements Initializable {
 		prijsid.setText(null);
 		kortingenid.setValue(null);
 		tableview.setItems(lijstKlanten);
+		klantidOnclick.setText("");
+
 
 	}
 
@@ -313,20 +315,7 @@ public class wAbonnementTabController implements Initializable {
 
 	@FXML
 	void reset(ActionEvent event) {
-
-		vanField.clear();
-		naarField.clear();
-		ritRadioButton.setSelected(true);
-		belgieRadioButton.setSelected(false);
-		eersteRadioButton.setSelected(false);
-		tweedeRadioButton.setSelected(true);
-		datepickerBegin.setValue(null);
-		datepickerEinde.setValue(null);
-		prijsid.setText(null);
-		kortingenid.setValue(null);
-		tableview.setItems(lijstKlanten);
-		klantidOnclick.setText("");
-
+		clearVelden();		
 	}
 
 }

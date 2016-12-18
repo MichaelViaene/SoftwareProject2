@@ -50,8 +50,12 @@ public class KlantDAO {
 				while (rs.next()) {
 					Klant klant = new Klant();
 					klant.setKlantid(rs.getInt("klant_id"));
+					klant.setAdresid(rs.getInt("adres_id"));
 					klant.setVoornaam(rs.getString("voornaam"));
 					klant.setNaam(rs.getString("naam"));
+					klant.setGeboortedatum(rs.getDate("geboortedatum").toLocalDate());
+					klant.setGsmnummer(rs.getString("gsmnummer"));
+					klant.setCommentaar(rs.getString("commentaar"));
 					list.add(klant);
 				}
 			} catch (Exception ex) {

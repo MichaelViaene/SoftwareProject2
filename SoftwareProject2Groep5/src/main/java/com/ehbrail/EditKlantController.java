@@ -134,10 +134,13 @@ public class EditKlantController implements Initializable {
 	@FXML
 	void update(ActionEvent event) {
 
-		if (voornaamText.getText().isEmpty() || naamText.getText().isEmpty() || datepicker.getValue() == null
+		LocalDate todayLocalDate = LocalDate.now(ZoneId.of("Europe/Brussels"));
+		LocalDate datum = datepicker.getValue();
+		
+		if (voornaamText.getText().isEmpty() || naamText.getText().isEmpty()
 				|| plaatsnaamText.getText().isEmpty() || postcodeText.getText().isEmpty()
 				|| straatText.getText().isEmpty() || huisnummerText.getText().isEmpty()
-				|| brievenbusText.getText().isEmpty()) {
+				|| brievenbusText.getText().isEmpty()  || (datepicker.getValue() == null || datum.isAfter(todayLocalDate))) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error Dialog");
 			alert.setHeaderText(null);
@@ -257,6 +260,7 @@ public class EditKlantController implements Initializable {
 		huisnummerText.clear();
 		brievenbusText.clear();
 		filter.clear();
+		voornaamText.requestFocus();
 	}
 
 }

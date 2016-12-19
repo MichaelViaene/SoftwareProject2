@@ -217,6 +217,12 @@ public class EditKlantController implements Initializable {
 				alert.setHeaderText(null);
 				alert.setContentText(language.getString("klantUpdate"));
 				alert.showAndWait();
+			}else {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("Information Dialog");
+				alert.setHeaderText(null);
+				alert.setContentText(language.getString("ietsFout"));
+				alert.showAndWait();
 			}
 
 			refresh();

@@ -108,94 +108,12 @@ public class EditKlantController implements Initializable {
 	@FXML
 	private Label idHidden;
 
+	@FXML
+	private Button reloadButton;
+
 	private ObservableList<Klant> data = FXCollections.observableArrayList(KlantDAO.getAll());;
 
 	ArrayList<String> list;
-
-	@FXML
-	void reset(ActionEvent event) {
-
-		adresidHidden.setText("");
-		idHidden.setText("");
-		voornaamText.clear();
-		naamText.clear();
-		datepicker.setValue(null);
-		gsmText.clear();
-		commentaarText.clear();
-		plaatsnaamText.clear();
-		postcodeText.clear();
-		straatText.clear();
-		huisnummerText.clear();
-		brievenbusText.clear();
-		filter.clear();
-
-	}
-
-	@FXML
-	void update(ActionEvent event) {
-
-		LocalDate todayLocalDate = LocalDate.now(ZoneId.of("Europe/Brussels"));
-		LocalDate datum = datepicker.getValue();
-		
-		if (voornaamText.getText().isEmpty() || naamText.getText().isEmpty()
-				|| plaatsnaamText.getText().isEmpty() || postcodeText.getText().isEmpty()
-				|| straatText.getText().isEmpty() || huisnummerText.getText().isEmpty()
-				|| brievenbusText.getText().isEmpty()  || (datepicker.getValue() == null || datum.isAfter(todayLocalDate))) {
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setTitle("Error Dialog");
-			alert.setHeaderText(null);
-			alert.setContentText(language.getString("alertFieldsCorrect") + "\n" + language.getString("controleDate"));
-			alert.showAndWait();
-
-		} else {
-			int klantAdresId = Integer.valueOf(adresidHidden.getText());
-			int klantid = Integer.valueOf(idHidden.getText());
-			Klant klant = new Klant(klantid, klantAdresId, datepicker.getValue(), gsmText.getText(),
-					commentaarText.getText(), true, naamText.getText(), voornaamText.getText());
-
-			KlantDAO.updateVoorwerp(klant);
-
-			int huisnr = Integer.valueOf(huisnummerText.getText());
-			int postcode = Integer.valueOf(postcodeText.getText());
-			Adres adres = new Adres(klantAdresId, plaatsnaamText.getText(), straatText.getText(), huisnr,
-					brievenbusText.getText(), postcode);
-			AdresDAO.updateVoorwerp(adres);
-
-			refresh();
-			clear();
-			
-		}
-
-	}
-
-	@FXML
-	void selectInformaties(MouseEvent event) {
-		if (event.getClickCount() == 2 && tableview.getSelectionModel().getSelectedItem() != null) {
-
-			Klant klant = tableview.getSelectionModel().getSelectedItem();
-			voornaamText.setText(klant.getVoornaam());
-			naamText.setText(klant.getNaam());
-			datepicker.setValue(klant.getGeboortedatum());
-			gsmText.setText(klant.getGsmnummer());
-			commentaarText.setText(klant.getCommentaar());
-			adresidHidden.setText(String.valueOf(klant.getAdresid()));
-			idHidden.setText(String.valueOf(klant.getKlantid()));
-
-			AdresDAO adresDAO = new AdresDAO();
-			Adres adres = adresDAO.getAdres(klant.getAdresid());
-			if (adres != null) {
-				plaatsnaamText.setText(adres.getPlaatsnaam());
-				String postcode = String.valueOf(adres.getPostcode());
-				postcodeText.setText(postcode);
-				straatText.setText(adres.getStraat());
-				String huisnr = String.valueOf(adres.getHuisnr());
-				huisnummerText.setText(huisnr);
-				brievenbusText.setText(adres.getBrievenbus());
-
-			}
-		}
-
-	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -241,12 +159,103 @@ public class EditKlantController implements Initializable {
 
 	}
 
+	@FXML
+	void reload(ActionEvent event) {
+		refresh();
+
+	}
+
+	@FXML
+	void reset(ActionEvent event) {
+
+		adresidHidden.setText("");
+		idHidden.setText("");
+		voornaamText.clear();
+		naamText.clear();
+		datepicker.setValue(null);
+		gsmText.clear();
+		commentaarText.clear();
+		plaatsnaamText.clear();
+		postcodeText.clear();
+		straatText.clear();
+		huisnummerText.clear();
+		brievenbusText.clear();
+		filter.clear();
+
+	}
+
+	@FXML
+	void update(ActionEvent event) {
+
+		LocalDate todayLocalDate = LocalDate.now(ZoneId.of("Europe/Brussels"));
+		LocalDate datum = datepicker.getValue();
+
+		if (voornaamText.getText().isEmpty() || naamText.getText().isEmpty() || plaatsnaamText.getText().isEmpty()
+				|| postcodeText.getText().isEmpty() || straatText.getText().isEmpty()
+				|| huisnummerText.getText().isEmpty() || brievenbusText.getText().isEmpty()
+				|| (datepicker.getValue() == null || datum.isAfter(todayLocalDate))) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText(null);
+			alert.setContentText(language.getString("alertFieldsCorrect") + "\n" + language.getString("controleDate"));
+			alert.showAndWait();
+
+		} else {
+			int klantAdresId = Integer.valueOf(adresidHidden.getText());
+			int klantid = Integer.valueOf(idHidden.getText());
+			Klant klant = new Klant(klantid, klantAdresId, datepicker.getValue(), gsmText.getText(),
+					commentaarText.getText(), true, naamText.getText(), voornaamText.getText());
+
+			KlantDAO.updateVoorwerp(klant);
+
+			int huisnr = Integer.valueOf(huisnummerText.getText());
+			int postcode = Integer.valueOf(postcodeText.getText());
+			Adres adres = new Adres(klantAdresId, plaatsnaamText.getText(), straatText.getText(), huisnr,
+					brievenbusText.getText(), postcode);
+			AdresDAO.updateVoorwerp(adres);
+
+			refresh();
+			clear();
+
+		}
+
+	}
+
+	@FXML
+	void selectInformaties(MouseEvent event) {
+		if (event.getClickCount() == 2 && tableview.getSelectionModel().getSelectedItem() != null) {
+
+			Klant klant = tableview.getSelectionModel().getSelectedItem();
+			voornaamText.setText(klant.getVoornaam());
+			naamText.setText(klant.getNaam());
+			datepicker.setValue(klant.getGeboortedatum());
+			gsmText.setText(klant.getGsmnummer());
+			commentaarText.setText(klant.getCommentaar());
+			adresidHidden.setText(String.valueOf(klant.getAdresid()));
+			idHidden.setText(String.valueOf(klant.getKlantid()));
+
+			AdresDAO adresDAO = new AdresDAO();
+			Adres adres = adresDAO.getAdres(klant.getAdresid());
+			if (adres != null) {
+				plaatsnaamText.setText(adres.getPlaatsnaam());
+				String postcode = String.valueOf(adres.getPostcode());
+				postcodeText.setText(postcode);
+				straatText.setText(adres.getStraat());
+				String huisnr = String.valueOf(adres.getHuisnr());
+				huisnummerText.setText(huisnr);
+				brievenbusText.setText(adres.getBrievenbus());
+
+			}
+		}
+
+	}
+
 	public void refresh() {
 		data = FXCollections.observableArrayList(KlantDAO.getAll());
 		tableview.setItems(data);
 	}
-	
-	public void clear(){
+
+	public void clear() {
 		adresidHidden.setText("");
 		idHidden.setText("");
 		voornaamText.clear();

@@ -2,6 +2,7 @@ package com.ehbrail;
 import com.model.Station;
 import com.model.Ticket;
 import static com.ehbrail.ApiCalls.getIRailRoute;
+import static com.ehbrail.ApiCalls.getIRailRouteXML;
 import net.*;
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
@@ -155,7 +156,7 @@ public class wTicketTabController implements Initializable{
         	}
         	
         	double prijs=berekenPrijs(vertrekStation, eindStation);
-        	Ticket ticket = new Ticket(vertrekStation,eindStation,1,klasse,type,1,datumAankoop,datumHeen,datumTerug,WerknemerController.getLogin().getMedewerker_id());
+        	Ticket ticket = new Ticket(vertrekStation,eindStation,1,klasse,type,prijs,datumAankoop,datumHeen,datumTerug,WerknemerController.getLogin().getMedewerker_id());
         	
         	TicketDAO.writeTicket(ticket);
 
@@ -207,22 +208,22 @@ public class wTicketTabController implements Initializable{
     
     private double berekenAfstand(String vertrekStation, String eindStation){
     	Station aankomst=new Station(), vertrek= new Station();
-    	try (Response resp=getIRailRoute(vertrekStation, eindStation)){
+    	try (Response resp=getIRailRouteXML(vertrekStation, eindStation)){
     		if (resp.isSuccessful()){
                 String routeResponse = resp.body().string();
                 SAXReader reader = new SAXReader();
                 Document document = reader.read(new InputSource(new StringReader(routeResponse)));
 
-                org.dom4j.Node startNode = document.selectSingleNode("connection/departure/station");
-                org.dom4j.Node eindNode = document.selectSingleNode("connection/arrival/station");
+                org.dom4j.Node startNode = document.selectSingleNode("//connection/departure/station");
+                org.dom4j.Node eindNode = document.selectSingleNode("//connection/arrival/station");
                 if(startNode==null || eindNode==null){
                 	//label om error te weergeven als de stations niet teruggevonden worden.
                 }
                 else{
-                	vertrek.setLatitude(Double.parseDouble(startNode.valueOf("station/@locationX")));
-                	vertrek.setLongitude((Double.parseDouble(startNode.valueOf("station/@locationY"))));		
-                	aankomst.setLatitude(Double.parseDouble(eindNode.valueOf("station/@locationX")));
-                	aankomst.setLongitude((Double.parseDouble(eindNode.valueOf("station/@locationY"))));		
+                	vertrek.setLatitude(Double.parseDouble(startNode.valueOf("@locationX")));
+                	vertrek.setLongitude((Double.parseDouble(startNode.valueOf("@locationY"))));		
+                	aankomst.setLatitude(Double.parseDouble(eindNode.valueOf("@locationX")));
+                	aankomst.setLongitude((Double.parseDouble(eindNode.valueOf("@locationY"))));		
                 }
     		}
 		} catch (IOException | DocumentException e1) {
@@ -240,13 +241,13 @@ public class wTicketTabController implements Initializable{
     private int getAantalTussenStations(String vertrekStation, String eindStation){
     	int aantal=0;
     	
-    	try (Response resp=getIRailRoute(vertrekStation, eindStation)){
+    	try (Response resp=getIRailRouteXML(vertrekStation, eindStation)){
     		if (resp.isSuccessful()){
                 String routeResponse = resp.body().string();
                 SAXReader reader = new SAXReader();
                 Document document = reader.read(new InputSource(new StringReader(routeResponse)));
 
-                org.dom4j.Node tussenNode = document.selectSingleNode("connection/vias");
+                org.dom4j.Node tussenNode = document.selectSingleNode("//connection/vias");
                 if(tussenNode==null){
                 	//label om error te weergeven als de stations niet teruggevonden worden.
                 }
@@ -267,8 +268,20 @@ public class wTicketTabController implements Initializable{
     	double afstand = berekenAfstand(vertrekStation, eindStation);
     	int aantal=getAantalTussenStations(vertrekStation,eindStation);
     	duur=getDuratieRoute(vertrekStation,eindStation);
-    	Expression e=new ExpressionBuilder(FormuleDAO.getFormuleActive()).variables("x","y","z").build().setVariable("x", afstand).setVariable("y", aantal).setVariable("z", duur);
-    	
+    	String formule=FormuleDAO.getFormuleActive();
+    	if(!formule.contains("x")){
+    		afstand=0;
+    		formule+="1*x";
+    	}
+    	if(!formule.contains("y")){
+    		aantal=0;
+    		formule+="1*y";
+    	}
+    	if(!formule.contains("z")){
+    		duur=0;
+    		formule+="1*z";
+    	}
+    	Expression e=new ExpressionBuilder(formule).variables("x","y","z").build().setVariable("x", afstand).setVariable("y", aantal).setVariable("z", duur);
     	prijs=e.evaluate();
     	return prijs;
     }
@@ -283,7 +296,6 @@ public class wTicketTabController implements Initializable{
             System.out.println(e);
         }
     }
-
 
     private void createPDF(Ticket ticket, ResourceBundle language){
     	try {
@@ -377,19 +389,22 @@ public class wTicketTabController implements Initializable{
     public double getDuratieRoute(String vertrekStation, String eindStation){
     	double duur=0;
     	   	
-    	try (Response resp=getIRailRoute(vertrekStation, eindStation)){
+    	try (Response resp=getIRailRouteXML(vertrekStation, eindStation)){
     		if (resp.isSuccessful()){
+    			System.out.println(resp);
                 String routeResponse = resp.body().string();
                 SAXReader reader = new SAXReader();
                 Document document = reader.read(new InputSource(new StringReader(routeResponse)));
-
-                org.dom4j.Node vertrekNode = document.selectSingleNode("connection/departure");
-                org.dom4j.Node aankomstNode = document.selectSingleNode("connection/arrival");
+                System.out.println(document);
+                org.dom4j.Node vertrekNode = document.selectSingleNode("//connection/duration");
+                //org.dom4j.Node aankomstNode = document.selectSingleNode("connection/arrival");
                 if(vertrekNode==null){
                 	//label om error te weergeven als de stations niet teruggevonden worden.
+                	System.out.println("Vertreknode is null");
                 }
                 else{
-                	duur+=Integer.parseInt(aankomstNode.selectSingleNode("time").getText())-Integer.parseInt(vertrekNode.selectSingleNode("time").getText());
+                	duur+=Integer.parseInt(vertrekNode.getText());
+                	duur/=60;
                 }
     		}
 		} catch (IOException | DocumentException e1) {

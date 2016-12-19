@@ -44,6 +44,16 @@ public  class ApiCalls {
         System.out.println("Tijd nodig voor getIRailRoute = " + result);
         return response;
     }
+    
+    public static Response getIRailRouteXML(String van, String naar) throws IOException {
+        String url = "https://api.irail.be/connections/?to="+naar+"&from="+van+"&format=xml";
+        long startTime = System.currentTimeMillis();
+        Response response = doGetRequest(url);
+        long stopTime = System.currentTimeMillis();
+        long result = stopTime - startTime;
+        System.out.println("Tijd nodig voor getIRailRoute = " + result);
+        return response;
+    }
 
     //IRail: Haalt route informatie op van vertrek tot aankomst station. Extra opties zoals tijd/datum/aankomst-vertrek. Als JSON. geeft Response terug.
     public static Response getExtendedIRailRoute(String van, String naar, String datedmy, String time, String timeSel) throws IOException {

@@ -193,7 +193,7 @@ public class EditKlantController implements Initializable {
 		if (voornaamText.getText().isEmpty() || naamText.getText().isEmpty() || plaatsnaamText.getText().isEmpty()
 				|| postcodeText.getText().isEmpty() || straatText.getText().isEmpty()
 				|| huisnummerText.getText().isEmpty() || brievenbusText.getText().isEmpty()
-				|| (datepicker.getValue() == null || datum.isAfter(todayLocalDate))) {
+				|| gsmText.getText().isEmpty() || (datepicker.getValue() == null || datum.isAfter(todayLocalDate))) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error Dialog");
 			alert.setHeaderText(null);
@@ -206,13 +206,18 @@ public class EditKlantController implements Initializable {
 			Klant klant = new Klant(klantid, klantAdresId, datepicker.getValue(), gsmText.getText(),
 					commentaarText.getText(), true, naamText.getText(), voornaamText.getText());
 
-			KlantDAO.updateVoorwerp(klant);
-
 			int huisnr = Integer.valueOf(huisnummerText.getText());
 			int postcode = Integer.valueOf(postcodeText.getText());
 			Adres adres = new Adres(klantAdresId, plaatsnaamText.getText(), straatText.getText(), huisnr,
 					brievenbusText.getText(), postcode);
-			AdresDAO.updateVoorwerp(adres);
+
+			if (KlantDAO.updateVoorwerp(klant) == true && AdresDAO.updateVoorwerp(adres) == true) {
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Information Dialog");
+				alert.setHeaderText(null);
+				alert.setContentText(language.getString("klantUpdate"));
+				alert.showAndWait();
+			}
 
 			refresh();
 			clear();

@@ -46,7 +46,7 @@ public class KlantDAO {
 		ArrayList<Klant> list = new ArrayList<>();
 		try (Connection con = Database.getConnection()){
 			try (Statement st = con.createStatement();
-					ResultSet rs = st.executeQuery("SELECT * FROM Klant")){
+					ResultSet rs = st.executeQuery("SELECT * FROM Klant where actief=1")){
 				while (rs.next()) {
 					Klant klant = new Klant();
 					klant.setKlantid(rs.getInt("klant_id"));
@@ -96,6 +96,24 @@ public class KlantDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} return false;
+	}
+	
+	public static boolean deleteKlant(int id) {
+
+		if (id < 0)
+			return false;
+		try (Connection con = Database.getConnection()){
+			try (PreparedStatement st = con.prepareStatement("UPDATE Klant SET actief= 0 where klant_id= ?")){
+				st.setInt(1, id);
+				st.executeUpdate();
+				return true;
+			} catch (Exception ex) {
+                System.out.println(ex);
+            }
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 

@@ -4,17 +4,15 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
-
-import org.controlsfx.control.textfield.TextFields;
 
 import com.database.AdresDAO;
 import com.database.KlantDAO;
 import com.database.VerlorenVoorwerpDAO;
+import com.ibm.icu.text.MessageFormat;
 import com.model.Adres;
 import com.model.Klant;
-import com.model.VerlorenVoorwerp;
-import com.sun.corba.se.spi.activation._ActivatorImplBase;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,14 +22,15 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 
@@ -97,10 +96,10 @@ public class EditKlantController implements Initializable {
 	private TextField brievenbusText;
 
 	@FXML
-	private Button resetbutton;
+	private Button resetButton;
 
 	@FXML
-	private Button updatebutton;
+	private Button updateButton;
 
 	@FXML
 	private Label adresidHidden;
@@ -111,6 +110,12 @@ public class EditKlantController implements Initializable {
 	@FXML
 	private Button reloadButton;
 
+	@FXML
+	private TextField idText;
+	
+	@FXML
+	private Button deleteButton;
+
 	private ObservableList<Klant> data = FXCollections.observableArrayList(KlantDAO.getAll());;
 
 	ArrayList<String> list;
@@ -120,6 +125,8 @@ public class EditKlantController implements Initializable {
 		language = resources;
 
 		tableview.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
+		
+		data = FXCollections.observableArrayList(KlantDAO.getAll());
 
 		refresh();
 
@@ -168,19 +175,7 @@ public class EditKlantController implements Initializable {
 	@FXML
 	void reset(ActionEvent event) {
 
-		adresidHidden.setText("");
-		idHidden.setText("");
-		voornaamText.clear();
-		naamText.clear();
-		datepicker.setValue(null);
-		gsmText.clear();
-		commentaarText.clear();
-		plaatsnaamText.clear();
-		postcodeText.clear();
-		straatText.clear();
-		huisnummerText.clear();
-		brievenbusText.clear();
-		filter.clear();
+		clear();
 
 	}
 
@@ -217,7 +212,7 @@ public class EditKlantController implements Initializable {
 				alert.setHeaderText(null);
 				alert.setContentText(language.getString("klantUpdate"));
 				alert.showAndWait();
-			}else {
+			} else {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Information Dialog");
 				alert.setHeaderText(null);
@@ -237,6 +232,9 @@ public class EditKlantController implements Initializable {
 		if (event.getClickCount() == 2 && tableview.getSelectionModel().getSelectedItem() != null) {
 
 			Klant klant = tableview.getSelectionModel().getSelectedItem();
+			
+			idText.setText(String.valueOf(klant.getKlantid()));
+		
 			voornaamText.setText(klant.getVoornaam());
 			naamText.setText(klant.getNaam());
 			datepicker.setValue(klant.getGeboortedatum());
@@ -281,6 +279,39 @@ public class EditKlantController implements Initializable {
 		brievenbusText.clear();
 		filter.clear();
 		voornaamText.requestFocus();
+		idText.clear();
+		tableview.getSelectionModel().clearSelection();
+		reloadButton.setDefaultButton(false);
+		resetButton.setDefaultButton(false);
+		updateButton.setDefaultButton(false);
+		deleteButton.setDefaultButton(false);
+		
+	}
+
+	@FXML
+	void delete(ActionEvent event) {
+		try {
+			int id = Integer.parseInt(idText.getText());
+			Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+			alert.setTitle("Confirmation Dialog");
+			alert.setHeaderText(null);
+			alert.setContentText(MessageFormat.format(language.getString("alertVoorDelete"), id));
+			Optional<ButtonType> action = alert.showAndWait();
+			if (action.get() == ButtonType.OK) {
+				KlantDAO.deleteKlant(id);
+			}
+			idText.clear();
+
+		} catch (Exception e) {
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setHeaderText("Error");
+			alert.setContentText(language.getString("alertTextVeld"));
+			alert.show();
+		}
+		refresh();
+		clear();
+
 	}
 
 }

@@ -61,6 +61,8 @@ public class AdminController implements Initializable {
     @FXML private aPasswordChangeTabController aPasswordChangeTabController;
     @FXML private Tab aReportTab;
     @FXML private aReportTabController aReportTabController;
+    @FXML private Tab aPrizeFormulaTab;
+    @FXML private aPrizeFormulaTabController aPrizeFormulaTabController;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

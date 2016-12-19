@@ -267,7 +267,7 @@ public class wTicketTabController implements Initializable{
     	double afstand = berekenAfstand(vertrekStation, eindStation);
     	int aantal=getAantalTussenStations(vertrekStation,eindStation);
     	duur=getDuratieRoute(vertrekStation,eindStation);
-    	Expression e=new ExpressionBuilder(FormuleDAO.getFormuleActive().getFormule()).variables("x","y","z").build().setVariable("x", afstand).setVariable("y", aantal).setVariable("z", duur);
+    	Expression e=new ExpressionBuilder(FormuleDAO.getFormuleActive()).variables("x","y","z").build().setVariable("x", afstand).setVariable("y", aantal).setVariable("z", duur);
     	
     	prijs=e.evaluate();
     	return prijs;
@@ -383,12 +383,13 @@ public class wTicketTabController implements Initializable{
                 SAXReader reader = new SAXReader();
                 Document document = reader.read(new InputSource(new StringReader(routeResponse)));
 
-                org.dom4j.Node tussenNode = document.selectSingleNode("connection/vias");
-                if(tussenNode==null){
+                org.dom4j.Node vertrekNode = document.selectSingleNode("connection/departure");
+                org.dom4j.Node aankomstNode = document.selectSingleNode("connection/arrival");
+                if(vertrekNode==null){
                 	//label om error te weergeven als de stations niet teruggevonden worden.
                 }
                 else{
-                	duur+=Integer.parseInt(tussenNode.valueOf("@number"));
+                	duur+=Integer.parseInt(aankomstNode.selectSingleNode("time").getText())-Integer.parseInt(vertrekNode.selectSingleNode("time").getText());
                 }
     		}
 		} catch (IOException | DocumentException e1) {

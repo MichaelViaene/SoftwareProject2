@@ -33,15 +33,15 @@ import static com.database.FormuleDAO.insertFormule;
  */
 public class aPrizeFormulaTabController implements Initializable {
     @FXML private Label accountLabel;
-    @FXML private TextField oldFormulaField;
+    @FXML private Label oldFormulaField;
     @FXML private TextField newFormulaField;
     @FXML private Button changeFormulaButton;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        accountLabel.setText(AdminController.getLogin().getUsername());
-        oldFormulaField.setText(FormuleDAO.getFormuleActive().getFormule());
+    	accountLabel.setText(AdminController.getLogin().getUsername());
+        oldFormulaField.setText(FormuleDAO.getFormuleActive());
     }
 
     private void createAlertBox(String title, String header, String content){
@@ -58,11 +58,11 @@ public class aPrizeFormulaTabController implements Initializable {
         Login login = getLoginByID(AdminController.getLogin().getLogin_id());
         if (!newFormulaField.getText().isEmpty()){
         	if(checkContent(newFormulaField.getText())){
-        		updateFormule(FormuleDAO.getFormuleActive().getFormule(),false); 
+        		updateFormule(FormuleDAO.getFormuleActive(),false); 
         		if(FormuleDAO.getFormule(newFormulaField.getText())==new Formule(newFormulaField.getText(),false)){
         			if(updateFormule(newFormulaField.getText(),true)){
         				newFormulaField.clear();
-        				oldFormulaField.setText(FormuleDAO.getFormuleActive().getFormule());
+        				oldFormulaField.setText(FormuleDAO.getFormuleActive());
         				Notifications.create()
         						.title("Succes")
         						.text("Nieuwe formule actief")
@@ -77,7 +77,7 @@ public class aPrizeFormulaTabController implements Initializable {
         		else{
         			if(insertFormule(newFormulaField.getText(),true)){
         				newFormulaField.clear();
-        				oldFormulaField.setText(FormuleDAO.getFormuleActive().getFormule());
+        				oldFormulaField.setText(FormuleDAO.getFormuleActive());
         				Notifications.create()
         						.title("Succes")
         						.text("Succesfully added the formula!")
@@ -98,7 +98,7 @@ public class aPrizeFormulaTabController implements Initializable {
     	Pattern p= Pattern.compile("xyzXYZ+-*//0-9");
     	Matcher m=p.matcher(inhoud);
     	
-    	return m.matches();
+    	return !m.matches();
     	
     }
 }

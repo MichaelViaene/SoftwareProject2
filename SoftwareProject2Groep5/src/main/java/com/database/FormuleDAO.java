@@ -8,7 +8,7 @@ import com.model.Formule;
 
 public class FormuleDAO {
 
-    public static Formule getFormuleActive() {
+    public static String getFormuleActive() {
     	Formule form=new Formule();
     	try (Connection con = Database.getConnection()){
             String query = "SELECT * FROM Formule WHERE active=1";
@@ -28,7 +28,7 @@ public class FormuleDAO {
             System.out.println(ex);
         }
     	form.setActive(true);
-        return form;
+        return form.getFormule();
     }
 
     public static boolean insertFormule(String formule, boolean active) {

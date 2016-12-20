@@ -62,6 +62,11 @@ public class wPasswordChangeTabController implements Initializable {
 		                if (!newValue.isEmpty()) {
 		                   image.setImage(sterkteWachtwoord(newPasswordField.getText()));
 		                }
+		                else {
+		                	image.setImage(new Image("/com/ehbrail/0.png"));
+						}
+							
+						
 		            } catch (Exception e) {
 		                image.setImage(new Image("/com/ehbrail/0.png"));
 		            }

@@ -78,7 +78,7 @@ public class aPasswordChangeTabController implements Initializable {
 		if (!oldPasswordField.getText().isEmpty() && !newPasswordField.getText().isEmpty()
 				&& !copyNewPasswordField.getText().isEmpty()) {
 			if (Login.verifyPassword(oldPasswordField.getText(), login.getPassword())) {
-				if (getScore() >= 3) {
+				if (getScore() >= 4) {
 					if (newPasswordField.getText().equals(copyNewPasswordField.getText())) {
 						String newHashPass = Login.createHash(newPasswordField.getText());
 						if (changePassbyLogin(login, newHashPass)) {

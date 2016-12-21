@@ -53,6 +53,7 @@ public class wPasswordChangeTabController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		language = resources;
 		accountLabel.setText(WerknemerController.getLogin().getUsername());
+		image.setImage(new Image("/com/ehbrail/0.png"));
 		newPasswordField.textProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -64,7 +65,7 @@ public class wPasswordChangeTabController implements Initializable {
 					}
 
 				} catch (Exception e) {
-					image.setImage(new Image("/com/ehbrail/0.png"));
+					e.printStackTrace();
 				}
 			}
 		});
@@ -86,7 +87,7 @@ public class wPasswordChangeTabController implements Initializable {
 		if (!oldPasswordField.getText().isEmpty() && !newPasswordField.getText().isEmpty()
 				&& !copyNewPasswordField.getText().isEmpty()) {
 			if (Login.verifyPassword(oldPasswordField.getText(), login.getPassword())) {
-				if (getScore()>=3){
+				if (getScore()>=4){
 					if (newPasswordField.getText().equals(copyNewPasswordField.getText())) {
 						String newHashPass = Login.createHash(newPasswordField.getText());
 						if (changePassbyLogin(login, newHashPass)) {
@@ -140,15 +141,15 @@ public class wPasswordChangeTabController implements Initializable {
 			if (password.length() >= 12)
 				lengthCheck2 = true;
 		}
-		if (upperCheck == true)
+		if (upperCheck)
 			score++;
-		if (lowerCheck == true)
+		if (lowerCheck)
 			score++;
-		if (digitCheck == true)
+		if (digitCheck)
 			score++;
-		if (lengthCheck == true)
+		if (lengthCheck)
 			score++;
-		if (lengthCheck2 == true)
+		if (lengthCheck2)
 			score++;
 
 		return score;

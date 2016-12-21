@@ -53,27 +53,21 @@ public class wPasswordChangeTabController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		language = resources;
 		accountLabel.setText(WerknemerController.getLogin().getUsername());
-		
-		 newPasswordField.textProperty().addListener(new ChangeListener<String>() {
-		        @Override
-		        public void changed(ObservableValue<? extends String> observable,
-		                            String oldValue, String newValue) {
-		            try {
-		                if (!newValue.isEmpty()) {
-		                   image.setImage(sterkteWachtwoord(newPasswordField.getText()));
-		                }
-		                else {
-		                	image.setImage(new Image("/com/ehbrail/0.png"));
-						}
-							
-						
-		            } catch (Exception e) {
-		                image.setImage(new Image("/com/ehbrail/0.png"));
-		            }
-		        }
-		    });
+		newPasswordField.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				try {
+					if (!newValue.isEmpty()) {
+						image.setImage(sterkteWachtwoord());
+					} else {
+						image.setImage(new Image("/com/ehbrail/0.png"));
+					}
 
-		
+				} catch (Exception e) {
+					image.setImage(new Image("/com/ehbrail/0.png"));
+				}
+			}
+		});
 
 	}
 
@@ -92,26 +86,34 @@ public class wPasswordChangeTabController implements Initializable {
 		if (!oldPasswordField.getText().isEmpty() && !newPasswordField.getText().isEmpty()
 				&& !copyNewPasswordField.getText().isEmpty()) {
 			if (Login.verifyPassword(oldPasswordField.getText(), login.getPassword())) {
-				if (newPasswordField.getText().equals(copyNewPasswordField.getText())) {
-					String newHashPass = Login.createHash(newPasswordField.getText());
-					if (changePassbyLogin(login, newHashPass)) {
-						oldPasswordField.clear();
-						newPasswordField.clear();
-						copyNewPasswordField.clear();
-						Notifications.create().title("Succes").text("Succesfully set a new password!").darkStyle()
-								.position(Pos.TOP_CENTER).graphic(new ImageView(img)).show();
+				if (getScore()>=3){
+					if (newPasswordField.getText().equals(copyNewPasswordField.getText())) {
+						String newHashPass = Login.createHash(newPasswordField.getText());
+						if (changePassbyLogin(login, newHashPass)) {
+							oldPasswordField.clear();
+							newPasswordField.clear();
+							copyNewPasswordField.clear();
+							Notifications.create().title("Succes").text("Succesfully set a new password!").darkStyle()
+									.position(Pos.TOP_CENTER).graphic(new ImageView(img)).show();
+						} else
+							createAlertBox(language.getString("oops"), null, language.getString("failNewPassword"));
 					} else
-						createAlertBox(language.getString("oops"), null, language.getString("failNewPassword"));
-				} else
-					createAlertBox(language.getString("wrongPassword"), null, language.getString("passwordNotEqual"));
+						createAlertBox(language.getString("wrongPassword"), null,
+								language.getString("passwordNotEqual"));
+				}else
+					createAlertBox(language.getString("failNewPassword"),null,language.getString("passwoordSterkte"));
 			} else
 				createAlertBox(language.getString("wrongPassword"), null, language.getString("passwordNotCorrect"));
 		} else
 			createAlertBox(language.getString("ongeldigeVelden"), null, language.getString("ongeldigeVelden"));
 	}
 
-	public Image sterkteWachtwoord(String wachtwoord) {
-		
+	public Image sterkteWachtwoord() {
+		Image img = new Image("/com/ehbrail/" + getScore() + ".png");
+		return img;
+	}
+
+	public int getScore() {
 		// gebaseerd op http://www.dreamincode.net/forums/topic/253950-java-password-checker/
 		boolean lengthCheck = false;
 		boolean lengthCheck2 = false;
@@ -120,46 +122,35 @@ public class wPasswordChangeTabController implements Initializable {
 		boolean digitCheck = false;
 		String password;
 
-		password = wachtwoord;
+		password = newPasswordField.getText();
 
 		int score = 0;
 
 		for (int i = 0; i < password.length(); i++) {
 			char s = password.charAt(i);
 
-			if (Character.isUpperCase(s)) {
+			if (Character.isUpperCase(s))
 				upperCheck = true;
-			}
-			if (Character.isLowerCase(s)) {
+			if (Character.isLowerCase(s))
 				lowerCheck = true;
-			}
-			if (Character.isDigit(s)) {
+			if (Character.isDigit(s))
 				digitCheck = true;
-			}
-			if (password.length() >= 6) {
+			if (password.length() >= 6)
 				lengthCheck = true;
-			}
-			if (password.length() >= 12) {
+			if (password.length() >= 12)
 				lengthCheck2 = true;
-			}
 		}
-		if (upperCheck == true) {
+		if (upperCheck == true)
 			score++;
-		}
-		if (lowerCheck == true) {
+		if (lowerCheck == true)
 			score++;
-		}
-		if (digitCheck == true) {
+		if (digitCheck == true)
 			score++;
-		}
-		if (lengthCheck == true) {
+		if (lengthCheck == true)
 			score++;
-		}
-		if (lengthCheck2 == true) {
+		if (lengthCheck2 == true)
 			score++;
-		}
 
-		Image img = new Image("/com/ehbrail/" + score + ".png");
-		return img;
+		return score;
 	}
 }

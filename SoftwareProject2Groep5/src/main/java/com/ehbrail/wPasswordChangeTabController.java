@@ -26,6 +26,7 @@ import static com.database.LoginDAO.getLoginByID;
  * Created by jorda on 10/11/2016.
  */
 public class wPasswordChangeTabController implements Initializable {
+	private ResourceBundle language;
     @FXML Label accountLabel;
     @FXML PasswordField oldPasswordField;
     @FXML PasswordField newPasswordField;
@@ -35,6 +36,7 @@ public class wPasswordChangeTabController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+    	language = resources;
         accountLabel.setText(WerknemerController.getLogin().getUsername());
     }
 
@@ -66,12 +68,12 @@ public class wPasswordChangeTabController implements Initializable {
                                 .graphic(new ImageView(img))
                                 .show();
                     }
-                    else createAlertBox("Oops, Something went wrong!",null,"Failed to set new password!");
+                    else createAlertBox(language.getString("oops"),null,language.getString("failNewPassword"));
                 }
-                else createAlertBox("Wrong Password",null,"Beide nieuwe wachtwoorden zijn niet aan elkaar gelijk!");
+                else createAlertBox(language.getString("wrongPassword"),null,language.getString("passwordNotEqual"));
             }
-           else createAlertBox("Wrong Password",null,"Wachtwoord is niet correct!");
+           else createAlertBox(language.getString("wrongPassword"),null,language.getString("passwordNotCorrect"));
         }
-        else createAlertBox("Ongeldige velden",null,"Alle velden moeten ingevuld worden.");
+        else createAlertBox(language.getString("ongeldigeVelden"),null,language.getString("ongeldigeVelden"));
     }
 }

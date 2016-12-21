@@ -30,6 +30,7 @@ import static com.ehbrail.WerknemerController.toLocalDateTime;
  * Created by jorda on 7/11/2016.
  */
 public class wLiveboardTabController implements Initializable {
+	private ResourceBundle language;
     private ArrayList<String> list;
     @FXML Label errorLabel;
     @FXML private Button searchButton;
@@ -45,6 +46,8 @@ public class wLiveboardTabController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+    	language = resources;
+    	
     	tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         list = LoginController.getList();
         TextFields.bindAutoCompletion(stationField,list);
@@ -58,8 +61,16 @@ public class wLiveboardTabController implements Initializable {
 
     @FXML
     private void searchAction(ActionEvent event) throws IOException {
-        if (stationField.getText().isEmpty()){
-            errorLabel.setText("Gelieve een station mee te geven!");
+    	boolean controleStation = true;
+		
+		if (list.contains(stationField.getText())) {
+			controleStation = true;
+		}else {
+			controleStation = false;
+		}
+    	
+        if (stationField.getText().isEmpty() || controleStation == false){
+            errorLabel.setText(language.getString("giveStation"));
             tableView.getItems().clear();
         }
         else {

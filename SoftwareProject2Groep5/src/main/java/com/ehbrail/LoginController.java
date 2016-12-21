@@ -123,10 +123,10 @@ public class LoginController implements Initializable {
                     werknemerController.setTopBar(login, werknemer);
                     stage.show();
                 }
-                } else message.setText("Account:"+login.getUsername()+" is niet actief");
-            } else {message.setText("Username or Password invalid");}
-        } else {message.setText("Unexpected error: Check DB conn and VPN");}
+                } else message.setText(language.getString("PasswordChange.account") + " " +login.getUsername()+ language.getString("nietActief"));
+            } else {message.setText(language.getString("usernamePasswordInvalid"));}
+        } else {message.setText(language.getString("unexpectedErrorDb"));}
       }
-      else message.setText("Vul gebruikersnaam en wachtwoord in");
+      else message.setText(language.getString("usernamePassword"));
     }
 }

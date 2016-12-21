@@ -198,31 +198,7 @@ public class wTicketTabController implements Initializable {
 
 		return false;
 	}
-
-        	System.out.println(ticket.toString());
-        	vanField.clear();
-        	naarField.clear();
-        	datumHeenDatePicker.setValue(null);
-        	datumTerugDatePicker.setValue(null);
-        	tweedeKlasseRadio.setSelected(true);
-        	heenVertrekRadio.setSelected(true);
-        	terugVertrekRadio.setSelected(true);
-        	heenRadio.setSelected(true);
-        	painTerug.setVisible(false);
-        	
-    	}
-    	
-    }  
-    public boolean controleerVanField(){
-    	list = LoginController.getList();
-    	for (int i = 0; i < list.size();i++){
-    		if(list.get(i).equals(vanField.getText())){
-    			return true;
-    		}
-    	}
-    	
-    	return false;
-    }
+   
     public boolean controleerNaarField(){
     	list = LoginController.getList();
     	for (int i = 0; i < list.size();i++){
@@ -325,17 +301,7 @@ public class wTicketTabController implements Initializable {
         }
     }
 
-	@FXML
-	private void switchStations(ActionEvent event) throws IOException {
-		try {
-			String temp = vanField.getText();
-			vanField.setText(naarField.getText());
-			naarField.setText(temp);
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-	}
-
+	
 	private void createPDF(Ticket ticket, ResourceBundle language) {
 		try {
 			JasperPrint jasperPrint = null;
@@ -458,5 +424,4 @@ public class wTicketTabController implements Initializable {
     }
 
 
-}
 }

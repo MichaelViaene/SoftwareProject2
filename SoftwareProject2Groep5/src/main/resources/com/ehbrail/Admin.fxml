@@ -3,54 +3,82 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+
 
 <AnchorPane xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ehbrail.AdminController">
    <children>
-      <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <top>
-            <Pane prefHeight="52.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+      <ScrollPane fitToWidth="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <content>
+            <VBox alignment="CENTER">
                <children>
-                  <Label fx:id="usernameAdm" layoutX="24.0" layoutY="6.0" prefHeight="38.0" prefWidth="1086.0" text="%user" textFill="#1b8a3a">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets></Label>
-                  <Button fx:id="logoutButton" layoutX="1042.0" layoutY="13.0" mnemonicParsing="false" onAction="#onClickLogOut" text="%button.afmelden" />
+                  <BorderPane prefHeight="800.0" prefWidth="1280.0" VBox.vgrow="ALWAYS">
+                     <top>
+                        <GridPane BorderPane.alignment="CENTER">
+                           <columnConstraints>
+                              <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" />
+                              <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <Label fx:id="usernameAdm" prefHeight="38.0" prefWidth="973.0" text="%user" textFill="#1b8a3a">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <GridPane.margin>
+                                    <Insets left="10.0" />
+                                 </GridPane.margin>
+                              </Label>
+                              <Button fx:id="logoutButton" mnemonicParsing="false" onAction="#onClickLogOut" text="%button.afmelden" GridPane.columnIndex="1">
+                                 <GridPane.margin>
+                                    <Insets right="10.0" />
+                                 </GridPane.margin>
+                              </Button>
+                           </children>
+                        </GridPane>
+                     </top>
+                     <center>
+                        <TabPane fx:id="aTabPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+                          <tabs>
+                            <Tab fx:id="aEmployeeTab" text="%manageEmployee">
+                              <content>
+                                  <fx:include fx:id="aEmployeeTabPage" source="aEmployeeTabPage.fxml" />
+                              </content>
+                            </Tab>
+                              <Tab fx:id="aReportTab" text="Reports">
+                                  <content>
+                                      <fx:include fx:id="aReportTabPage" source="aReportTabPage.fxml" />
+                                  </content>
+                              </Tab>
+                              <Tab fx:id="aPasswordChangeTab" closable="false" text="%veranderWachtwoord">
+                                  <content>
+                                      <fx:include fx:id="aPasswordChangeTabPage" source="aPasswordChangeTabPage.fxml" />
+                                  </content>
+                              </Tab>
+                          </tabs>
+                           <BorderPane.margin>
+                              <Insets />
+                           </BorderPane.margin>
+                        </TabPane>
+                     </center>
+                  </BorderPane>
                </children>
-            </Pane>
-         </top>
-         <center>
-            <TabPane fx:id="aTabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
-              <tabs>
-                <Tab fx:id="aEmployeeTab" text="%manageEmployee">
-                  <content>
-                      <fx:include fx:id="aEmployeeTabPage" source="aEmployeeTabPage.fxml" />
-                  </content>
-                </Tab>
-                  <Tab fx:id="aReportTab" text="Reports">
-                      <content>
-                          <fx:include fx:id="aReportTabPage" source="aReportTabPage.fxml" />
-                      </content>
-                  </Tab>
-                  <Tab fx:id="aPasswordChangeTab" closable="false" text="%veranderWachtwoord">
-                      <content>
-                          <fx:include fx:id="aPasswordChangeTabPage" source="aPasswordChangeTabPage.fxml" />
-                      </content>
-                  </Tab>
-              </tabs>
-               <BorderPane.margin>
-                  <Insets />
-               </BorderPane.margin>
-            </TabPane>
-         </center>
-      </BorderPane>
+            </VBox>
+         </content>
+      </ScrollPane>
    </children>
 </AnchorPane>

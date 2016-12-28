@@ -5,7 +5,7 @@ import org.boon.json.annotations.JsonProperty;
 import java.time.LocalDateTime;
 
 /**
- * Created by jorda on 7/11/2016.
+ * Created by jordan on 7/11/2016.
  */
 public class Liveboard {
     private String platform;
@@ -14,6 +14,8 @@ public class Liveboard {
     private int delay;
     private String vehicle;
 
+    public Liveboard() {}
+    
     public Liveboard(String platform, String station, LocalDateTime departureTime, int delay, String vehicle) {
         this.platform = platform;
         this.station = station;

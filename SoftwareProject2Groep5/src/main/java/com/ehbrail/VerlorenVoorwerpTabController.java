@@ -111,6 +111,7 @@ public class VerlorenVoorwerpTabController implements Initializable {
 
 		refresh();
 
+		omschrijvingtext.setWrapText(true);
 		voorwerpid.setCellValueFactory(new PropertyValueFactory<VerlorenVoorwerp, Integer>("voorwerpid"));
 		naam.setCellValueFactory(new PropertyValueFactory<VerlorenVoorwerp, String>("naam"));
 		omschrijving.setCellValueFactory(new PropertyValueFactory<VerlorenVoorwerp, String>("omschrijving"));
@@ -291,6 +292,13 @@ public class VerlorenVoorwerpTabController implements Initializable {
 		treintext.clear();
 		idtext.clear();
 		textButton.clear();
+		naamtext.requestFocus();
+		tableview.getSelectionModel().clearSelection();
+		reset.setDefaultButton(false);
+		savebutton.setDefaultButton(false);
+		deletebutton.setDefaultButton(false);
+		loadButton.setDefaultButton(false);
+		
 	}
 
 	@FXML

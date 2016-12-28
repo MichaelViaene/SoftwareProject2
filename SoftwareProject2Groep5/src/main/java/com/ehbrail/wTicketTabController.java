@@ -99,19 +99,27 @@ public class wTicketTabController implements Initializable {
 	   @FXML private Label terugLabel;
 	   @FXML private ComboBox kortingCombo;
 
+	   @FXML private Button resetTicketButton;
 
-	      
 
 	@FXML
 	void showPaneTerug(ActionEvent event) {
 		painTerug.setVisible(false);
 	}
-
+	
 	@FXML
-	void showPaneHeenTerug(ActionEvent event) {
-		painTerug.setVisible(true);
-	}
-
+	    void onClickResetTicket(ActionEvent event) {
+	    	vanField.clear();
+        	naarField.clear();
+        	datumHeenDatePicker.setValue(null);
+        	datumTerugDatePicker.setValue(null);
+        	tweedeKlasseRadio.setSelected(true);
+        	heenVertrekRadio.setSelected(true);
+        	terugVertrekRadio.setSelected(true);
+        	heenRadio.setSelected(true);
+        	painTerug.setVisible(false);
+	    }
+	    
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		language = resources;
@@ -143,7 +151,7 @@ public class wTicketTabController implements Initializable {
 		 * todayLocalDateTime = LocalDateTime.now(ZoneId.of( "Europe/Brussels"
 		 * ));
 		 */
-    	if (controleerVanField() == false || controleerNaarField() == false || vertrekStation.isEmpty() || eindStation.isEmpty() ){
+    	if (controleerVanField() == false || vertrekStation.equals(eindStation) || controleerNaarField() == false || vertrekStation.isEmpty() || eindStation.isEmpty() ){
     		Alert alert = new Alert(AlertType.ERROR);
     		alert.setTitle("Error Dialog");
     		alert.setHeaderText(null);
@@ -406,7 +414,8 @@ public class wTicketTabController implements Initializable {
 			e.printStackTrace();
 		}
 	}
-    public double getDuratieRoute(String vertrekStation, String eindStation){
+    
+	public double getDuratieRoute(String vertrekStation, String eindStation){
     	double duur=0;
     	   	
     	try (Response resp=getIRailRouteXML(vertrekStation, eindStation)){

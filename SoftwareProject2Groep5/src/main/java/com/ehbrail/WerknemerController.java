@@ -102,6 +102,9 @@ public class WerknemerController implements Initializable{
     @FXML private Tab wAbonnementTab;
     @FXML private wAbonnementTabController wAbonnementTabController;
     
+    @FXML private Tab EditKlantGegevens;
+    @FXML private EditKlantController editKlantController;
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         language = resources;
@@ -160,7 +163,7 @@ public class WerknemerController implements Initializable{
              * Default Quote character is double quote
              * Start reading from line 1
              */
-            csvReader = new CSVReader(new FileReader("src/main/resources/com/ehbrail/stations.csv"),',','"',1);
+            csvReader = new CSVReader(new FileReader("src/main/resources/com/ehbrail/stations.csv"),';','"',1);
             //mapping of columns with their positions
             ColumnPositionMappingStrategy mappingStrategy = new ColumnPositionMappingStrategy();
             //Set mappingStrategy type to StationsCSV Type

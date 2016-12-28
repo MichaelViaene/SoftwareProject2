@@ -2,6 +2,8 @@ package com.model;
 
 import java.time.LocalDate;
 
+import org.boon.primitive.Int;
+
 /**
  *
  * @author Ilias El Mesaoudi created 18-11-2016
@@ -20,6 +22,19 @@ public class Klant {
 	
 	public Klant() {}
 
+	public Klant(int klantid, int adresid, LocalDate geboortedatum, String gsmnummer, String commentaar, boolean actief, String naam,
+			String voornaam) {
+		super();
+		this.klantid = klantid;
+		this.adresid = adresid;
+		this.geboortedatum = geboortedatum;
+		this.gsmnummer = gsmnummer;
+		this.commentaar = commentaar;
+		this.actief = actief;
+		this.naam = naam;
+		this.voornaam = voornaam;
+	}
+	
 	public Klant(int adresid, LocalDate geboortedatum, String gsmnummer, String commentaar, boolean actief, String naam,
 			String voornaam) {
 		super();

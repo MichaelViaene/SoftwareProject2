@@ -27,7 +27,8 @@
             <Font name="Arial" size="20.0" />
          </font>
       </Button>
-      <Button fx:id="koopTicketButton" layoutX="51.0" layoutY="459.0" mnemonicParsing="false" onAction="#onClickKoopTicket" prefHeight="32.0" prefWidth="98.0" text="%koopTicket" textAlignment="CENTER" />
+      <Button fx:id="resetTicketButton" layoutX="56.0" layoutY="466.0" mnemonicParsing="false" onAction="#onClickResetTicket" prefHeight="32.0" prefWidth="88.0" text="reset" />
+      <Button fx:id="koopTicketButton" layoutX="419.0" layoutY="466.0" mnemonicParsing="false" onAction="#onClickKoopTicket" prefHeight="32.0" prefWidth="98.0" text="%koopTicket" textAlignment="CENTER" />
       <RadioButton fx:id="heenEnTerugRadio" layoutX="195.0" layoutY="181.0" mnemonicParsing="false" onAction="#showPaneHeenTerug" text="%heenterug">
          <toggleGroup>
             <ToggleGroup fx:id="heenTerug" />

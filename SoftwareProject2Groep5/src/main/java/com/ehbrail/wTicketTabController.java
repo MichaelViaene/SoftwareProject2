@@ -1,4 +1,5 @@
 package com.ehbrail;
+import com.model.Korting;
 import com.model.Station;
 import com.model.Ticket;
 import static com.ehbrail.ApiCalls.getIRailRoute;
@@ -47,6 +48,7 @@ import org.dom4j.io.SAXReader;
 import org.xml.sax.InputSource;
 
 import com.database.FormuleDAO;
+import com.database.KortingDAO;
 import com.database.TicketDAO;
 
 import javafx.event.ActionEvent;
@@ -55,6 +57,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
@@ -72,6 +75,7 @@ import javafx.scene.control.Label;
 public class wTicketTabController implements Initializable {
 
 	ArrayList<String> list;
+	List<Korting> kortingen;
 	private ResourceBundle language;
 	   @FXML private TextField vanField;
 	   @FXML private TextField naarField;
@@ -93,6 +97,7 @@ public class wTicketTabController implements Initializable {
 	   @FXML private ToggleGroup klasse;
 	   @FXML private RadioButton tweedeKlasseRadio;
 	   @FXML private Label terugLabel;
+	   @FXML private ComboBox kortingCombo;
 
 
 	      
@@ -112,14 +117,20 @@ public class wTicketTabController implements Initializable {
 		language = resources;
 		
 		list = LoginController.getList();
+		kortingen=KortingDAO.getActieveKortingen();
 		TextFields.bindAutoCompletion(vanField, list);
 		TextFields.bindAutoCompletion(naarField, list);
+		for(Korting k:kortingen){
+			kortingCombo.getItems().addAll(k);
+		}
+		
 	}
 
 	@FXML
 	void onClickKoopTicket(ActionEvent event) {
 		String vertrekStation = vanField.getText();
 		String eindStation = naarField.getText();
+		Korting korting=(Korting) kortingCombo.getValue();
 		int type, klasse, heen, terug;
 		LocalDate datumHeen = datumHeenDatePicker.getValue();
 		LocalDate datumTerug = datumTerugDatePicker.getValue();
@@ -162,7 +173,8 @@ public class wTicketTabController implements Initializable {
         	}
         	
         	double prijs=berekenPrijs(vertrekStation, eindStation);
-        	Ticket ticket = new Ticket(vertrekStation,eindStation,1,klasse,type,prijs,datumAankoop,datumHeen,datumTerug,WerknemerController.getLogin().getMedewerker_id());
+        	prijs*=((100-korting.getPercentage())/100);
+        	Ticket ticket = new Ticket(vertrekStation,eindStation,1,klasse,type,prijs,datumAankoop,datumHeen,datumTerug,WerknemerController.getLogin().getMedewerker_id(),korting.getKorting());
         	
         	TicketDAO.writeTicket(ticket);
 
@@ -184,7 +196,7 @@ public class wTicketTabController implements Initializable {
 			terugVertrekRadio.setSelected(true);
 			heenRadio.setSelected(true);
 			painTerug.setVisible(false);
-
+			kortingCombo.setValue(null);
 		}
 	}
 

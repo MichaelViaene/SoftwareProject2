@@ -20,6 +20,7 @@ public class Ticket {
 	private String eindStation;
 
 	private int ticket_id;
+	private int korting_id;
 	private int klasse;
 	private int type;
 	private int medewerker_id;
@@ -40,7 +41,7 @@ public class Ticket {
 		super();
 	}
 
-	public Ticket(String vertrekStation, String eindStation, int ticket_id, int klasse, int type, double prijs, LocalDateTime datumAankoop, LocalDate datumHeen, LocalDate datumTerug, int medewerker_id) {
+	public Ticket(String vertrekStation, String eindStation, int ticket_id, int klasse, int type, double prijs, LocalDateTime datumAankoop, LocalDate datumHeen, LocalDate datumTerug, int medewerker_id, int korting_id) {
 		this.vertrekStation = vertrekStation;
 		this.eindStation = eindStation;
 		this.ticket_id = ticket_id;
@@ -51,8 +52,15 @@ public class Ticket {
 		this.datumHeen = datumHeen;
 		this.datumTerug = datumTerug;
 		this.medewerker_id = medewerker_id;
+		this.korting_id=korting_id;
 	}
 
+	public int getKorting_id(){
+		return korting_id;
+	}
+	public void setKorting_id(int korting_id){
+		this.korting_id=korting_id;
+	}
 	public int getMedewerker_id() {
 		return medewerker_id;
 	}
@@ -146,6 +154,7 @@ public class Ticket {
 				", datumHeen=" + datumHeen +
 				", datumTerug=" + datumTerug +
 				", medewerker_id=" + medewerker_id +
+				", korting_id=" + korting_id +
 				'}';
 	}
 }

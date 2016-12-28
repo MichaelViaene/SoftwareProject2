@@ -16,7 +16,7 @@ public class TicketDAO {
 
 
         try (Connection con = Database.getConnection()){
-            String query = "INSERT INTO Ticket (vertrek, aankomst, datum_aankoop, datum_heen, datum_terug, klasse, prijs, type, medewerker_id)" + "values (?, ?, ?, ?, ?, ?, ?, ?, ?)" ;
+            String query = "INSERT INTO Ticket (vertrek, aankomst, datum_aankoop, datum_heen, datum_terug, klasse, prijs, type, medewerker_id,korting_id)" + "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)" ;
             try (PreparedStatement preparedStatement = con.prepareStatement(query)){
 	            preparedStatement.setString(1, ticket.getVertrekStation());
 	            preparedStatement.setString(2, ticket.getEindStation());
@@ -27,7 +27,7 @@ public class TicketDAO {
 	            preparedStatement.setDouble(7, ticket.getPrijs());
 	            preparedStatement.setInt(8, ticket.getType());
 	            preparedStatement.setInt(9, ticket.getMedewerker_id());
-	
+	            preparedStatement.setInt(10, ticket.getKorting_id());
 	            preparedStatement.execute();
             } catch (Exception ex) {
                 System.out.println(ex);
@@ -61,6 +61,7 @@ public class TicketDAO {
 	                ticket.setPrijs(resultSet.getDouble("prijs"));
 	                ticket.setType(resultSet.getInt("type"));
                     ticket.setMedewerker_id(resultSet.getInt("medewerker_id"));
+                    ticket.setTicket_id(resultSet.getInt("korting_id"));
 	
 	                /* resultSet.getInt("medewerker_id");
 	                   nog niet geimplementeerd.

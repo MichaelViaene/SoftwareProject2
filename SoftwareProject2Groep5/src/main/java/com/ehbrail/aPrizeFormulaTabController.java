@@ -29,7 +29,7 @@ import static com.database.FormuleDAO.insertFormule;
 
 
 /**
- * Created by jorda on 10/11/2016.
+ * @author Michael
  */
 public class aPrizeFormulaTabController implements Initializable {
     @FXML private Label accountLabel;

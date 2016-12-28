@@ -57,6 +57,7 @@ public class aReductionTabController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+    	tableKorting.setEditable(true);
     	kortingNaam.setCellValueFactory(new PropertyValueFactory<Korting, String>("naam"));
     	kortingBeschrijving.setCellValueFactory(new PropertyValueFactory<Korting, String>("beschrijving"));
     	kortingPercentage.setCellValueFactory(new PropertyValueFactory<Korting, Integer>("percentage"));

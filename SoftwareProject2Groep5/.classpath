@@ -25,7 +25,5 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="C:/Users/Pieter/Desktop/school/2e bach dig-x/software project 2/SoftwareProject2/SoftwareProject2Groep5/testing/hamcrest-junit-2.0.0.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Pieter/Desktop/school/2e bach dig-x/software project 2/SoftwareProject2/SoftwareProject2Groep5/testing/java-hamcrest-2.0.0.0.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ehbrail.AdminController">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ehbrail.AdminController">
    <children>
       <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
@@ -45,10 +45,15 @@
                           <fx:include fx:id="aPasswordChangeTabPage" source="aPasswordChangeTabPage.fxml" />
                       </content>
                   </Tab>
-                  <Tab fx:id="aPrizeFormulaTab" closable="false" text="Prijsberekening">
+                  <Tab fx:id="aPrizeFormulaTab" closable="false" text="%prizeFormula">
                       <content>
                           <fx:include fx:id="aPrizeFormulaTabPage" source="aPrizeFormulaTabPage.fxml" />
                       </content>
+                  </Tab>
+                  <Tab fx:id="aReductionTab" text="%reduction">
+                    <content>
+                      <fx:include fx:id="aReductionTabPage" source="aReductionTabPage.fxml" />
+                    </content>
                   </Tab>
               </tabs>
                <BorderPane.margin>

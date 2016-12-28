@@ -9,6 +9,18 @@ public class Korting {
 	private String naam, beschrijving;
 	private boolean actief;
 	
+	public Korting(int korting_id,String naam,String beschrijving,int percentage,boolean actief){
+		this.korting_id=korting_id;
+		this.naam=naam;
+		this.beschrijving=beschrijving;
+		this.percentage=percentage;
+		this.actief=actief;
+	}
+	
+	public Korting() {
+		super();
+	}
+	
 	public int getKorting() {
 		return korting_id;
 	}

@@ -20,14 +20,13 @@ public class KortingDAO {
 
 
 	    try (Connection con = Database.getConnection()){
-	         String query = "INSERT INTO Korting (korting_id, naam, percentage, actief, beeschrijving)" + "values (?, ?, ?, ?, ?)" ;
+	         String query = "INSERT INTO Korting (korting_id, naam, percentage, actief, beschrijving) values (NULL,?, ?, ?, ?)" ;
 	            try (PreparedStatement preparedStatement = con.prepareStatement(query)){
-		            preparedStatement.setInt(1, korting.getKorting());
-		            preparedStatement.setString(2, korting.getNaam());
-		            preparedStatement.setInt(3, korting.getPercentage());
-		            preparedStatement.setBoolean(4, korting.isActief());
-		            preparedStatement.setString(5, korting.getBeschrijving());
-
+		            
+		            preparedStatement.setString(1, korting.getNaam());
+		            preparedStatement.setInt(2, korting.getPercentage());
+		            preparedStatement.setBoolean(3, korting.isActief());
+		            preparedStatement.setString(4, korting.getBeschrijving());
 		
 		            preparedStatement.execute();
 	            } catch (Exception ex) {

@@ -17,6 +17,13 @@ public class Korting {
 		this.actief=actief;
 	}
 	
+	public Korting(String naam,String beschrijving, int percentage, boolean actief){
+		this.naam=naam;
+		this.beschrijving=beschrijving;
+		this.percentage=percentage;
+		this.actief=actief;
+	}
+	
 	public Korting() {
 		super();
 	}

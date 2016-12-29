@@ -53,7 +53,7 @@ public class aReductionTabController implements Initializable {
     @FXML private TableColumn<Korting, String> kortingBeschrijving;
     @FXML private TableColumn<Korting,Integer> kortingPercentage;
     @FXML private TableColumn<Korting, Boolean> kortingActief;
-
+    private List<Korting> tussen;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -62,8 +62,8 @@ public class aReductionTabController implements Initializable {
     	kortingBeschrijving.setCellValueFactory(new PropertyValueFactory<Korting, String>("beschrijving"));
     	kortingPercentage.setCellValueFactory(new PropertyValueFactory<Korting, Integer>("percentage"));
     	kortingActief.setCellValueFactory(new PropertyValueFactory<Korting, Boolean>("actief"));
+    	tussen=KortingDAO.getKortingen();
     	ObservableList<Korting> data = FXCollections.observableArrayList();
-    	List<Korting> tussen=KortingDAO.getKortingen();
     	for(Korting k:tussen){
     		data.add(new Korting(k.getKorting(),
     				k.getNaam(),
@@ -86,6 +86,63 @@ public class aReductionTabController implements Initializable {
     private void changeReductionAction(ActionEvent event) throws IOException {
         Image img = new Image("/com/ehbrail/checkmark.png");
         Login login = getLoginByID(AdminController.getLogin().getLogin_id());
+        if (!newKortingNaam.getText().isEmpty()&&!newKortingBeschrijving.getText().isEmpty()&&!newKortingPercentage.getText().isEmpty()){
+        		if(KortingDAO.insertKorting(new Korting(newKortingNaam.getText(),newKortingBeschrijving.getText(),Integer.parseInt(newKortingPercentage.getText().replaceAll("[\\D]", "")),true))){ 
+        					newKortingNaam.clear();
+        					newKortingPercentage.clear();
+        					newKortingBeschrijving.clear();
+        					tussen=KortingDAO.getKortingen();
+        					ObservableList<Korting> data = FXCollections.observableArrayList();
+        					for(Korting k:tussen){
+        			    		data.add(new Korting(k.getKorting(),
+        			    				k.getNaam(),
+        			    				k.getBeschrijving(),
+        			    				k.getPercentage(),
+        			    				k.isActief()));
+        			    	}
+        			    	tableKorting.setItems(data); 
+        					Notifications.create()
+        						.title("Succes")
+        						.text("Nieuwe korting aangemaakt")
+        						.darkStyle()
+        						.position(Pos.TOP_CENTER)
+        						.graphic(new ImageView(img))
+        						.show();
+        				
+        		}
+        		else createAlertBox("Oops, Something went wrong!",null,"Failed to set new korting!");
+        }
+        /*else{
+        	for(Korting k:tableKorting.getItems()){
+        		for(Korting k2:tussen){
+        			if(k2.getKorting()==k.getKorting()){
+        				k2.setNaam(k.getNaam());
+        				k2.setBeschrijving(k.getBeschrijving());
+        				k2.setPercentage(k.getPercentage());
+        				k2.setActief(k.isActief());
+        				if(KortingDAO.updateKorting(k2)){
+        					Notifications.create()
+    						.title("Succes")
+    						.text("Nieuwe korting aangemaakt")
+    						.darkStyle()
+    						.position(Pos.TOP_CENTER)
+    						.graphic(new ImageView(img))
+    						.show();
+    				
+        				}
+        				else createAlertBox("Oops, Something went wrong!",null,"Failed to set new korting!");
+        			}
+        		}
+        	}
+       }*/
     }
+
+	public boolean checkContent(String inhoud){
+		Pattern p= Pattern.compile("0-9");
+		Matcher m=p.matcher(inhoud);
+		
+		return !m.matches();
+		
+}
     
 }

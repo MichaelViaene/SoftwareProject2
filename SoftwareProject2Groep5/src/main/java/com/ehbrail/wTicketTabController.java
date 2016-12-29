@@ -4,7 +4,6 @@ import com.model.Station;
 import com.model.Ticket;
 import static com.ehbrail.ApiCalls.getIRailRoute;
 import static com.ehbrail.ApiCalls.getIRailRouteXML;
-import net.*;
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
 
@@ -105,6 +104,12 @@ public class wTicketTabController implements Initializable {
 	@FXML
 	void showPaneTerug(ActionEvent event) {
 		painTerug.setVisible(false);
+	}
+
+	@FXML
+
+	void showPaneHeenTerug(ActionEvent event) {
+		painTerug.setVisible(true);
 	}
 	
 	@FXML

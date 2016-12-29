@@ -23,5 +23,7 @@
 			<attribute name="optional" value="true"/>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
-	</classpathentry><classpathentry kind="lib" path="C:/Users/Michael/Desktop/EHB/2e_jaar/Software Project 2/exp4j-0.4.7.jar"/><classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/><classpathentry kind="output" path="target/classes"/>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="output" path="target/classes"/>
 </classpath>

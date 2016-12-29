@@ -19,10 +19,10 @@
       </Text>
       <TableView fx:id="tableKorting" layoutX="62.0" layoutY="143.0" prefHeight="200.0" prefWidth="880.0">
         <columns>
-          <TableColumn fx:id="kortingNaam" prefWidth="143.0" text="%Korting.naam" />
-          <TableColumn fx:id="kortingBeschrijving" prefWidth="536.0" text="%Korting.beschrijving" />
-          <TableColumn fx:id="kortingPercentage" minWidth="0.0" prefWidth="128.0" text="%Korting.percentage" />
-          <TableColumn fx:id="kortingActief" prefWidth="75.0" text="%Korting.actief" />
+          <TableColumn editable="true" fx:id="kortingNaam" prefWidth="143.0" text="%Korting.naam" />
+          <TableColumn editable="true" fx:id="kortingBeschrijving" prefWidth="536.0" text="%Korting.beschrijving" />
+          <TableColumn editable="true" fx:id="kortingPercentage" minWidth="0.0" prefWidth="128.0" text="%Korting.percentage" />
+          <TableColumn editable="true" fx:id="kortingActief" prefWidth="75.0" text="%Korting.actief" />
         </columns>
       </TableView>
       <TextArea fx:id="newKortingBeschrijving" layoutX="226.0" layoutY="436.0" prefHeight="60.0" prefWidth="502.0" />

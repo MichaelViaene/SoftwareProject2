@@ -64,4 +64,46 @@ public class Korting {
 		s=naam+ ", "+percentage+"%";
 		return s;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (actief ? 1231 : 1237);
+		result = prime * result + ((beschrijving == null) ? 0 : beschrijving.hashCode());
+		result = prime * result + korting_id;
+		result = prime * result + ((naam == null) ? 0 : naam.hashCode());
+		result = prime * result + percentage;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Korting other = (Korting) obj;
+		if (actief != other.actief)
+			return false;
+		if (beschrijving == null) {
+			if (other.beschrijving != null)
+				return false;
+		} else if (!beschrijving.equals(other.beschrijving))
+			return false;
+		if (korting_id != other.korting_id)
+			return false;
+		if (naam == null) {
+			if (other.naam != null)
+				return false;
+		} else if (!naam.equals(other.naam))
+			return false;
+		if (percentage != other.percentage)
+			return false;
+		return true;
+	}
+	
+	
 }

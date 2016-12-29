@@ -108,6 +108,11 @@ public class wTicketTabController implements Initializable {
 	}
 	
 	@FXML
+	void showPaneHeenTerug(ActionEvent event) {
+		  painTerug.setVisible(true);
+	}
+	
+	@FXML
 	    void onClickResetTicket(ActionEvent event) {
 	    	vanField.clear();
         	naarField.clear();

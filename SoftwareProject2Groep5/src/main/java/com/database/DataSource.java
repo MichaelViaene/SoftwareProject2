@@ -18,6 +18,7 @@ public class DataSource {
 		cpds.setPassword("p783D");
 		
 		// settings:
+		cpds.setInitialPoolSize(5);
 		cpds.setMinPoolSize(5);
 		cpds.setAcquireIncrement(5);
 		cpds.setMaxPoolSize(25);

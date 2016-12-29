@@ -13,7 +13,7 @@ import java.sql.ResultSet;
 public class AbonnementDAO {
 
     public static boolean writeAbonnement(Abonnement abonnement) {
-        try (Connection con = Database.getConnection()){
+        try (Connection con = DataSource.getConnection()){
             if (con != null) {
                 //Waar word de medewerker geschreven die dit abo aanmaakt? Bestaan er geen andere types zoals bvb zone brussel. Functie nodig om de id v/d klant op te halen.
 
@@ -49,7 +49,7 @@ public class AbonnementDAO {
 
         Boolean check = false;
 
-        try (Connection con = Database.getConnection()){
+        try (Connection con = DataSource.getConnection()){
             if (con != null) {
                 String query = "SELECT * FROM Abonnement WHERE klant_id= ?";
                 try(PreparedStatement preparedStatement = con.prepareStatement(query)){

@@ -17,7 +17,7 @@ public class WerknemerDAO {
 
     public static boolean deleteWerknemer (Werknemer werknemer) {
 
-        try (Connection con = Database.getConnection()){
+        try (Connection con = DataSource.getConnection()){
             String query = "Update Medewerker SET actief = ? WHERE medewerker_id = ? ";
             try (PreparedStatement preparedStatement = con.prepareStatement(query)){
 
@@ -37,7 +37,7 @@ public class WerknemerDAO {
 
     public static boolean updateWerknemer (Werknemer werknemer) {
 
-        try (Connection con = Database.getConnection()){
+        try (Connection con = DataSource.getConnection()){
             String query = "Update Medewerker SET actief = ?, naam = ?, voornaam = ? WHERE medewerker_id = ? ";
             try (PreparedStatement preparedStatement = con.prepareStatement(query)){
 	            preparedStatement.setBoolean(1, werknemer.isActief());
@@ -59,7 +59,7 @@ public class WerknemerDAO {
 
     public static boolean insertWerknemer(Werknemer werknemer) {
 
-        try (Connection con = Database.getConnection()){
+        try (Connection con = DataSource.getConnection()){
             String query = "INSERT INTO Medewerker (actief, naam, voornaam)" + "VALUES (?, ?, ?) ";
             try (PreparedStatement preparedStatement = con.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)){
 	            preparedStatement.setBoolean(1, werknemer.isActief());
@@ -88,7 +88,7 @@ public class WerknemerDAO {
     public static List<Werknemer> getAllWerknemers () {
 
         List<Werknemer> werknemers = new ArrayList<>();
-        try (Connection con = Database.getConnection()){
+        try (Connection con = DataSource.getConnection()){
             String query = "SELECT * FROM Medewerker, Login WHERE Medewerker.medewerker_id = Login.medewerker_id ";
             try (PreparedStatement preparedStatement = con.prepareStatement(query);
             		ResultSet resultSet = preparedStatement.executeQuery();){
@@ -121,7 +121,7 @@ public class WerknemerDAO {
     public static Werknemer getWerknemerById(int medewerker_id){
         Werknemer werknemer = new Werknemer();
         Login login = new Login();
-        try (Connection con = Database.getConnection()){
+        try (Connection con = DataSource.getConnection()){
         	String query = "SELECT * FROM Medewerker, Login WHERE Medewerker.medewerker_id = ? AND Medewerker.medewerker_id = Login.medewerker_id ";
             try (PreparedStatement preparedStatement = con.prepareStatement(query)){
                 preparedStatement.setInt(1, medewerker_id);
@@ -152,7 +152,7 @@ public class WerknemerDAO {
 
     public static Werknemer getWerkById(int medewerker_id) {
         Werknemer werknemer = new Werknemer();
-        try (Connection con = Database.getConnection()){
+        try (Connection con = DataSource.getConnection()){
             String query = "SELECT * FROM Medewerker WHERE medewerker_id=? LIMIT 1";
             try (PreparedStatement preparedStatement = con.prepareStatement(query)){
                 preparedStatement.setInt(1, medewerker_id);

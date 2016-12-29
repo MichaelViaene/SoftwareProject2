@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import static com.database.Database.testConn;
+import static com.database.DataSource.testConn;
 import static com.database.WerknemerDAO.getWerkById;
 import static com.ehbrail.WerknemerController.fillListAllStations;
 import static com.ehbrail.WerknemerController.getAllStationsXMLtoList;
@@ -86,9 +86,7 @@ public class LoginController implements Initializable {
     @FXML
     private void loginAction(ActionEvent event) throws IOException {
         if (!(username.getText().isEmpty() || password.getText().isEmpty())) {
-            boolean testConn = testConn();
-            //System.out.println(testConn);
-            if (testConn) {
+            if (testConn()) {
                 LoginDAO logindao = new LoginDAO();
                 Login login = logindao.getLoginByUsername(username.getText());
             if (username.getText().equals(login.getUsername()) && verifyPassword(password.getText(), login.getPassword())) {

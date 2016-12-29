@@ -15,7 +15,7 @@ public class TicketDAO {
     public static boolean writeTicket(Ticket ticket) {
 
 
-        try (Connection con = Database.getConnection()){
+        try (Connection con = DataSource.getConnection()){
             String query = "INSERT INTO Ticket (vertrek, aankomst, datum_aankoop, datum_heen, datum_terug, klasse, prijs, type, medewerker_id,korting_id)" + "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)" ;
             try (PreparedStatement preparedStatement = con.prepareStatement(query)){
 	            preparedStatement.setString(1, ticket.getVertrekStation());
@@ -42,7 +42,7 @@ public class TicketDAO {
 
         List<Ticket> tickets = new LinkedList<>();
 
-        try (Connection con = Database.getConnection()){
+        try (Connection con = DataSource.getConnection()){
 
             String query = "SELECT * FROM Ticket";
             try (PreparedStatement preparedStatement = con.prepareStatement(query);

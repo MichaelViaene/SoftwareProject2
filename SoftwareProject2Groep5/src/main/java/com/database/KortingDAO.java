@@ -19,7 +19,7 @@ public class KortingDAO {
 	public static boolean insertKorting(Korting korting) {
 
 
-	    try (Connection con = Database.getConnection()){
+	    try (Connection con = DataSource.getConnection()){
 	         String query = "INSERT INTO Korting (korting_id, naam, percentage, actief, beeschrijving)" + "values (?, ?, ?, ?, ?)" ;
 	            try (PreparedStatement preparedStatement = con.prepareStatement(query)){
 		            preparedStatement.setInt(1, korting.getKorting());
@@ -43,7 +43,7 @@ public class KortingDAO {
 
 	        List<Korting> kortingen = new LinkedList<>();
 
-	        try (Connection con = Database.getConnection()){
+	        try (Connection con = DataSource.getConnection()){
 
 	            String query = "SELECT * FROM Korting";
 	            try (PreparedStatement preparedStatement = con.prepareStatement(query);
@@ -73,7 +73,7 @@ public class KortingDAO {
 
         List<Korting> kortingen = new LinkedList<>();
 
-        try (Connection con = Database.getConnection()){
+        try (Connection con = DataSource.getConnection()){
 
             String query = "SELECT * FROM Korting where actief=true";
             try (PreparedStatement preparedStatement = con.prepareStatement(query);
@@ -100,7 +100,7 @@ public class KortingDAO {
 }
     
     public static boolean updateKorting(Korting korting) {
-        try (Connection con = Database.getConnection()){
+        try (Connection con = DataSource.getConnection()){
             String query = "Update Korting SET actief = ?, naam=?, beschrijving=?, percentage=? WHERE korting_id= ? ";
             try (PreparedStatement preparedStatement = con.prepareStatement(query)){
 	            preparedStatement.setBoolean(1, korting.isActief());

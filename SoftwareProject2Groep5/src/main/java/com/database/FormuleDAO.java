@@ -10,7 +10,7 @@ public class FormuleDAO {
 
     public static String getFormuleActive() {
     	Formule form=new Formule();
-    	try (Connection con = Database.getConnection()){
+    	try (Connection con = DataSource.getConnection()){
             String query = "SELECT * FROM Formule WHERE active=1";
             try (PreparedStatement preparedStatement = con.prepareStatement(query)){
 	            try (ResultSet resultSet = preparedStatement.executeQuery()){
@@ -32,7 +32,7 @@ public class FormuleDAO {
     }
 
     public static boolean insertFormule(String formule, boolean active) {
-        try (Connection con = Database.getConnection()){
+        try (Connection con = DataSource.getConnection()){
             if (formule != null) {
                 String query = "INSERT INTO Formule (formule, active) VALUES (?,?);";
                 con.setAutoCommit(false);
@@ -54,7 +54,7 @@ public class FormuleDAO {
     }
 
     public static boolean updateFormule(String formule,boolean active) {
-        try (Connection con = Database.getConnection()){
+        try (Connection con = DataSource.getConnection()){
             String query = "Update Formule SET active = ? WHERE formule = ? ";
             try (PreparedStatement preparedStatement = con.prepareStatement(query)){
 	            preparedStatement.setBoolean(1, active);
@@ -72,7 +72,7 @@ public class FormuleDAO {
 
     public static ArrayList<Formule>getAllFormules() {
         ArrayList<Formule> formules =new ArrayList<Formule>();
-        try (Connection con = Database.getConnection()){
+        try (Connection con = DataSource.getConnection()){
             String query = "SELECT * FROM Formule";
             try (PreparedStatement preparedStatement = con.prepareStatement(query)){
 	            try (ResultSet resultSet = preparedStatement.executeQuery()){
@@ -94,7 +94,7 @@ public class FormuleDAO {
     	Formule form=new Formule();
     	form.setFormule(formule);
     	
-    	try (Connection con = Database.getConnection()){
+    	try (Connection con = DataSource.getConnection()){
     		String query="SELECT * from Formule WHERE formule=?";
     		try(PreparedStatement preparedStatement=con.prepareStatement(query)){
     			preparedStatement.setString(1, formule);

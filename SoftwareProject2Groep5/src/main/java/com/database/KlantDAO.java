@@ -17,7 +17,7 @@ public class KlantDAO {
 		if (klant == null) {
 			return false;
 		}
-		try (Connection con = Database.getConnection()){
+		try (Connection con = DataSource.getConnection()){
 			String pushStatement = "INSERT INTO Klant (adres_id, geboortedatum,gsmnummer,commentaar,actief,naam,voornaam) VALUES (?,?,?,?,?,?,?);";
 			con.setAutoCommit(false);
 			try (PreparedStatement preparedPush = con.prepareStatement(pushStatement)) {
@@ -44,7 +44,7 @@ public class KlantDAO {
 	public static ArrayList<Klant> getAll() {
 
 		ArrayList<Klant> list = new ArrayList<>();
-		try (Connection con = Database.getConnection()){
+		try (Connection con = DataSource.getConnection()){
 			try (Statement st = con.createStatement();
 					ResultSet rs = st.executeQuery("SELECT * FROM Klant where actief=1")){
 				while (rs.next()) {
@@ -72,7 +72,7 @@ public class KlantDAO {
 		if (klant == null) {
 			return false;
 		}
-		try (Connection con = Database.getConnection()){
+		try (Connection con = DataSource.getConnection()){
 			String pushStatement = "UPDATE Klant SET geboortedatum= ?, gsmnummer=?, commentaar=?, naam=?, voornaam=? WHERE klant_id=?;";
 
 			con.setAutoCommit(false);
@@ -102,7 +102,7 @@ public class KlantDAO {
 
 		if (id < 0)
 			return false;
-		try (Connection con = Database.getConnection()){
+		try (Connection con = DataSource.getConnection()){
 			try (PreparedStatement st = con.prepareStatement("UPDATE Klant SET actief= 0 where klant_id= ?")){
 				st.setInt(1, id);
 				st.executeUpdate();

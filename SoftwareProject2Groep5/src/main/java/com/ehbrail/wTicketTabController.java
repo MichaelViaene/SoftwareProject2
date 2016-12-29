@@ -107,18 +107,23 @@ public class wTicketTabController implements Initializable {
 		painTerug.setVisible(false);
 	}
 	
+    @FXML
+    void showPaneHeenTerug(ActionEvent event) {
+	    painTerug.setVisible(true);
+    }
+	
 	@FXML
-	    void onClickResetTicket(ActionEvent event) {
-	    	vanField.clear();
-        	naarField.clear();
-        	datumHeenDatePicker.setValue(null);
-        	datumTerugDatePicker.setValue(null);
-        	tweedeKlasseRadio.setSelected(true);
-        	heenVertrekRadio.setSelected(true);
-        	terugVertrekRadio.setSelected(true);
-        	heenRadio.setSelected(true);
-        	painTerug.setVisible(false);
-	    }
+    void onClickResetTicket(ActionEvent event) {
+    	vanField.clear();
+    	naarField.clear();
+    	datumHeenDatePicker.setValue(null);
+    	datumTerugDatePicker.setValue(null);
+    	tweedeKlasseRadio.setSelected(true);
+    	heenVertrekRadio.setSelected(true);
+    	terugVertrekRadio.setSelected(true);
+    	heenRadio.setSelected(true);
+    	painTerug.setVisible(false);
+    }
 	    
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {

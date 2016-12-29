@@ -26,7 +26,7 @@ import static com.database.LoginDAO.getLoginByID;
 /**
  * Created by jorda on 10/11/2016.
  */
-public class aPasswordChangeTabController implements Initializable {
+public class APasswordChangeTabController implements Initializable {
 	private ResourceBundle language;
 	@FXML
 	private Label accountLabel;

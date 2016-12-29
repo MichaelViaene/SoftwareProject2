@@ -29,7 +29,7 @@ import static com.ehbrail.WerknemerController.toLocalDateTime;
 /**
  * Created by jorda on 7/11/2016.
  */
-public class wLiveboardTabController implements Initializable {
+public class WLiveboardTabController implements Initializable {
 	private ResourceBundle language;
     private ArrayList<String> list;
     @FXML Label errorLabel;

@@ -31,7 +31,7 @@ import static com.database.FormuleDAO.insertFormule;
 /**
  * @author Michael
  */
-public class aPrizeFormulaTabController implements Initializable {
+public class APrizeFormulaTabController implements Initializable {
     @FXML private Label accountLabel;
     @FXML private Label oldFormulaField;
     @FXML private TextField newFormulaField;

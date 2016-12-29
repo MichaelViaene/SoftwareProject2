@@ -18,7 +18,7 @@ import java.util.*;
 /**
  * Created by jorda on 25/11/2016.
  */
-public class aReportTabController implements Initializable {
+public class AReportTabController implements Initializable {
     @FXML
     private BarChart<String, Integer> barChart;
     @FXML

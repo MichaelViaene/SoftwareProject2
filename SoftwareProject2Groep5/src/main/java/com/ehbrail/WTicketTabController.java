@@ -72,7 +72,7 @@ import javafx.scene.control.Label;
  *
  */
 
-public class wTicketTabController implements Initializable {
+public class WTicketTabController implements Initializable {
 
 	ArrayList<String> list;
 	List<Korting> kortingen;

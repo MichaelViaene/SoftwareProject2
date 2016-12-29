@@ -34,7 +34,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 
-public class EditKlantController implements Initializable {
+public class WEditKlantController implements Initializable {
 
 	private ResourceBundle language;
 

@@ -56,15 +56,15 @@ public class AdminController implements Initializable {
     @FXML private Button logoutButton;
     @FXML private TabPane aTabPane;
     @FXML private Tab aEmployeeTab;
-    @FXML private aEmployeeTabController aEmployeeTabPageController;
+    @FXML private AEmployeeTabController aEmployeeTabPageController;
     @FXML private Tab aPasswordChangeTab;
-    @FXML private aPasswordChangeTabController aPasswordChangeTabController;
+    @FXML private APasswordChangeTabController aPasswordChangeTabController;
     @FXML private Tab aReportTab;
-    @FXML private aReportTabController aReportTabController;
+    @FXML private AReportTabController aReportTabController;
     @FXML private Tab aPrizeFormulaTab;
-    @FXML private aPrizeFormulaTabController aPrizeFormulaTabController;
+    @FXML private APrizeFormulaTabController aPrizeFormulaTabController;
     @FXML private Tab aReductionTab;
-    @FXML private aPrizeFormulaTabController aReductionTabController;
+    @FXML private AReductionTabController aReductionTabController;
 
 
     @Override

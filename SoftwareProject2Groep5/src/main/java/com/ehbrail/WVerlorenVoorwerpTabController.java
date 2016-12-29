@@ -35,7 +35,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 
-public class VerlorenVoorwerpTabController implements Initializable {
+public class WVerlorenVoorwerpTabController implements Initializable {
 
 	private ResourceBundle language;
 	// tableview

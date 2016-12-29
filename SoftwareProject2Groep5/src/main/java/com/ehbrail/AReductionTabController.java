@@ -51,7 +51,7 @@ import static com.database.FormuleDAO.insertFormule;
  * 
  * http://docs.oracle.com/javafx/2/ui_controls/table-view.htm (gebruikt om table te editen)
  */
-public class aReductionTabController implements Initializable {
+public class AReductionTabController implements Initializable {
     @FXML private TextField newKortingNaam;
     @FXML private TextArea newKortingBeschrijving;
     @FXML private TextField newKortingPercentage;

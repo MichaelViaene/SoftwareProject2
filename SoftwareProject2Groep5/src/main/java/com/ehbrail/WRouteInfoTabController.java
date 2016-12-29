@@ -32,7 +32,7 @@ import static com.ehbrail.WerknemerController.toLocalDateTime;
  *
  * Code van spinners komt van: http://stackoverflow.com/questions/30886746/how-can-i-set-3-values-in-spinner
  */
-public class wRouteInfoTabController implements Initializable {
+public class WRouteInfoTabController implements Initializable {
     ArrayList<String> list;
 
     @FXML private Button switchStationsButton;
@@ -166,7 +166,7 @@ public class wRouteInfoTabController implements Initializable {
     }
 **/
 
-private void CreateExtendedIRailRoute(String time, String radioText){
+private void createExtendedIRailRoute(String time, String radioText){
     if (vanField.getText().isEmpty() || naarField.getText().isEmpty()) {
         errorLabel.setText("Gelieve een vertrek EN aankomst station mee te geven!");
         TreeItem<String> rootItem = new TreeItem<String>("Routes");
@@ -197,7 +197,7 @@ private void CreateExtendedIRailRoute(String time, String radioText){
 
     @FXML private void onClickGetEarlierRoute(ActionEvent event) throws IOException {
         hourSpinner.getValueFactory().setValue(hourSpinner.getValue()-1);
-        CreateExtendedIRailRoute(timeSpinnerText,radioText);
+        createExtendedIRailRoute(timeSpinnerText,radioText);
     }
 
     @FXML private void onClickGetLaterRoute(ActionEvent event) throws IOException {
@@ -205,16 +205,16 @@ private void CreateExtendedIRailRoute(String time, String radioText){
         //long s;
         //s = timeSpinnerSeconds + 3600;
         //timeSpinnerText = String.format("%02d%02d", s / 3600, (s / 60) % 60);
-        CreateExtendedIRailRoute(timeSpinnerText,radioText);
+        createExtendedIRailRoute(timeSpinnerText,radioText);
     }
     @FXML private void onClickGetFirstRoute(ActionEvent event) throws IOException {
-        CreateExtendedIRailRoute("0000","depart");
+        createExtendedIRailRoute("0000","depart");
     }
     @FXML private void onClickGetLastRoute(ActionEvent event) throws IOException {
-        CreateExtendedIRailRoute("2359","arrive");
+        createExtendedIRailRoute("2359","arrive");
     }
     @FXML private void onClickplanRoute(ActionEvent event) throws IOException {
-    CreateExtendedIRailRoute(timeSpinnerText,radioText);
+    createExtendedIRailRoute(timeSpinnerText,radioText);
     }
 
     private void createTreeItems(TreeItem<String> rootItem, IrailRoute irailRoute) throws IOException {

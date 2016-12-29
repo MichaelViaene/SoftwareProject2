@@ -29,7 +29,7 @@ import static com.ehbrail.WerknemerController.convertISO8601;
 /**
  * Created by jorda on 28/10/2016.
  */
-public class wTrainInfoTabController implements Initializable {
+public class WTrainInfoTabController implements Initializable {
 	
 	private ResourceBundle language;
 

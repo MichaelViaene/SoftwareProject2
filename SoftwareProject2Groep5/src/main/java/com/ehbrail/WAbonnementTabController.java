@@ -41,7 +41,7 @@ import javafx.scene.input.MouseEvent;
  * Created by Ilias El Mesaoudi on 14/11/2016.
  */
 
-public class wAbonnementTabController implements Initializable {
+public class WAbonnementTabController implements Initializable {
 
 	private ResourceBundle language;
 	ObservableList<Klant> lijstKlanten = FXCollections.observableArrayList(KlantDAO.getAll());
@@ -171,7 +171,7 @@ public class wAbonnementTabController implements Initializable {
 	}
 
 	@FXML
-	void HeelBelgie(ActionEvent event) {
+	void heelBelgie(ActionEvent event) {
 		vanField.setDisable(true);
 		naarField.setDisable(true);
 		vanField.clear();

@@ -30,7 +30,7 @@ import java.util.ResourceBundle;
 
 import javax.security.auth.callback.LanguageCallback;
 
-public class aEmployeeTabController implements Initializable {
+public class AEmployeeTabController implements Initializable {
 	
 	private ResourceBundle language;
 

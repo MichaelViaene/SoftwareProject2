@@ -1,25 +1,48 @@
 package com.ehbrail;
 
+import com.database.DataSource;
 import com.model.Login;
 import com.model.Werknemer;
 import com.sun.istack.internal.logging.Logger;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.scene.Scene;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.image.Image;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.ResourceBundle;
+
+import org.apache.logging.log4j.LogManager;
+
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.SimpleScheduleBuilder;
+import org.quartz.Trigger;
+import org.quartz.TriggerBuilder;
+import org.quartz.impl.StdSchedulerFactory;
+import org.quartz.JobBuilder;
+import org.quartz.JobBuilder.*;
+import org.quartz.JobDetail;
+import org.quartz.TriggerBuilder.*;
+import org.quartz.SimpleScheduleBuilder.*;
+
+
 
 /**
 *
@@ -29,11 +52,26 @@ import java.util.ResourceBundle;
 */
 
 public class SoftwareProject extends Application {
-	final static Logger logger = Logger.getLogger(SoftwareProject.class);
+	// logger
+	private static org.apache.logging.log4j.Logger logger = LogManager.getLogger();
+	
+	private static Scheduler scheduler;
 	
     private BorderPane borderPane = new BorderPane();
    @Override
    public void start(Stage stage) throws Exception {
+	   stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+	       @Override
+	       public void handle(WindowEvent e) {
+	    	  try {
+				scheduler.shutdown();
+			} catch (SchedulerException e1) {
+				logger.error(e1);
+			}
+	          Platform.exit();
+	          System.exit(0);
+	       }
+	    });
       createLoginScreen(stage);
    }
 
@@ -79,9 +117,42 @@ public class SoftwareProject extends Application {
 
    /**
     * @param args the command line arguments
+ * @throws SchedulerException 
     */
-   public static void main(String[] args) {
-	   logger.info("Test");
+   public static void main(String[] args) throws SchedulerException {
+	   logger.info("Start Applicatie");
+	   
+	   // initialisatie scheduler
+	   // job1 - statusupdater
+	   JobDetail statusJob = JobBuilder.newJob(JobUpdateStatus.class)
+			   .withIdentity("StatusJob")
+			   .build();
+	   
+	   Trigger statusTrigger = TriggerBuilder.newTrigger()
+				.withIdentity("StatusTrigger", "group1")
+				.withSchedule(
+						SimpleScheduleBuilder.simpleSchedule()
+						.withIntervalInSeconds(30).repeatForever())
+				.build();
+	   
+	   // job2 - persistente tickets doorsturen
+	   JobDetail persistentTicketJob = JobBuilder.newJob(JobSendPersistentTickets.class)
+			   .withIdentity("TicketJob")
+			   .build();
+	   
+	   Trigger persistentTicketTrigger = TriggerBuilder.newTrigger()
+				.withIdentity("TicketTrigger", "group1")
+				.withSchedule(
+						SimpleScheduleBuilder.simpleSchedule()
+						.withIntervalInSeconds(5).repeatForever())
+				.build();
+	   
+	   scheduler = new StdSchedulerFactory().getScheduler();
+	   scheduler.start();
+	   
+	   scheduler.scheduleJob(persistentTicketJob, persistentTicketTrigger);
+	   scheduler.scheduleJob(statusJob, statusTrigger);
+
        launch(args);
    }
    

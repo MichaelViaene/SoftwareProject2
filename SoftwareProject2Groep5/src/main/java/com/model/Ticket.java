@@ -38,7 +38,6 @@ public class Ticket {
 	 */
 
 	public Ticket() {
-		super();
 	}
 
 	public Ticket(String vertrekStation, String eindStation, int ticket_id, int klasse, int type, double prijs, LocalDateTime datumAankoop, LocalDate datumHeen, LocalDate datumTerug, int medewerker_id, int korting_id) {

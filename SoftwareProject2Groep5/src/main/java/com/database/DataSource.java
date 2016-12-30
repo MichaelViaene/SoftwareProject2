@@ -10,6 +10,8 @@ public class DataSource {
 	private static DataSource dataSource;
 	private ComboPooledDataSource cpds;
 	
+	public static String dbStatus = "OFFLINE";
+	
 	private DataSource() throws SQLException, PropertyVetoException {
 		cpds = new ComboPooledDataSource();
 		cpds.setDriverClass("com.mysql.jdbc.Driver");
@@ -40,10 +42,15 @@ public class DataSource {
 		return cpds.getConnection();
 	}
 	
+	//functie test de connectie en update de dbStatus variabele
 	public static boolean testConn() {
-		Boolean bool = false;
+		boolean bool = false;
 		try (Connection conn = DataSource.getConnection()) {
-			bool = conn.isValid(1);
+			bool = conn.isValid(0);
+			if (bool == true){
+				dbStatus = "ONLINE";
+			}
+			else dbStatus = "OFFLINE";
 		} catch (SQLException e) {
 			System.out.println(e);
 		}

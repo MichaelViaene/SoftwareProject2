@@ -1,5 +1,6 @@
 package com.ehbrail;
 
+import com.database.DataSource;
 import com.model.Login;
 import com.model.StationCSV;
 import com.model.Werknemer;
@@ -79,8 +80,19 @@ public class WerknemerController implements Initializable{
         //WerknemerController.login = login;
         this.werknemer = werknemer;
         usernameWerknemer.setText(MessageFormat.format(this.language.getString("WelkomBericht"),werknemer.getVoornaam(), werknemer.getNaam(),login.getUsername(),language.getString("werknemer")));
+        setDBStatus(DataSource.testConn());
     }
 
+    // dbStatus
+    @FXML private Label dbStatus;
+    
+    public void setDBStatus(Boolean bool){
+    	if (bool == true){
+    		dbStatus.setText("ONLINE");
+    	}
+    	else dbStatus.setText("OFFLINE");
+    }
+    
     @FXML private Button logoutButton;
     @FXML private TabPane wtabPane;
     

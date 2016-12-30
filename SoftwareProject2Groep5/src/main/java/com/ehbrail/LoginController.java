@@ -46,6 +46,7 @@ public class LoginController implements Initializable {
     @FXML private PasswordField password;
     @FXML private Label message;
     @FXML private Button login;
+    @FXML private Label dbStatus;
     private static ArrayList<String> list;
 
     public static ArrayList<String> getList() {

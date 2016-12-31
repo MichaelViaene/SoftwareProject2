@@ -29,7 +29,7 @@ public class Login {
 
 	//login_id(int11),username(vchar45),passwoord(vchar45),bevoegdheid(int11), medewerker_id(int)
 
-	public enum Bevoegdheid{
+	public static enum Bevoegdheid{
 	ADMIN(1), WERKNEMER(2);
 	private int value;
 	Bevoegdheid(int value){this.value = value;}

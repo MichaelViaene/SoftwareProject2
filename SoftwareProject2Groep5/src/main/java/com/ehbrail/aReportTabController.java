@@ -1,6 +1,8 @@
 package com.ehbrail;
 
+import com.database.AbonnementDAO;
 import com.database.TicketDAO;
+import com.model.Abonnement;
 import com.model.Ticket;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,7 +24,7 @@ public class aReportTabController implements Initializable {
     @FXML
     private BarChart<String, Integer> barChart;
     @FXML
-    private CategoryAxis xAxis;
+    private CategoryAxis xAxis, xAxisAbo;
     private ObservableList<String> monthNames = FXCollections.observableArrayList();
     private ResourceBundle language;
 
@@ -31,7 +33,18 @@ public class aReportTabController implements Initializable {
         String[] months = DateFormatSymbols.getInstance(resources.getLocale()).getMonths();
         monthNames.addAll(Arrays.asList(months));
         xAxis.setCategories(monthNames);
+        xAxisAbo.setCategories(monthNames);
         setChartData();
+        setChartDataAbo();
+    }
+
+    private void setChartDataAbo() {
+        int[] monthCounter = new int[12];
+        List<Abonnement> abonnementList = AbonnementDAO.readAbonnements();
+        for (Abonnement abo : abonnementList){
+            int month =  1;
+            monthCounter[month]++;
+        }
     }
 
     public void setChartData() {

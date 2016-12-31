@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -195,9 +196,19 @@ public class wAbonnementTabController implements Initializable {
 		begin = datepickerBegin.getValue();
 		einde = datepickerEinde.getValue();
 
-		if (vanField.getText().equals(naarField.getText()) || controleerVanField() == false
-				|| controleerNaarField() == false || begin == null || vanField.getText().isEmpty()
-				|| naarField.getText().isEmpty() || begin.isBefore(todayLocalDate)
+		if (ritRadioButton.isSelected()) {
+			van = vanField.getText();
+			naar = naarField.getText();
+		}
+		if (belgieRadioButton.isSelected()) {
+			van = "belgie";
+			naar = "Belguim";
+		}
+
+
+		if (van == null && naar == null && van.equals(naar) || klantidOnclick.getText() == "" || controleerVanField()
+				|| controleerNaarField() || begin == null || vanField.getText().isEmpty()
+				&& naarField.getText().isEmpty() && !belgieRadioButton.isSelected() || begin.isBefore(todayLocalDate)
 				|| (ritRadioButton.isSelected() && (einde == null || einde.isBefore(begin)))) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error Dialog");
@@ -209,14 +220,7 @@ public class wAbonnementTabController implements Initializable {
 
 		} else {
 
-			if (ritRadioButton.isSelected()) {
-				van = vanField.getText();
-				naar = naarField.getText();
-			}
-			if (belgieRadioButton.isSelected()) {
-				van = language.getString("belgie");
-				naar = language.getString("belgie");
-			}
+			int klantId = Integer.parseInt(klantidOnclick.getText());
 
 			if (eersteRadioButton.isSelected()) {
 				klasse = 1;
@@ -232,8 +236,8 @@ public class wAbonnementTabController implements Initializable {
 				prijs = prijs - 150;
 			}
 
-			AbonnementDAO.writeAbonnement(new Abonnement(1, 1, WerknemerController.getLogin().getMedewerker_id(),
-					klasse, 1, prijs, null, van, naar, begin, einde, "Brussel", 1));
+			AbonnementDAO.writeAbonnement(new Abonnement(1, klantId , WerknemerController.getLogin().getMedewerker_id(),
+					klasse, 1, prijs, null, van, naar, begin, einde, "Brussel", 1, LocalDateTime.now(ZoneId.of("Europe/Brussels"))));
 
 			clearVelden();
 			Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -293,24 +297,34 @@ public class wAbonnementTabController implements Initializable {
 
 	public boolean controleerVanField() {
 		list = LoginController.getList();
+
+		if (belgieRadioButton.isSelected()) {
+			return false;
+		}
+
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i).equals(vanField.getText())) {
-				return true;
+				return false;
 			}
 		}
 
-		return false;
+		return true;
 	}
 
 	public boolean controleerNaarField() {
 		list = LoginController.getList();
+
+		if (belgieRadioButton.isSelected()) {
+			return false;
+		}
+
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i).equals(naarField.getText())) {
-				return true;
+				return false;
 			}
 		}
 
-		return false;
+		return true;
 	}
 
 	@FXML

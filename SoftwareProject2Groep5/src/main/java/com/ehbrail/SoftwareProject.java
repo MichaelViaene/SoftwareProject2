@@ -1,8 +1,10 @@
 package com.ehbrail;
 
 import com.database.DataSource;
+import com.model.Korting;
 import com.model.Login;
 import com.model.Werknemer;
+import com.model.Routes.Stationinfo;
 import com.sun.istack.internal.logging.Logger;
 
 import javafx.application.Application;
@@ -25,6 +27,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -146,6 +149,12 @@ public class SoftwareProject extends Application {
 						SimpleScheduleBuilder.simpleSchedule()
 						.withIntervalInSeconds(5).repeatForever())
 				.build();
+	   
+	   com.persistentie.KortingCSV.updateAllKortingen();
+	   List<Korting> lijst = com.persistentie.KortingCSV.getKortingenFromCSV();
+	   for (Korting k: lijst){
+		   System.out.println(k.toString());
+	   }
 	   
 	   scheduler = new StdSchedulerFactory().getScheduler();
 	   scheduler.start();

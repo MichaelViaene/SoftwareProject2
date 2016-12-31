@@ -1,8 +1,10 @@
 package com.ehbrail;
 
 import com.database.AbonnementDAO;
+import com.database.KlantDAO;
 import com.database.TicketDAO;
 import com.model.Abonnement;
+import com.model.Klant;
 import com.model.Ticket;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,8 +25,23 @@ import java.util.*;
 public class aReportTabController implements Initializable {
     @FXML
     private BarChart<String, Integer> barChart;
+
     @FXML
-    private CategoryAxis xAxis, xAxisAbo;
+    private BarChart<String, Integer> barChartAbo;
+
+    @FXML
+    private BarChart<String, Integer> barChartKlant;
+
+    @FXML
+    private CategoryAxis xAxis;
+
+    @FXML
+    private CategoryAxis xAxisAbo;
+
+    @FXML
+    private CategoryAxis xAxisKlant;
+
+
     private ObservableList<String> monthNames = FXCollections.observableArrayList();
     private ResourceBundle language;
 
@@ -34,20 +51,43 @@ public class aReportTabController implements Initializable {
         monthNames.addAll(Arrays.asList(months));
         xAxis.setCategories(monthNames);
         xAxisAbo.setCategories(monthNames);
-        setChartData();
+        setChartDataTicket();
         setChartDataAbo();
+        setChartDataKlant();
+    }
+
+    private void setChartDataKlant() {
+        int[] monthCounter = new int[12];
+        List<Klant> klantenList = KlantDAO.getAllKlanten();
+        for (Klant klant : klantenList){
+            int month =  klant.getAankoopDatum().getMonthValue()-1;
+            monthCounter[month]++;
+        }
+
+        XYChart.Series<String, Integer> series = new XYChart.Series<>();
+        for (int i = 0; i < monthCounter.length; i++) {
+            series.getData().add(new XYChart.Data<>(monthNames.get(i), monthCounter[i]));
+        }
+        barChartKlant.getData().add(series);
+
     }
 
     private void setChartDataAbo() {
         int[] monthCounter = new int[12];
         List<Abonnement> abonnementList = AbonnementDAO.readAbonnements();
         for (Abonnement abo : abonnementList){
-            int month =  1;
+            int month =  abo.getAankoopDatum().getMonthValue()-1;
             monthCounter[month]++;
         }
+
+        XYChart.Series<String, Integer> series = new XYChart.Series<>();
+        for (int i = 0; i < monthCounter.length; i++) {
+            series.getData().add(new XYChart.Data<>(monthNames.get(i), monthCounter[i]));
+        }
+        barChartAbo.getData().add(series);
     }
 
-    public void setChartData() {
+    public void setChartDataTicket() {
         int[] monthCounter = new int[12];
         List<Ticket> ticketList = TicketDAO.readTickets();
         for (Ticket ticket : ticketList) {

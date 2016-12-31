@@ -1,6 +1,7 @@
 package com.model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.boon.primitive.Int;
 
@@ -19,11 +20,12 @@ public class Klant {
 	private boolean actief;
 	private String naam;
 	private String voornaam;
+	private LocalDateTime aankoopDatum;
 	
 	public Klant() {}
 
 	public Klant(int klantid, int adresid, LocalDate geboortedatum, String gsmnummer, String commentaar, boolean actief, String naam,
-			String voornaam) {
+			String voornaam, LocalDateTime aankoopDatum) {
 		super();
 		this.klantid = klantid;
 		this.adresid = adresid;
@@ -33,10 +35,11 @@ public class Klant {
 		this.actief = actief;
 		this.naam = naam;
 		this.voornaam = voornaam;
+		this.aankoopDatum = aankoopDatum;
 	}
 	
 	public Klant(int adresid, LocalDate geboortedatum, String gsmnummer, String commentaar, boolean actief, String naam,
-			String voornaam) {
+			String voornaam, LocalDateTime aankoopDatum) {
 		super();
 		this.adresid = adresid;
 		this.geboortedatum = geboortedatum;
@@ -45,6 +48,7 @@ public class Klant {
 		this.actief = actief;
 		this.naam = naam;
 		this.voornaam = voornaam;
+		this.aankoopDatum = aankoopDatum;
 	}
 
 	public int getKlantid() {
@@ -111,4 +115,11 @@ public class Klant {
 		this.voornaam = voornaam;
 	}
 
+	public LocalDateTime getAankoopDatum() {
+		return aankoopDatum;
+	}
+
+	public void setAankoopDatum(LocalDateTime aankoopDatum) {
+		this.aankoopDatum = aankoopDatum;
+	}
 }

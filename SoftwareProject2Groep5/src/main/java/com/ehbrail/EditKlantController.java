@@ -2,6 +2,7 @@ package com.ehbrail;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -199,7 +200,7 @@ public class EditKlantController implements Initializable {
 			int klantAdresId = Integer.valueOf(adresidHidden.getText());
 			int klantid = Integer.valueOf(idHidden.getText());
 			Klant klant = new Klant(klantid, klantAdresId, datepicker.getValue(), gsmText.getText(),
-					commentaarText.getText(), true, naamText.getText(), voornaamText.getText());
+					commentaarText.getText(), true, naamText.getText(), voornaamText.getText(), LocalDateTime.now(ZoneId.of("Europe/Brussels")));
 
 			int huisnr = Integer.valueOf(huisnummerText.getText());
 			int postcode = Integer.valueOf(postcodeText.getText());

@@ -252,7 +252,26 @@ public class WAbonnementTabController implements Initializable {
 	@FXML
 	void prijsBerekening(ActionEvent event) {
 		double prijs=0;
+		LocalDate begin;
+		LocalDate todayLocalDate = LocalDate.now(ZoneId.of("Europe/Brussels"));
+		LocalDate einde;
 		String van=null,naar=null;
+		begin = datepickerBegin.getValue();
+		einde = datepickerEinde.getValue();
+		if (vanField.getText().equals(naarField.getText()) || controleerVanField() == false
+				|| controleerNaarField() == false || begin == null || vanField.getText().isEmpty()
+				|| naarField.getText().isEmpty() || begin.isBefore(todayLocalDate)
+				|| (ritRadioButton.isSelected() && (einde == null || einde.isBefore(begin)))) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error Dialog");
+			alert.setHeaderText(null);
+			alert.setContentText(language.getString("giveStation") + language.getString("controleDate")
+					+ language.getString("controleNietZelfdeStation"));
+
+			alert.showAndWait();
+
+		}
+		else{
 		if (ritRadioButton.isSelected()) {
 			van = vanField.getText();
 			naar = naarField.getText();
@@ -271,6 +290,7 @@ public class WAbonnementTabController implements Initializable {
 
 		String totaal = String.valueOf(prijs);
 		prijsid.setText(totaal);
+		}
 
 	}
 

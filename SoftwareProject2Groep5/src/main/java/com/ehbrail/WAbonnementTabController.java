@@ -42,11 +42,12 @@ import javafx.scene.input.MouseEvent;
  */
 
 public class WAbonnementTabController implements Initializable {
-
+	private final static int PRIJS_HEEL_BELGIE=300;
 	private ResourceBundle language;
 	ObservableList<Klant> lijstKlanten = FXCollections.observableArrayList(KlantDAO.getAll());
 
 	ObservableList<String> lijstReductie = FXCollections.observableArrayList("Senior", "18-25", "-18");
+	
 	ArrayList<String> list;
 
 	@FXML
@@ -190,7 +191,7 @@ public class WAbonnementTabController implements Initializable {
 		int klasse = 0;
 		LocalDate begin;
 		LocalDate einde;
-		double prijs = 300;
+		double prijs=0;
 		LocalDate todayLocalDate = LocalDate.now(ZoneId.of("Europe/Brussels"));
 		begin = datepickerBegin.getValue();
 		einde = datepickerEinde.getValue();
@@ -212,10 +213,12 @@ public class WAbonnementTabController implements Initializable {
 			if (ritRadioButton.isSelected()) {
 				van = vanField.getText();
 				naar = naarField.getText();
+				prijs=WTicketTabController.berekenPrijs(van,naar)*100;
 			}
 			if (belgieRadioButton.isSelected()) {
 				van = language.getString("belgie");
 				naar = language.getString("belgie");
+				prijs=PRIJS_HEEL_BELGIE;
 			}
 
 			if (eersteRadioButton.isSelected()) {
@@ -225,11 +228,11 @@ public class WAbonnementTabController implements Initializable {
 			}
 
 			if (kortingenid.getValue() == "Senior") {
-				prijs = prijs - 50;
+				prijs -= 50;
 			} else if (kortingenid.getValue() == "18-25") {
-				prijs = prijs - 80;
+				prijs -= 80;
 			} else if (kortingenid.getValue() == "-18") {
-				prijs = prijs - 150;
+				prijs -= 150;
 			}
 
 			AbonnementDAO.writeAbonnement(new Abonnement(1, 1, WerknemerController.getLogin().getMedewerker_id(),
@@ -248,13 +251,22 @@ public class WAbonnementTabController implements Initializable {
 
 	@FXML
 	void prijsBerekening(ActionEvent event) {
-		double prijs = 300;
+		double prijs=0;
+		String van=null,naar=null;
+		if (ritRadioButton.isSelected()) {
+			van = vanField.getText();
+			naar = naarField.getText();
+			prijs=WTicketTabController.berekenPrijs(van,naar)*100;
+		}
+		if (belgieRadioButton.isSelected()) {
+			prijs=PRIJS_HEEL_BELGIE;
+		}
 		if (kortingenid.getValue() == "Senior") {
-			prijs = prijs - 50;
+			prijs -= 50;
 		} else if (kortingenid.getValue() == "18-25") {
-			prijs = prijs - 80;
+			prijs -= 80;
 		} else if (kortingenid.getValue() == "-18") {
-			prijs = prijs - 150;
+			prijs -= 150;
 		}
 
 		String totaal = String.valueOf(prijs);

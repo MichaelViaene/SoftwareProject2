@@ -235,7 +235,7 @@ public class WTicketTabController implements Initializable {
     	return false;
     }
     
-    private double berekenAfstand(String vertrekStation, String eindStation){
+    public static double berekenAfstand(String vertrekStation, String eindStation){
     	Station aankomst=new Station(), vertrek= new Station();
     	try (Response resp=getIRailRouteXML(vertrekStation, eindStation)){
     		if (resp.isSuccessful()){
@@ -267,7 +267,7 @@ public class WTicketTabController implements Initializable {
     	return afstand;
     }
     
-    private int getAantalTussenStations(String vertrekStation, String eindStation){
+    public static int getAantalTussenStations(String vertrekStation, String eindStation){
     	int aantal=0;
     	
     	try (Response resp=getIRailRouteXML(vertrekStation, eindStation)){
@@ -292,7 +292,7 @@ public class WTicketTabController implements Initializable {
     	return aantal;
     }
     
-    private double berekenPrijs(String vertrekStation, String eindStation){
+    public static double berekenPrijs(String vertrekStation, String eindStation){
     	double prijs,duur;
     	double afstand = berekenAfstand(vertrekStation, eindStation);
     	int aantal=getAantalTussenStations(vertrekStation,eindStation);
@@ -420,7 +420,7 @@ public class WTicketTabController implements Initializable {
 		}
 	}
     
-	public double getDuratieRoute(String vertrekStation, String eindStation){
+	public static double getDuratieRoute(String vertrekStation, String eindStation){
     	double duur=0;
     	   	
     	try (Response resp=getIRailRouteXML(vertrekStation, eindStation)){

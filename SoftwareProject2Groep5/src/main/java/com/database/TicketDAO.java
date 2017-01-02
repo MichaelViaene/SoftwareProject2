@@ -70,11 +70,6 @@ public class TicketDAO {
 	                ticket.setType(resultSet.getInt("type"));
                     ticket.setMedewerker_id(resultSet.getInt("medewerker_id"));
                     ticket.setTicket_id(resultSet.getInt("korting_id"));
-	
-	                /* resultSet.getInt("medewerker_id");
-	                   nog niet geimplementeerd.
-	                 */
-	
 	                tickets.add(ticket);
 	            }
             } catch (Exception ex) {

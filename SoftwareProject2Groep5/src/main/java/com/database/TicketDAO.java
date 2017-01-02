@@ -19,9 +19,9 @@ public class TicketDAO {
     		com.persistentie.TicketCSV.addTicket(ticket);
     		bool = true;
     	}
-    	else if (DataSource.dbStatus == "ONLINE"){
+    	else if (DataSource.testConn()){
 	        try (Connection con = DataSource.getConnection()){
-	            String query = "INSERT INTO Ticket (vertrek, aankomst, datum_aankoop, datum_heen, datum_terug, klasse, prijs, type, medewerker_id,korting_id)" + "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)" ;
+	            String query = "INSERT INTO Ticket (vertrek, aankomst, datum_aankoop, datum_heen, datum_terug, klasse, prijs, type, medewerker_id,korting_id,formule_id)" + "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)" ;
 	            try (PreparedStatement preparedStatement = con.prepareStatement(query)){
 		            preparedStatement.setString(1, ticket.getVertrekStation());
 		            preparedStatement.setString(2, ticket.getEindStation());
@@ -33,6 +33,7 @@ public class TicketDAO {
 		            preparedStatement.setInt(8, ticket.getType());
 		            preparedStatement.setInt(9, ticket.getMedewerker_id());
 		            preparedStatement.setInt(10, ticket.getKorting_id());
+		            preparedStatement.setInt(11, ticket.getFormuleId());
 		            preparedStatement.execute();
 	            } catch (Exception ex) {
 	                System.out.println(ex);

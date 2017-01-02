@@ -194,7 +194,7 @@ public class WTicketTabController implements Initializable {
         	}
         	
         	double prijs=berekenPrijs(vertrekStation, eindStation);
-        	prijs*=((100-korting.getPercentage())/100);
+        	prijs*=((double)(100-korting.getPercentage())/(double)100);
         	Ticket ticket = new Ticket(vertrekStation,eindStation,1,klasse,type,prijs,datumAankoop,datumHeen,datumTerug,WerknemerController.getLogin().getMedewerker_id(),korting.getKorting(),formule.getFormuleId());
         	
         	TicketDAO.writeTicket(ticket);
@@ -361,7 +361,6 @@ public class WTicketTabController implements Initializable {
 				prijs=e.evaluate();
 				//
 				String out = String.valueOf(prijs);
-				System.out.println(out);
 			}
 	    return prijs;
     }

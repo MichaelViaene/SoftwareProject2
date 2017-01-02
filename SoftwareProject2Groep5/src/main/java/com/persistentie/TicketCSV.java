@@ -22,7 +22,7 @@ import com.opencsv.bean.CsvToBean;
 public class TicketCSV {
 	private static org.apache.logging.log4j.Logger logger = LogManager.getLogger();
 	
-	private static String[] kolommen = new String[] {"vertrekStation", "eindStation", "ticket_id", "klasse", "type", "prijs", "datumAankoop", "datumHeen", "datumTerug" , "medewerker_id" , "korting_id", "medewerker_id"};
+	private static String[] kolommen = new String[] {"vertrekStation", "eindStation", "ticket_id", "klasse", "type", "prijs", "datumAankoop", "datumHeen", "datumTerug" , "medewerker_id" , "korting_id", "medewerker_id", "formule_id"};
 	
 	//voegt ticket toe aan een nieuwe lijn in het bestand
 	public static void addTicket(Ticket ticket){

@@ -12,6 +12,7 @@ import net.objecthunter.exp4j.ExpressionBuilder;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
+import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.URL;
 import java.net.UnknownHostException;
@@ -300,7 +301,8 @@ public class WTicketTabController implements Initializable {
     private double berekenPrijs(String vertrekStation, String eindStation){
     	double prijs = 0,duur;
     	try {
-			if(InetAddress.getByName("www.google.com").isReachable(0)){
+    		//System.out.println(isInternetReachable());
+			if(isInternetReachable()){
 				double afstand = berekenAfstand(vertrekStation, eindStation);
 				int aantal=getAantalTussenStations(vertrekStation,eindStation);
 				duur=getDuratieRoute(vertrekStation,eindStation);
@@ -321,7 +323,7 @@ public class WTicketTabController implements Initializable {
 				Expression e=new ExpressionBuilder(formule).variables("x","y","z").build().setVariable("x", afstand).setVariable("y", aantal).setVariable("z", duur);
 				prijs=e.evaluate();
 			}
-			else if (!InetAddress.getByName("www.google.com").isReachable(0) && DataSource.dbStatus == "OFFLINE"){
+			else if (!isInternetReachable()){
 				double afstand = berekenAfstand(vertrekStation, eindStation);
 				String formule = SoftwareProject.cache.getFormule().getFormule();
 				if(!formule.contains("x")){
@@ -478,5 +480,19 @@ public class WTicketTabController implements Initializable {
     	return duur;
     }
 
+	public static boolean isInternetReachable()
+	   {
+	       try {
+	           URL url = new URL("http://www.google.com");
+	           HttpURLConnection urlConnect = (HttpURLConnection)url.openConnection();
+	           Object objData = urlConnect.getContent();
 
+	       } catch (Exception e) {              
+	           e.printStackTrace();
+	           return false;
+	       }
+
+	       return true;
+	   }
+	
 }

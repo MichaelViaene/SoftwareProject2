@@ -17,6 +17,8 @@ public class FormuleDAO {
 		            //login_id(int11),username(vchar45),passwoord(vchar64),bevoegdheid(int11),medewerker_id(int11)
 		            while (resultSet.next()) {
 		            	form.setFormule(resultSet.getString("formule"));
+		            	form.setActive(true);
+		            	form.setFormuleId(resultSet.getInt("formule_id"));
 		            }
 	            } catch (Exception ex) {
                     System.out.println(ex);
@@ -78,7 +80,11 @@ public class FormuleDAO {
 	            try (ResultSet resultSet = preparedStatement.executeQuery()){
 		            //login_id(int11),username(vchar45),passwoord(vchar64),bevoegdheid(int11),medewerker_id(int11)
 		            while (resultSet.next()) {
-		                formules.add(new Formule(resultSet.getString("formule"),resultSet.getBoolean("active")));
+		                formules.add(new Formule(
+		                		resultSet.getString("formule"),
+		                		resultSet.getBoolean("active"),
+		                		resultSet.getInt("formule_id"),
+		                		resultSet.getInt("medewerker_id")));
 		            }
 	            }
             } catch (Exception ex) {

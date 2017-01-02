@@ -59,7 +59,7 @@ public class APrizeFormulaTabController implements Initializable {
         if (!newFormulaField.getText().isEmpty()){
         	if(checkContent(newFormulaField.getText())){
         		updateFormule(FormuleDAO.getFormuleActive(),false); 
-        		if(FormuleDAO.getFormule(newFormulaField.getText())==new Formule(newFormulaField.getText(),false)){
+        		if(FormuleDAO.getFormule(newFormulaField.getText())==new Formule(newFormulaField.getText(),false,0)){
         			if(updateFormule(newFormulaField.getText(),true)){
         				newFormulaField.clear();
         				oldFormulaField.setText(FormuleDAO.getFormuleActive());

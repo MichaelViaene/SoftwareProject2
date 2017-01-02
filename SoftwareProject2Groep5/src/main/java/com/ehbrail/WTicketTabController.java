@@ -300,28 +300,26 @@ public class WTicketTabController implements Initializable {
     
     private double berekenPrijs(String vertrekStation, String eindStation){
     	double prijs = 0,duur;
-    	try {
-    		//System.out.println(isInternetReachable());
 			if(isInternetReachable()){
-				double afstand = berekenAfstand(vertrekStation, eindStation);
-				int aantal=getAantalTussenStations(vertrekStation,eindStation);
-				duur=getDuratieRoute(vertrekStation,eindStation);
-				Formule form=FormuleDAO.getFormuleActive();
-				String formule=form.getFormule();
-				if(!formule.contains("x")){
-					afstand=0;
-					formule+="1*x";
-				}
-				if(!formule.contains("y")){
-					aantal=0;
-					formule+="1*y";
-				}
-				if(!formule.contains("z")){
-					duur=0;
-					formule+="1*z";
-				}
-				Expression e=new ExpressionBuilder(formule).variables("x","y","z").build().setVariable("x", afstand).setVariable("y", aantal).setVariable("z", duur);
-				prijs=e.evaluate();
+					double afstand = berekenAfstand(vertrekStation, eindStation);
+					int aantal=getAantalTussenStations(vertrekStation,eindStation);
+					duur=getDuratieRoute(vertrekStation,eindStation);
+					Formule form=FormuleDAO.getFormuleActive();
+					String formule=form.getFormule();
+					if(!formule.contains("x")){
+						afstand=0;
+						formule+="1*x";
+					}
+					if(!formule.contains("y")){
+						aantal=0;
+						formule+="1*y";
+					}
+					if(!formule.contains("z")){
+						duur=0;
+						formule+="1*z";
+					}
+					Expression e=new ExpressionBuilder(formule).variables("x","y","z").build().setVariable("x", afstand).setVariable("y", aantal).setVariable("z", duur);
+					prijs=e.evaluate();
 			}
 			else if (!isInternetReachable()){
 				double afstand = berekenAfstand(vertrekStation, eindStation);
@@ -336,13 +334,6 @@ public class WTicketTabController implements Initializable {
 				Expression e = new ExpressionBuilder(formule).variables("x","y","z").build().setVariable("x", afstand).setVariable("y", aantal).setVariable("z", duur);
 				prijs=e.evaluate();
 			}
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	    return prijs;
     }
     

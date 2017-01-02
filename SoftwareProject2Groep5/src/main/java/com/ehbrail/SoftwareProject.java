@@ -149,7 +149,7 @@ public class SoftwareProject extends Application {
 				.withIdentity("TicketTrigger", "group1")
 				.withSchedule(
 						SimpleScheduleBuilder.simpleSchedule()
-						.withIntervalInSeconds(5).repeatForever())
+						.withIntervalInSeconds(60).repeatForever())
 				.build();
 	   
 	   // job3 - cache initialiseren

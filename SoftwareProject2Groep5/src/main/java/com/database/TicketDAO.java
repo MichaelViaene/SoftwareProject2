@@ -35,6 +35,7 @@ public class TicketDAO {
 		            preparedStatement.setInt(10, ticket.getKorting_id());
 		            preparedStatement.setInt(11, ticket.getFormuleId());
 		            preparedStatement.execute();
+		            System.out.println(ticket.getFormuleId());
 	            } catch (Exception ex) {
 	                System.out.println(ex);
 	            }

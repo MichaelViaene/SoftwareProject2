@@ -3,6 +3,8 @@ import com.model.Formule;
 import com.model.Korting;
 import com.model.Station;
 import com.model.Ticket;
+import com.model.Routes.Stationinfo;
+
 import static com.ehbrail.ApiCalls.getIRailRoute;
 import static com.ehbrail.ApiCalls.getIRailRouteXML;
 import net.*;
@@ -273,6 +275,29 @@ public class WTicketTabController implements Initializable {
     	return afstand;
     }
     
+    private double berekenOfflineAfstand(String vertrekStation, String eindStation){
+    	List<Stationinfo> lijst = SoftwareProject.cache.getStationsInfo();
+    	Stationinfo	vertrek = null;
+    	Stationinfo aankomst = null;
+    	Double afstand = 0.0;
+    	for(Stationinfo s: lijst){
+    		if(s.getName() == vertrekStation){
+    			vertrek = s;
+    		}
+    		if(s.getName() == eindStation){
+    			aankomst = s;
+    		}
+    	} 
+    	if (vertrek != null || aankomst != null){
+	    	//lat = y, lon = x
+	    	double hulp=Math.pow(Math.sin(Math.toRadians(Double.parseDouble(aankomst.getLocationY())-Double.parseDouble(vertrek.getLocationY()))/2),2)+
+	    			Math.cos(Math.toRadians(Double.parseDouble(aankomst.getLocationY())))*Math.cos(Math.toRadians(Double.parseDouble(vertrek.getLocationX())))*
+	    			Math.pow(Math.sin(Math.toRadians((Double.parseDouble(aankomst.getLocationX())-Double.parseDouble(vertrek.getLocationX()))/2)),2);
+	    	afstand=2*Math.atan2(Math.sqrt(hulp),Math.sqrt(1-hulp))*6371;
+    	}
+		return afstand;
+	}
+    
     private int getAantalTussenStations(String vertrekStation, String eindStation){
     	int aantal=0;
     	
@@ -301,28 +326,29 @@ public class WTicketTabController implements Initializable {
     private double berekenPrijs(String vertrekStation, String eindStation){
     	double prijs = 0,duur;
 			if(isInternetReachable()){
-					double afstand = berekenAfstand(vertrekStation, eindStation);
-					int aantal=getAantalTussenStations(vertrekStation,eindStation);
-					duur=getDuratieRoute(vertrekStation,eindStation);
-					Formule form=FormuleDAO.getFormuleActive();
-					String formule=form.getFormule();
-					if(!formule.contains("x")){
-						afstand=0;
-						formule+="1*x";
-					}
-					if(!formule.contains("y")){
-						aantal=0;
-						formule+="1*y";
-					}
-					if(!formule.contains("z")){
-						duur=0;
-						formule+="1*z";
-					}
-					Expression e=new ExpressionBuilder(formule).variables("x","y","z").build().setVariable("x", afstand).setVariable("y", aantal).setVariable("z", duur);
-					prijs=e.evaluate();
-			}
-			else if (!isInternetReachable()){
 				double afstand = berekenAfstand(vertrekStation, eindStation);
+				int aantal=getAantalTussenStations(vertrekStation,eindStation);
+				duur=getDuratieRoute(vertrekStation,eindStation);
+				Formule form=FormuleDAO.getFormuleActive();
+				String formule=form.getFormule();
+				if(!formule.contains("x")){
+					afstand=0;
+					formule+="1*x";
+				}
+				if(!formule.contains("y")){
+					aantal=0;
+					formule+="1*y";
+				}
+				if(!formule.contains("z")){
+					duur=0;
+					formule+="1*z";
+				}
+				Expression e=new ExpressionBuilder(formule).variables("x","y","z").build().setVariable("x", afstand).setVariable("y", aantal).setVariable("z", duur);
+				prijs=e.evaluate();
+			}
+			
+			else {
+				double afstand = berekenOfflineAfstand(vertrekStation, eindStation);
 				String formule = SoftwareProject.cache.getFormule().getFormule();
 				if(!formule.contains("x")){
 					afstand=0;
@@ -333,6 +359,9 @@ public class WTicketTabController implements Initializable {
 				
 				Expression e = new ExpressionBuilder(formule).variables("x","y","z").build().setVariable("x", afstand).setVariable("y", aantal).setVariable("z", duur);
 				prijs=e.evaluate();
+				//
+				String out = String.valueOf(prijs);
+				System.out.println(out);
 			}
 	    return prijs;
     }
@@ -485,5 +514,4 @@ public class WTicketTabController implements Initializable {
 
 	       return true;
 	   }
-	
 }

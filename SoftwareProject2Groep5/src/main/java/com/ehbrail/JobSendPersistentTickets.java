@@ -17,7 +17,6 @@ public class JobSendPersistentTickets implements Job{
 		List<Ticket> lijst = com.persistentie.TicketCSV.getTickets();
 		if (DataSource.dbStatus == "ONLINE" && lijst.size() != 0){
 			logger.info("Doorsturen gepersisteerde tickets.");
-			System.out.println("hier2");
 			for(Ticket t : lijst){
 				if(TicketDAO.writeTicket(lijst.get(0)) == true){
 					com.persistentie.TicketCSV.removeFirstTicket();

@@ -58,17 +58,6 @@ public class TicketCSV {
 		try (CSVReader csvReader = new CSVReader(new FileReader("./persistentie/persistentTicket.csv"), ',', '"', 1)){
 			String[] result = null;
 			while((result = csvReader.readNext())!=null){
-				System.out.println(result[0]);
-				System.out.println(result[1]);
-				System.out.println(result[2]);
-				System.out.println(result[3]);
-				System.out.println(result[4]);
-				System.out.println(result[5]);
-				System.out.println(result[6]);
-				System.out.println(result[7]);
-				System.out.println(result[8]);
-				System.out.println(result[9]);
-				System.out.println(result[10]);
 				Ticket help = new Ticket(
 					result[0].toString().trim(), //vertrekStation
 					result[1].toString().trim(), //eindStation

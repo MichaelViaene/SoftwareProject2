@@ -72,7 +72,7 @@ public class KortingCSV {
 				lijst.add(help);
 			}
 		} catch (Exception e) {
-			logger.error("getTickets", e);
+			logger.error("getKortingenFromCSV", e);
 		}
 		return lijst;
 	}

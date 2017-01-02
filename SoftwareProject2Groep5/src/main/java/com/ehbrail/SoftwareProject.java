@@ -5,6 +5,7 @@ import com.model.Korting;
 import com.model.Login;
 import com.model.Werknemer;
 import com.model.Routes.Stationinfo;
+import com.persistentie.Cache;
 import com.sun.istack.internal.logging.Logger;
 
 import javafx.application.Application;
@@ -59,6 +60,7 @@ public class SoftwareProject extends Application {
 	private static org.apache.logging.log4j.Logger logger = LogManager.getLogger();
 	
 	private static Scheduler scheduler;
+	public static Cache cache;
 	
     private BorderPane borderPane = new BorderPane();
    @Override
@@ -150,17 +152,24 @@ public class SoftwareProject extends Application {
 						.withIntervalInSeconds(5).repeatForever())
 				.build();
 	   
-	   com.persistentie.KortingCSV.updateAllKortingen();
-	   List<Korting> lijst = com.persistentie.KortingCSV.getKortingenFromCSV();
-	   for (Korting k: lijst){
-		   System.out.println(k.toString());
-	   }
+	   // job3 - cache initialiseren
+	   JobDetail cacheJob = JobBuilder.newJob(JobPopulateCache.class)
+			   .withIdentity("CacheJob")
+			   .build();
+	   
+	   Trigger cacheTrigger = TriggerBuilder.newTrigger()
+			   .withIdentity("CacheTrigger", "group1")
+			   .withSchedule(
+					   SimpleScheduleBuilder.simpleSchedule()
+					   .withIntervalInSeconds(60).repeatForever())
+			   .build();
 	   
 	   scheduler = new StdSchedulerFactory().getScheduler();
 	   scheduler.start();
 	   
 	   scheduler.scheduleJob(persistentTicketJob, persistentTicketTrigger);
 	   scheduler.scheduleJob(statusJob, statusTrigger);
+	   scheduler.scheduleJob(cacheJob, cacheTrigger);
 
        launch(args);
    }

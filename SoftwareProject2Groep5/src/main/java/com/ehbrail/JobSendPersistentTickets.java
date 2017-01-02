@@ -14,9 +14,7 @@ public class JobSendPersistentTickets implements Job{
 	
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
-		System.out.println("hier");
 		List<Ticket> lijst = com.persistentie.TicketCSV.getTickets();
-		System.out.println("hier");
 		if (DataSource.dbStatus == "ONLINE" && lijst.size() != 0){
 			logger.info("Doorsturen gepersisteerde tickets.");
 			System.out.println("hier2");

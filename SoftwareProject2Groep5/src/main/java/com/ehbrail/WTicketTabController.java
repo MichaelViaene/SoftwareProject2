@@ -50,6 +50,7 @@ import org.dom4j.DocumentException;
 import org.dom4j.io.SAXReader;
 import org.xml.sax.InputSource;
 
+import com.database.DataSource;
 import com.database.FormuleDAO;
 import com.database.KortingDAO;
 import com.database.TicketDAO;
@@ -318,6 +319,19 @@ public class WTicketTabController implements Initializable {
 					formule+="1*z";
 				}
 				Expression e=new ExpressionBuilder(formule).variables("x","y","z").build().setVariable("x", afstand).setVariable("y", aantal).setVariable("z", duur);
+				prijs=e.evaluate();
+			}
+			else if (!InetAddress.getByName("www.google.com").isReachable(0) && DataSource.dbStatus == "OFFLINE"){
+				double afstand = berekenAfstand(vertrekStation, eindStation);
+				String formule = SoftwareProject.cache.getFormule().getFormule();
+				if(!formule.contains("x")){
+					afstand=0;
+					formule+="1*y";
+				}
+				int aantal = 0;
+				duur = 0;
+				
+				Expression e = new ExpressionBuilder(formule).variables("x","y","z").build().setVariable("x", afstand).setVariable("y", aantal).setVariable("z", duur);
 				prijs=e.evaluate();
 			}
 		} catch (UnknownHostException e) {

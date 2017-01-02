@@ -3,20 +3,23 @@ package com.database;
 import java.sql.*;
 import java.util.ArrayList;
 import com.model.Formule;
+import com.model.Formule.FormuleType;
 
 
 
 public class FormuleDAO {
 
-    public static String getFormuleActive() {
+    public static String getTicketFormuleActive() {
+    	
     	Formule form=new Formule();
     	try (Connection con = DataSource.getConnection()){
-            String query = "SELECT * FROM Formule WHERE active=1";
+            String query = "SELECT * FROM Formule WHERE active=1 AND type=TICKET AND online=1";
             try (PreparedStatement preparedStatement = con.prepareStatement(query)){
 	            try (ResultSet resultSet = preparedStatement.executeQuery()){
 		            //login_id(int11),username(vchar45),passwoord(vchar64),bevoegdheid(int11),medewerker_id(int11)
 		            while (resultSet.next()) {
 		            	form.setFormule(resultSet.getString("formule"));
+		            	form.setId(resultSet.getInt("formule_id"));
 		            }
 	            } catch (Exception ex) {
                     System.out.println(ex);
@@ -30,7 +33,32 @@ public class FormuleDAO {
     	form.setActive(true);
         return form.getFormule();
     }
-
+    
+public static String getAbonnementFormuleActive() {
+    	
+    	Formule form=new Formule();
+    	try (Connection con = DataSource.getConnection()){
+            String query = "SELECT * FROM Formule WHERE active=1 AND type=ABONNEMENT AND online=1";
+            try (PreparedStatement preparedStatement = con.prepareStatement(query)){
+	            try (ResultSet resultSet = preparedStatement.executeQuery()){
+		            //login_id(int11),username(vchar45),passwoord(vchar64),bevoegdheid(int11),medewerker_id(int11)
+		            while (resultSet.next()) {
+		            	form.setFormule(resultSet.getString("formule"));
+		            	form.setId(resultSet.getInt("formule_id"));
+		            }
+	            } catch (Exception ex) {
+                    System.out.println(ex);
+                }
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+    	form.setActive(true);
+        return form.getFormule();
+    }
+//TODO: fix insert
     public static boolean insertFormule(String formule, boolean active) {
         try (Connection con = DataSource.getConnection()){
             if (formule != null) {
@@ -78,7 +106,13 @@ public class FormuleDAO {
 	            try (ResultSet resultSet = preparedStatement.executeQuery()){
 		            //login_id(int11),username(vchar45),passwoord(vchar64),bevoegdheid(int11),medewerker_id(int11)
 		            while (resultSet.next()) {
-		                formules.add(new Formule(resultSet.getString("formule"),resultSet.getBoolean("active")));
+		            	formules.add(new Formule(
+		                		resultSet.getInt("formule_id"),
+		                		resultSet.getString("formule"),
+		                		resultSet.getBoolean("active"),
+		                		resultSet.getBoolean("online"),
+		                		resultSet.getInt("medewerker_id"),
+		                		FormuleType.valueOf(resultSet.getString("type"))));
 		            }
 	            }
             } catch (Exception ex) {
@@ -90,6 +124,32 @@ public class FormuleDAO {
         return formules;
     }
 
+    public static ArrayList<Formule>getAllActiveFormules() {
+        ArrayList<Formule> formules =new ArrayList<Formule>();
+        try (Connection con = DataSource.getConnection()){
+            String query = "SELECT * FROM Formule WHERE active=1";
+            try (PreparedStatement preparedStatement = con.prepareStatement(query)){
+	            try (ResultSet resultSet = preparedStatement.executeQuery()){
+		            //login_id(int11),username(vchar45),passwoord(vchar64),bevoegdheid(int11),medewerker_id(int11)
+		            while (resultSet.next()) {
+		                formules.add(new Formule(
+		                		resultSet.getInt("formule_id"),
+		                		resultSet.getString("formule"),
+		                		resultSet.getBoolean("active"),
+		                		resultSet.getBoolean("online"),
+		                		resultSet.getInt("medewerker_id"),
+		                		FormuleType.valueOf(resultSet.getString("type"))));
+		            }
+	            }
+            } catch (Exception ex) {
+                System.out.println(ex);
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return formules;
+    }
+    
     public static Formule getFormule(String formule){
     	Formule form=new Formule();
     	form.setFormule(formule);

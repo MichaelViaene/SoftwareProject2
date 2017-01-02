@@ -301,7 +301,7 @@ public class wTicketTabController implements Initializable {
 				double afstand = berekenAfstand(vertrekStation, eindStation);
 				int aantal=getAantalTussenStations(vertrekStation,eindStation);
 				duur=getDuratieRoute(vertrekStation,eindStation);
-				String formule=FormuleDAO.getFormuleActive();
+				String formule=FormuleDAO.getTicketFormuleActive();
 				if(!formule.contains("x")){
 					afstand=0;
 					formule+="1*x";

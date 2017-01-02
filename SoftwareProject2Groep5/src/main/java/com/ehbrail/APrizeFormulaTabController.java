@@ -24,6 +24,7 @@ import java.util.regex.Pattern;
 import static com.database.LoginDAO.changePassbyLogin;
 import static com.database.LoginDAO.getLoginByID;
 import static com.database.FormuleDAO.getFormuleActive;
+import static com.database.FormuleDAO.getTicketFormuleActive;
 import static com.database.FormuleDAO.updateFormule;
 import static com.database.FormuleDAO.insertFormule;
 
@@ -41,7 +42,7 @@ public class APrizeFormulaTabController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     	accountLabel.setText(AdminController.getLogin().getUsername());
-        oldFormulaField.setText(FormuleDAO.getFormuleActive());
+        oldFormulaField.setText(FormuleDAO.getTicketFormuleActive());
     }
 
     private void createAlertBox(String title, String header, String content){
@@ -58,11 +59,11 @@ public class APrizeFormulaTabController implements Initializable {
         Login login = getLoginByID(AdminController.getLogin().getLogin_id());
         if (!newFormulaField.getText().isEmpty()){
         	if(checkContent(newFormulaField.getText())){
-        		updateFormule(FormuleDAO.getFormuleActive(),false); 
+        		updateFormule(FormuleDAO.getTicketFormuleActive(),false); 
         		if(FormuleDAO.getFormule(newFormulaField.getText())==new Formule(newFormulaField.getText(),false)){
         			if(updateFormule(newFormulaField.getText(),true)){
         				newFormulaField.clear();
-        				oldFormulaField.setText(FormuleDAO.getFormuleActive());
+        				oldFormulaField.setText(FormuleDAO.getTicketFormuleActive());
         				Notifications.create()
         						.title("Succes")
         						.text("Nieuwe formule actief")
@@ -77,7 +78,7 @@ public class APrizeFormulaTabController implements Initializable {
         		else{
         			if(insertFormule(newFormulaField.getText(),true)){
         				newFormulaField.clear();
-        				oldFormulaField.setText(FormuleDAO.getFormuleActive());
+        				oldFormulaField.setText(FormuleDAO.getTicketFormuleActive());
         				Notifications.create()
         						.title("Succes")
         						.text("Succesfully added the formula!")

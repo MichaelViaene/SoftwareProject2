@@ -42,6 +42,7 @@ import java.util.regex.Pattern;
 import static com.database.LoginDAO.changePassbyLogin;
 import static com.database.LoginDAO.getLoginByID;
 import static com.database.FormuleDAO.getFormuleActive;
+import static com.database.FormuleDAO.getTicketFormuleActive;
 import static com.database.FormuleDAO.updateFormule;
 import static com.database.FormuleDAO.insertFormule;
 

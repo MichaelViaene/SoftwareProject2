@@ -22,7 +22,7 @@ import com.opencsv.bean.CsvToBean;
 public class TicketCSV {
 	private static org.apache.logging.log4j.Logger logger = LogManager.getLogger();
 	
-	private static String[] kolommen = new String[] {"vertrekStation", "eindStation", "ticket_id", "klasse", "type", "prijs", "datumAankoop", "datumHeen", "datumTerug" , "medewerker_id" , "korting_id"};
+	private static String[] kolommen = new String[] {"vertrekStation", "eindStation", "ticket_id", "klasse", "type", "prijs", "datumAankoop", "datumHeen", "datumTerug" , "medewerker_id" , "korting_id", "medewerker_id"};
 	
 	//voegt ticket toe aan een nieuwe lijn in het bestand
 	public static void addTicket(Ticket ticket){
@@ -55,8 +55,6 @@ public class TicketCSV {
 	
 	public static List<Ticket> getTickets(){
 		List<Ticket> ticketLijst = new ArrayList();
-		DateTimeFormatter dtformatter = DateTimeFormatter.ofPattern("yyy-MM-dd HH:mm:ss");
-		DateTimeFormatter dformatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		try (CSVReader csvReader = new CSVReader(new FileReader("./persistentie/persistentTicket.csv"), ',', '"', 1)){
 			String[] result = null;
 			while((result = csvReader.readNext())!=null){

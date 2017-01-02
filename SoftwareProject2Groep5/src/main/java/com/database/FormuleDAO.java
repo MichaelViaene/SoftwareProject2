@@ -8,7 +8,7 @@ import com.model.Formule;
 
 public class FormuleDAO {
 
-    public static String getFormuleActive() {
+    public static Formule getFormuleActive() {
     	Formule form=new Formule();
     	try (Connection con = DataSource.getConnection()){
             String query = "SELECT * FROM Formule WHERE active=1";
@@ -19,6 +19,7 @@ public class FormuleDAO {
 		            	form.setFormule(resultSet.getString("formule"));
 		            	form.setActive(true);
 		            	form.setFormuleId(resultSet.getInt("formule_id"));
+		            	form.setMedewerkerId(resultSet.getInt("medewerker_id"));
 		            }
 	            } catch (Exception ex) {
                     System.out.println(ex);
@@ -30,7 +31,7 @@ public class FormuleDAO {
             System.out.println(ex);
         }
     	form.setActive(true);
-        return form.getFormule();
+        return form;
     }
 
     public static boolean insertFormule(String formule, boolean active) {

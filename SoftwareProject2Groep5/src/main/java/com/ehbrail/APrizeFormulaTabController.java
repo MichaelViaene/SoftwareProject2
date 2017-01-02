@@ -41,7 +41,7 @@ public class APrizeFormulaTabController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     	accountLabel.setText(AdminController.getLogin().getUsername());
-        oldFormulaField.setText(FormuleDAO.getFormuleActive());
+        oldFormulaField.setText(FormuleDAO.getFormuleActive().getFormule());
     }
 
     private void createAlertBox(String title, String header, String content){
@@ -58,11 +58,11 @@ public class APrizeFormulaTabController implements Initializable {
         Login login = getLoginByID(AdminController.getLogin().getLogin_id());
         if (!newFormulaField.getText().isEmpty()){
         	if(checkContent(newFormulaField.getText())){
-        		updateFormule(FormuleDAO.getFormuleActive(),false); 
+        		updateFormule(FormuleDAO.getFormuleActive().getFormule(),false); 
         		if(FormuleDAO.getFormule(newFormulaField.getText())==new Formule(newFormulaField.getText(),false,0)){
         			if(updateFormule(newFormulaField.getText(),true)){
         				newFormulaField.clear();
-        				oldFormulaField.setText(FormuleDAO.getFormuleActive());
+        				oldFormulaField.setText(FormuleDAO.getFormuleActive().getFormule());
         				Notifications.create()
         						.title("Succes")
         						.text("Nieuwe formule actief")
@@ -77,7 +77,7 @@ public class APrizeFormulaTabController implements Initializable {
         		else{
         			if(insertFormule(newFormulaField.getText(),true)){
         				newFormulaField.clear();
-        				oldFormulaField.setText(FormuleDAO.getFormuleActive());
+        				oldFormulaField.setText(FormuleDAO.getFormuleActive().getFormule());
         				Notifications.create()
         						.title("Succes")
         						.text("Succesfully added the formula!")

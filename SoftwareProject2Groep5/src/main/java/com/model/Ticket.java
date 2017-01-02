@@ -29,6 +29,7 @@ public class Ticket {
 	private LocalDateTime datumAankoop;
 	private LocalDate datumHeen;
 	private LocalDate datumTerug;
+	private int formuleId;
 
 	/*
 		Voorbeeld localDate, LocaldateTime (present)
@@ -40,7 +41,7 @@ public class Ticket {
 	public Ticket() {
 	}
 
-	public Ticket(String vertrekStation, String eindStation, int ticket_id, int klasse, int type, double prijs, LocalDateTime datumAankoop, LocalDate datumHeen, LocalDate datumTerug, int medewerker_id, int korting_id) {
+	public Ticket(String vertrekStation, String eindStation, int ticket_id, int klasse, int type, double prijs, LocalDateTime datumAankoop, LocalDate datumHeen, LocalDate datumTerug, int medewerker_id, int korting_id, int formuleId) {
 		this.vertrekStation = vertrekStation;
 		this.eindStation = eindStation;
 		this.ticket_id = ticket_id;
@@ -52,6 +53,7 @@ public class Ticket {
 		this.datumTerug = datumTerug;
 		this.medewerker_id = medewerker_id;
 		this.korting_id=korting_id;
+		this.formuleId=formuleId;
 	}
 
 	public int getKorting_id(){
@@ -138,6 +140,14 @@ public class Ticket {
 
 	public void setDatumTerug(LocalDate datumTerug) {
 		this.datumTerug = datumTerug;
+	}
+	
+	public int getFormuleId(){
+		return formuleId;
+	}
+	
+	public void setFormuleId(int formuleId){
+		this.formuleId=formuleId;
 	}
 
 	@Override

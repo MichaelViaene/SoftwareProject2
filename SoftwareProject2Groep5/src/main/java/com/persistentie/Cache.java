@@ -2,6 +2,7 @@ package com.persistentie;
 
 import java.util.List;
 
+import com.database.FormuleDAO;
 import com.database.KortingDAO;
 import com.model.Formule;
 import com.model.Korting;
@@ -11,15 +12,15 @@ import com.model.Routes.Stationinfo;
 public class Cache {
 	private boolean binnengehaald = false;
 	private List<Korting> kortingen = null;
-	private List<Formule> formules = null;
+	private Formule formule = null;
 	private List<Stationinfo> stationsInfo = null;
 	
 	public Cache(){
 		setKortingen(KortingDAO.getActieveKortingen());
 		//TODO: IMPLEMENTEREN FUNCTIES
-		//setFormules(FormuleDAO.getActieveFormules());
+		setFormule(FormuleDAO.getFormuleActive());
 		setStationsInfo(GtfsCSV.getStationsLijst());
-		if(kortingen != null && formules != null){
+		if(kortingen != null && formule != null){
 			binnengehaald = true;
 		}
 	}
@@ -48,11 +49,11 @@ public class Cache {
 		this.kortingen = kortingen;
 	}
 
-	private List<Formule> getFormules() {
-		return formules;
+	private Formule getFormule() {
+		return formule;
 	}
 
-	private void setFormules(List<Formule> formules) {
-		this.formules = formules;
+	private void setFormule(Formule formule) {
+		this.formule = formule;
 	}
 }

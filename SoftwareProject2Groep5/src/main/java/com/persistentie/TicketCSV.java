@@ -82,7 +82,8 @@ public class TicketCSV {
 					LocalDate.parse(result[7].toString().trim(),DateTimeFormatter.ISO_LOCAL_DATE), //datumHeen
 					LocalDate.parse(result[8].toString().trim(),DateTimeFormatter.ISO_LOCAL_DATE), //datumTerug
 					Integer.parseInt(result[9].toString().trim()), //medewerker_id
-					Integer.parseInt(result[10].toString().trim())//korting_id
+					Integer.parseInt(result[10].toString().trim()), //korting_id
+					Integer.parseInt(result[11].toString().trim())//formule_id
 				);
 				ticketLijst.add(help);
 			}

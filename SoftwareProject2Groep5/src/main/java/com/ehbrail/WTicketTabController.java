@@ -1,4 +1,5 @@
 package com.ehbrail;
+import com.model.Formule;
 import com.model.Korting;
 import com.model.Station;
 import com.model.Ticket;
@@ -151,6 +152,7 @@ public class WTicketTabController implements Initializable {
 		LocalDate datumTerug = datumTerugDatePicker.getValue();
 		LocalDateTime datumAankoop = LocalDateTime.now(ZoneId.of("Europe/Brussels"));
 		LocalDate todayLocalDate = LocalDate.now(ZoneId.of("Europe/Brussels"));
+		Formule formule = FormuleDAO.getFormuleActive();
 		list = LoginController.getList();
 		/*
 		 * Voorbeeld localDate, LocaldateTime (present) LocalDate todayLocalDate
@@ -189,7 +191,7 @@ public class WTicketTabController implements Initializable {
         	
         	double prijs=berekenPrijs(vertrekStation, eindStation);
         	prijs*=((100-korting.getPercentage())/100);
-        	Ticket ticket = new Ticket(vertrekStation,eindStation,1,klasse,type,prijs,datumAankoop,datumHeen,datumTerug,WerknemerController.getLogin().getMedewerker_id(),korting.getKorting());
+        	Ticket ticket = new Ticket(vertrekStation,eindStation,1,klasse,type,prijs,datumAankoop,datumHeen,datumTerug,WerknemerController.getLogin().getMedewerker_id(),korting.getKorting(),formule.getFormuleId());
         	
         	TicketDAO.writeTicket(ticket);
 
@@ -301,7 +303,8 @@ public class WTicketTabController implements Initializable {
 				double afstand = berekenAfstand(vertrekStation, eindStation);
 				int aantal=getAantalTussenStations(vertrekStation,eindStation);
 				duur=getDuratieRoute(vertrekStation,eindStation);
-				String formule=FormuleDAO.getFormuleActive();
+				Formule form=FormuleDAO.getFormuleActive();
+				String formule=form.getFormule();
 				if(!formule.contains("x")){
 					afstand=0;
 					formule+="1*x";

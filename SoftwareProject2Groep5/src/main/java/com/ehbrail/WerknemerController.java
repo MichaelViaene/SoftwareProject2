@@ -100,7 +100,7 @@ public class WerknemerController implements Initializable{
     @FXML private WPasswordChangeTabController wPasswordChangeTabController;
     
     @FXML private Tab wAbonnementTab;
-    @FXML private WAbonnementTabController wAbonnementTabController;
+    @FXML private wAbonnementTabController wAbonnementTabController;
     
     @FXML private Tab EditKlantGegevens;
     @FXML private WEditKlantController editKlantController;

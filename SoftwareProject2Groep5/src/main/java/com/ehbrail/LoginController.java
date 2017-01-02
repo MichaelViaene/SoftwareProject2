@@ -123,7 +123,7 @@ public class LoginController implements Initializable {
                     werknemerController.setTopBar(login, werknemer);
                     stage.show();
                 }
-                } else message.setText(language.getString("PasswordChange.account") + " " +login.getUsername()+ language.getString("nietActief"));
+                } else message.setText(language.getString("PasswordChange.account") + " " +login.getUsername()+ " " + language.getString("nietActief"));
             } else {message.setText(language.getString("usernamePasswordInvalid"));}
         } else {message.setText(language.getString("unexpectedErrorDb"));}
       }

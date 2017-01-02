@@ -64,8 +64,11 @@
                                   <fx:include fx:id="KlantTab" source="NieuwKlantTab.fxml" />
                               </content>
                             </Tab>
-                              
-                            
+                              <Tab fx:id="EditKlantGegevens" text="%editKlant">
+                                  <content>
+                                      <fx:include fx:id="EditKlantTab" source="wEditKlantGegevens.fxml" />
+                                  </content>
+                              </Tab>
                           </tabs>
                         </TabPane>
                      </center>

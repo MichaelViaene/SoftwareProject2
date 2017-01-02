@@ -42,7 +42,7 @@ import javafx.scene.input.MouseEvent;
  * Created by Ilias El Mesaoudi on 14/11/2016.
  */
 
-public class wAbonnementTabController implements Initializable {
+public class WAbonnementTabController implements Initializable {
 
 	private ResourceBundle language;
 	ObservableList<Klant> lijstKlanten = FXCollections.observableArrayList(KlantDAO.getAll());

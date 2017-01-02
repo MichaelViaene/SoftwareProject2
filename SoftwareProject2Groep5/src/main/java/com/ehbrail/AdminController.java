@@ -60,7 +60,7 @@ public class AdminController implements Initializable {
     @FXML private Tab aPasswordChangeTab;
     @FXML private APasswordChangeTabController aPasswordChangeTabController;
     @FXML private Tab aReportTab;
-    @FXML private aReportTabController aReportTabController;
+    @FXML private AReportTabController aReportTabController;
     @FXML private Tab aPrizeFormulaTab;
     @FXML private APrizeFormulaTabController aPrizeFormulaTabController;
     @FXML private Tab aReductionTab;

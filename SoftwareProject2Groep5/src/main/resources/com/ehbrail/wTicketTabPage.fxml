@@ -12,8 +12,6 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-
 <HBox alignment="CENTER" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ehbrail.WTicketTabController">
 
    <children>
@@ -67,8 +65,8 @@
                </toggleGroup>
             </RadioButton>
             <RadioButton fx:id="tweedeKlasseRadio" layoutX="52.0" layoutY="219.0" mnemonicParsing="false" selected="true" text="%Abonnement.tweede" toggleGroup="$klasse" />
-            <ComboBox fx:id="kortingCombo" layoutX="135.0" layoutY="335.0" prefWidth="150.0" promptText="%RouteInfo.selecteerKorting" />
-            <Text layoutX="51.0" layoutY="352.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%RouteInfo.korting" />
+            <ComboBox fx:id="kortingCombo" layoutX="135.0" layoutY="367.0" prefWidth="150.0" promptText="%RouteInfo.selecteerKorting" />
+            <Text layoutX="41.0" layoutY="384.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%RouteInfo.korting" />
          </children>
       </Pane>
 

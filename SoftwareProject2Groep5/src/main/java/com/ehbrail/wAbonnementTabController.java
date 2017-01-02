@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -41,13 +42,12 @@ import javafx.scene.input.MouseEvent;
  * Created by Ilias El Mesaoudi on 14/11/2016.
  */
 
-public class WAbonnementTabController implements Initializable {
-	private final static int PRIJS_HEEL_BELGIE=300;
+public class wAbonnementTabController implements Initializable {
+
 	private ResourceBundle language;
 	ObservableList<Klant> lijstKlanten = FXCollections.observableArrayList(KlantDAO.getAll());
 
 	ObservableList<String> lijstReductie = FXCollections.observableArrayList("Senior", "18-25", "-18");
-	
 	ArrayList<String> list;
 
 	@FXML
@@ -172,7 +172,7 @@ public class WAbonnementTabController implements Initializable {
 	}
 
 	@FXML
-	void heelBelgie(ActionEvent event) {
+	void HeelBelgie(ActionEvent event) {
 		vanField.setDisable(true);
 		naarField.setDisable(true);
 		vanField.clear();
@@ -191,14 +191,24 @@ public class WAbonnementTabController implements Initializable {
 		int klasse = 0;
 		LocalDate begin;
 		LocalDate einde;
-		double prijs=0;
+		double prijs = 300;
 		LocalDate todayLocalDate = LocalDate.now(ZoneId.of("Europe/Brussels"));
 		begin = datepickerBegin.getValue();
 		einde = datepickerEinde.getValue();
 
-		if (vanField.getText().equals(naarField.getText()) || controleerVanField() == false
-				|| controleerNaarField() == false || begin == null || vanField.getText().isEmpty()
-				|| naarField.getText().isEmpty() || begin.isBefore(todayLocalDate)
+		if (ritRadioButton.isSelected()) {
+			van = vanField.getText();
+			naar = naarField.getText();
+		}
+		if (belgieRadioButton.isSelected()) {
+			van = "belgie";
+			naar = "Belguim";
+		}
+
+
+		if (van == null && naar == null && van.equals(naar) || klantidOnclick.getText() == "" || controleerVanField()
+				|| controleerNaarField() || begin == null || vanField.getText().isEmpty()
+				&& naarField.getText().isEmpty() && !belgieRadioButton.isSelected() || begin.isBefore(todayLocalDate)
 				|| (ritRadioButton.isSelected() && (einde == null || einde.isBefore(begin)))) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error Dialog");
@@ -210,16 +220,7 @@ public class WAbonnementTabController implements Initializable {
 
 		} else {
 
-			if (ritRadioButton.isSelected()) {
-				van = vanField.getText();
-				naar = naarField.getText();
-				prijs=WTicketTabController.berekenPrijs(van,naar)*100;
-			}
-			if (belgieRadioButton.isSelected()) {
-				van = language.getString("belgie");
-				naar = language.getString("belgie");
-				prijs=PRIJS_HEEL_BELGIE;
-			}
+			int klantId = Integer.parseInt(klantidOnclick.getText());
 
 			if (eersteRadioButton.isSelected()) {
 				klasse = 1;
@@ -228,15 +229,15 @@ public class WAbonnementTabController implements Initializable {
 			}
 
 			if (kortingenid.getValue() == "Senior") {
-				prijs -= 50;
+				prijs = prijs - 50;
 			} else if (kortingenid.getValue() == "18-25") {
-				prijs -= 80;
+				prijs = prijs - 80;
 			} else if (kortingenid.getValue() == "-18") {
-				prijs -= 150;
+				prijs = prijs - 150;
 			}
 
-			AbonnementDAO.writeAbonnement(new Abonnement(1, 1, WerknemerController.getLogin().getMedewerker_id(),
-					klasse, 1, prijs, null, van, naar, begin, einde, "Brussel", 1));
+			AbonnementDAO.writeAbonnement(new Abonnement(1, klantId , WerknemerController.getLogin().getMedewerker_id(),
+					klasse, 1, prijs, null, van, naar, begin, einde, "Brussel", 1, LocalDateTime.now(ZoneId.of("Europe/Brussels"))));
 
 			clearVelden();
 			Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -251,46 +252,17 @@ public class WAbonnementTabController implements Initializable {
 
 	@FXML
 	void prijsBerekening(ActionEvent event) {
-		double prijs=0;
-		LocalDate begin;
-		LocalDate todayLocalDate = LocalDate.now(ZoneId.of("Europe/Brussels"));
-		LocalDate einde;
-		String van=null,naar=null;
-		begin = datepickerBegin.getValue();
-		einde = datepickerEinde.getValue();
-		if (vanField.getText().equals(naarField.getText()) || controleerVanField() == false
-				|| controleerNaarField() == false || begin == null || vanField.getText().isEmpty()
-				|| naarField.getText().isEmpty() || begin.isBefore(todayLocalDate)
-				|| (ritRadioButton.isSelected() && (einde == null || einde.isBefore(begin)))) {
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setTitle("Error Dialog");
-			alert.setHeaderText(null);
-			alert.setContentText(language.getString("giveStation") + language.getString("controleDate")
-					+ language.getString("controleNietZelfdeStation"));
-
-			alert.showAndWait();
-
-		}
-		else{
-		if (ritRadioButton.isSelected()) {
-			van = vanField.getText();
-			naar = naarField.getText();
-			prijs=WTicketTabController.berekenPrijs(van,naar)*100;
-		}
-		if (belgieRadioButton.isSelected()) {
-			prijs=PRIJS_HEEL_BELGIE;
-		}
+		double prijs = 300;
 		if (kortingenid.getValue() == "Senior") {
-			prijs -= 50;
+			prijs = prijs - 50;
 		} else if (kortingenid.getValue() == "18-25") {
-			prijs -= 80;
+			prijs = prijs - 80;
 		} else if (kortingenid.getValue() == "-18") {
-			prijs -= 150;
+			prijs = prijs - 150;
 		}
 
 		String totaal = String.valueOf(prijs);
 		prijsid.setText(totaal);
-		}
 
 	}
 
@@ -325,24 +297,34 @@ public class WAbonnementTabController implements Initializable {
 
 	public boolean controleerVanField() {
 		list = LoginController.getList();
+
+		if (belgieRadioButton.isSelected()) {
+			return false;
+		}
+
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i).equals(vanField.getText())) {
-				return true;
+				return false;
 			}
 		}
 
-		return false;
+		return true;
 	}
 
 	public boolean controleerNaarField() {
 		list = LoginController.getList();
+
+		if (belgieRadioButton.isSelected()) {
+			return false;
+		}
+
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i).equals(naarField.getText())) {
-				return true;
+				return false;
 			}
 		}
 
-		return false;
+		return true;
 	}
 
 	@FXML

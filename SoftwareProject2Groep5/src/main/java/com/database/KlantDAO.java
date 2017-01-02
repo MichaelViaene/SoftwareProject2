@@ -17,17 +17,19 @@ public class KlantDAO {
 		if (klant == null) {
 			return false;
 		}
-		try (Connection con = Database.getConnection()){
-			String pushStatement = "INSERT INTO Klant (adres_id, geboortedatum,gsmnummer,commentaar,actief,naam,voornaam) VALUES (?,?,?,?,?,?,?);";
+		try (Connection con = DataSource.getConnection()){
+			String pushStatement = "INSERT INTO Klant (adres_id, datum_aanmaak, geboortedatum,gsmnummer,commentaar,actief,naam,voornaam) VALUES (?,?,?,?,?,?,?,?);";
 			con.setAutoCommit(false);
 			try (PreparedStatement preparedPush = con.prepareStatement(pushStatement)) {
 				preparedPush.setInt(1, klant.getAdresid());
-				preparedPush.setObject(2, klant.getGeboortedatum());
-				preparedPush.setString(3, klant.getGsmnummer());
-				preparedPush.setString(4, klant.getCommentaar());
-				preparedPush.setBoolean(5, klant.isActief());
-				preparedPush.setString(6, klant.getNaam());
-				preparedPush.setString(7, klant.getVoornaam());
+				preparedPush.setObject(2, klant.getAankoopDatum());
+				preparedPush.setObject(3, klant.getGeboortedatum());
+				preparedPush.setString(4, klant.getGsmnummer());
+				preparedPush.setString(5, klant.getCommentaar());
+				preparedPush.setBoolean(6, klant.isActief());
+				preparedPush.setString(7, klant.getNaam());
+				preparedPush.setString(8, klant.getVoornaam());
+
 
 				preparedPush.executeUpdate();
 				con.commit();
@@ -44,7 +46,7 @@ public class KlantDAO {
 	public static ArrayList<Klant> getAll() {
 
 		ArrayList<Klant> list = new ArrayList<>();
-		try (Connection con = Database.getConnection()){
+		try (Connection con = DataSource.getConnection()){
 			try (Statement st = con.createStatement();
 					ResultSet rs = st.executeQuery("SELECT * FROM Klant where actief=1")){
 				while (rs.next()) {
@@ -56,6 +58,7 @@ public class KlantDAO {
 					klant.setGeboortedatum(rs.getDate("geboortedatum").toLocalDate());
 					klant.setGsmnummer(rs.getString("gsmnummer"));
 					klant.setCommentaar(rs.getString("commentaar"));
+					klant.setAankoopDatum(rs.getTimestamp("datum_aanmaak").toLocalDateTime());
 					list.add(klant);
 				}
 			} catch (Exception ex) {
@@ -67,12 +70,40 @@ public class KlantDAO {
 		return list;
 
 	}
+
+	public static ArrayList<Klant> getAllKlanten() {
+
+		ArrayList<Klant> list = new ArrayList<>();
+		try (Connection con = DataSource.getConnection()){
+			try (Statement st = con.createStatement();
+				 ResultSet rs = st.executeQuery("SELECT * FROM Klant")){
+				while (rs.next()) {
+					Klant klant = new Klant();
+					klant.setKlantid(rs.getInt("klant_id"));
+					klant.setAdresid(rs.getInt("adres_id"));
+					klant.setVoornaam(rs.getString("voornaam"));
+					klant.setNaam(rs.getString("naam"));
+					klant.setGeboortedatum(rs.getDate("geboortedatum").toLocalDate());
+					klant.setGsmnummer(rs.getString("gsmnummer"));
+					klant.setCommentaar(rs.getString("commentaar"));
+					klant.setAankoopDatum(rs.getTimestamp("datum_aanmaak").toLocalDateTime());
+					list.add(klant);
+				}
+			} catch (Exception ex) {
+				System.out.println(ex);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+
+	}
 	
 	public static boolean updateVoorwerp(Klant klant) {
 		if (klant == null) {
 			return false;
 		}
-		try (Connection con = Database.getConnection()){
+		try (Connection con = DataSource.getConnection()){
 			String pushStatement = "UPDATE Klant SET geboortedatum= ?, gsmnummer=?, commentaar=?, naam=?, voornaam=? WHERE klant_id=?;";
 
 			con.setAutoCommit(false);
@@ -102,7 +133,7 @@ public class KlantDAO {
 
 		if (id < 0)
 			return false;
-		try (Connection con = Database.getConnection()){
+		try (Connection con = DataSource.getConnection()){
 			try (PreparedStatement st = con.prepareStatement("UPDATE Klant SET actief= 0 where klant_id= ?")){
 				st.setInt(1, id);
 				st.executeUpdate();

@@ -4,14 +4,15 @@ import com.model.Station;
 import com.model.Ticket;
 import static com.ehbrail.ApiCalls.getIRailRoute;
 import static com.ehbrail.ApiCalls.getIRailRouteXML;
-import net.*;
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
+import java.net.InetAddress;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -72,7 +73,7 @@ import javafx.scene.control.Label;
  *
  */
 
-public class WTicketTabController implements Initializable {
+public class wTicketTabController implements Initializable {
 
 	ArrayList<String> list;
 	List<Korting> kortingen;
@@ -106,24 +107,25 @@ public class WTicketTabController implements Initializable {
 	void showPaneTerug(ActionEvent event) {
 		painTerug.setVisible(false);
 	}
-	
-    @FXML
-    void showPaneHeenTerug(ActionEvent event) {
-	    painTerug.setVisible(true);
-    }
+
+	@FXML
+
+	void showPaneHeenTerug(ActionEvent event) {
+		painTerug.setVisible(true);
+	}
 	
 	@FXML
-    void onClickResetTicket(ActionEvent event) {
-    	vanField.clear();
-    	naarField.clear();
-    	datumHeenDatePicker.setValue(null);
-    	datumTerugDatePicker.setValue(null);
-    	tweedeKlasseRadio.setSelected(true);
-    	heenVertrekRadio.setSelected(true);
-    	terugVertrekRadio.setSelected(true);
-    	heenRadio.setSelected(true);
-    	painTerug.setVisible(false);
-    }
+	    void onClickResetTicket(ActionEvent event) {
+	    	vanField.clear();
+        	naarField.clear();
+        	datumHeenDatePicker.setValue(null);
+        	datumTerugDatePicker.setValue(null);
+        	tweedeKlasseRadio.setSelected(true);
+        	heenVertrekRadio.setSelected(true);
+        	terugVertrekRadio.setSelected(true);
+        	heenRadio.setSelected(true);
+        	painTerug.setVisible(false);
+	    }
 	    
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -235,7 +237,7 @@ public class WTicketTabController implements Initializable {
     	return false;
     }
     
-    public static double berekenAfstand(String vertrekStation, String eindStation){
+    private double berekenAfstand(String vertrekStation, String eindStation){
     	Station aankomst=new Station(), vertrek= new Station();
     	try (Response resp=getIRailRouteXML(vertrekStation, eindStation)){
     		if (resp.isSuccessful()){
@@ -267,7 +269,7 @@ public class WTicketTabController implements Initializable {
     	return afstand;
     }
     
-    public static int getAantalTussenStations(String vertrekStation, String eindStation){
+    private int getAantalTussenStations(String vertrekStation, String eindStation){
     	int aantal=0;
     	
     	try (Response resp=getIRailRouteXML(vertrekStation, eindStation)){
@@ -292,27 +294,37 @@ public class WTicketTabController implements Initializable {
     	return aantal;
     }
     
-    public static double berekenPrijs(String vertrekStation, String eindStation){
-    	double prijs,duur;
-    	double afstand = berekenAfstand(vertrekStation, eindStation);
-    	int aantal=getAantalTussenStations(vertrekStation,eindStation);
-    	duur=getDuratieRoute(vertrekStation,eindStation);
-    	String formule=FormuleDAO.getFormuleActive();
-    	if(!formule.contains("x")){
-    		afstand=0;
-    		formule+="1*x";
-    	}
-    	if(!formule.contains("y")){
-    		aantal=0;
-    		formule+="1*y";
-    	}
-    	if(!formule.contains("z")){
-    		duur=0;
-    		formule+="1*z";
-    	}
-    	Expression e=new ExpressionBuilder(formule).variables("x","y","z").build().setVariable("x", afstand).setVariable("y", aantal).setVariable("z", duur);
-    	prijs=e.evaluate();
-    	return prijs;
+    private double berekenPrijs(String vertrekStation, String eindStation){
+    	double prijs = 0,duur;
+    	try {
+			if(InetAddress.getByName("www.google.com").isReachable(0)){
+				double afstand = berekenAfstand(vertrekStation, eindStation);
+				int aantal=getAantalTussenStations(vertrekStation,eindStation);
+				duur=getDuratieRoute(vertrekStation,eindStation);
+				String formule=FormuleDAO.getFormuleActive();
+				if(!formule.contains("x")){
+					afstand=0;
+					formule+="1*x";
+				}
+				if(!formule.contains("y")){
+					aantal=0;
+					formule+="1*y";
+				}
+				if(!formule.contains("z")){
+					duur=0;
+					formule+="1*z";
+				}
+				Expression e=new ExpressionBuilder(formule).variables("x","y","z").build().setVariable("x", afstand).setVariable("y", aantal).setVariable("z", duur);
+				prijs=e.evaluate();
+			}
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    return prijs;
     }
     
     @FXML private void switchStations(ActionEvent event) throws IOException {
@@ -420,7 +432,7 @@ public class WTicketTabController implements Initializable {
 		}
 	}
     
-	public static double getDuratieRoute(String vertrekStation, String eindStation){
+	public double getDuratieRoute(String vertrekStation, String eindStation){
     	double duur=0;
     	   	
     	try (Response resp=getIRailRouteXML(vertrekStation, eindStation)){

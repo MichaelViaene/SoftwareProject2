@@ -35,7 +35,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 
-public class WEditKlantController implements Initializable {
+public class EditKlantController implements Initializable {
 
 	private ResourceBundle language;
 
@@ -199,9 +199,8 @@ public class WEditKlantController implements Initializable {
 		} else {
 			int klantAdresId = Integer.valueOf(adresidHidden.getText());
 			int klantid = Integer.valueOf(idHidden.getText());
-			LocalDateTime ldt = LocalDateTime.now();
 			Klant klant = new Klant(klantid, klantAdresId, datepicker.getValue(), gsmText.getText(),
-					commentaarText.getText(), true, naamText.getText(), voornaamText.getText(), ldt);
+					commentaarText.getText(), true, naamText.getText(), voornaamText.getText(), LocalDateTime.now(ZoneId.of("Europe/Brussels")));
 
 			int huisnr = Integer.valueOf(huisnummerText.getText());
 			int postcode = Integer.valueOf(postcodeText.getText());

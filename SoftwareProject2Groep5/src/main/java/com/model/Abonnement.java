@@ -1,6 +1,7 @@
 package com.model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
 /**
@@ -23,6 +24,7 @@ public class Abonnement {
 	private int korting_id;
 	private LocalDate beginDatum;
 	private LocalDate eindDatum;
+	private LocalDateTime aankoopDatum;
 	
 	
 	
@@ -55,8 +57,9 @@ public class Abonnement {
 		super();
 	}
 
-	public Abonnement(int abonnement_id, int klant_id, int medewerker_id, int klasse, int actief, double prijs, Route route, String beginStation, String eindStation, LocalDate beginDatum, LocalDate eindDatum,String station,int korting_id) {
+	public Abonnement(int abonnement_id, int klant_id, int medewerker_id, int klasse, int actief, double prijs, Route route, String beginStation, String eindStation, LocalDate beginDatum, LocalDate eindDatum,String station,int korting_id, LocalDateTime aankoopDatum) {
 		this.abonnement_id = abonnement_id;
+		this.aankoopDatum = aankoopDatum;
 		this.klant_id = klant_id;
 		this.klasse = klasse;
 		this.actief = actief;
@@ -157,8 +160,13 @@ public class Abonnement {
 				+ ", prijs=" + prijs + ", route=" + route + ", beginDatum=" + beginDatum
 				+ ", eindDatum=" + eindDatum + "]";
 	}
-	
-	
-	
-	
+
+
+	public LocalDateTime getAankoopDatum() {
+		return aankoopDatum;
+	}
+
+	public void setAankoopDatum(LocalDateTime aankoopDatum) {
+		this.aankoopDatum = aankoopDatum;
+	}
 }

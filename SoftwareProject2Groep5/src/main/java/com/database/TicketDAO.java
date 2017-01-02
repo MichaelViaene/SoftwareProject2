@@ -13,36 +13,43 @@ import java.util.List;
 public class TicketDAO {
 
     public static boolean writeTicket(Ticket ticket) {
-
-
-        try (Connection con = Database.getConnection()){
-            String query = "INSERT INTO Ticket (vertrek, aankomst, datum_aankoop, datum_heen, datum_terug, klasse, prijs, type, medewerker_id,korting_id)" + "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)" ;
-            try (PreparedStatement preparedStatement = con.prepareStatement(query)){
-	            preparedStatement.setString(1, ticket.getVertrekStation());
-	            preparedStatement.setString(2, ticket.getEindStation());
-	            preparedStatement.setObject(3, ticket.getDatumAankoop());
-	            preparedStatement.setObject(4, ticket.getDatumHeen());
-	            preparedStatement.setObject(5, ticket.getDatumTerug());
-	            preparedStatement.setInt(6, ticket.getKlasse());
-	            preparedStatement.setDouble(7, ticket.getPrijs());
-	            preparedStatement.setInt(8, ticket.getType());
-	            preparedStatement.setInt(9, ticket.getMedewerker_id());
-	            preparedStatement.setInt(10, ticket.getKorting_id());
-	            preparedStatement.execute();
-            } catch (Exception ex) {
-                System.out.println(ex);
-            }
-        } catch (Exception ex) {
-            System.out.println(ex);
-            return false;
-        } return true;
+    	DataSource.testConn();
+    	boolean bool = false;
+    	if (DataSource.dbStatus == "OFFLINE"){
+    		com.persistentie.TicketCSV.addTicket(ticket);
+    		bool = true;
+    	}
+    	else if (DataSource.dbStatus == "ONLINE"){
+	        try (Connection con = DataSource.getConnection()){
+	            String query = "INSERT INTO Ticket (vertrek, aankomst, datum_aankoop, datum_heen, datum_terug, klasse, prijs, type, medewerker_id,korting_id)" + "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)" ;
+	            try (PreparedStatement preparedStatement = con.prepareStatement(query)){
+		            preparedStatement.setString(1, ticket.getVertrekStation());
+		            preparedStatement.setString(2, ticket.getEindStation());
+		            preparedStatement.setObject(3, ticket.getDatumAankoop());
+		            preparedStatement.setObject(4, ticket.getDatumHeen());
+		            preparedStatement.setObject(5, ticket.getDatumTerug());
+		            preparedStatement.setInt(6, ticket.getKlasse());
+		            preparedStatement.setDouble(7, ticket.getPrijs());
+		            preparedStatement.setInt(8, ticket.getType());
+		            preparedStatement.setInt(9, ticket.getMedewerker_id());
+		            preparedStatement.setInt(10, ticket.getKorting_id());
+		            preparedStatement.execute();
+	            } catch (Exception ex) {
+	                System.out.println(ex);
+	            }
+	        } catch (Exception ex) {
+	            System.out.println(ex);
+	            bool = false;
+	        } bool = true;
+    	}
+    	return bool;
     }
 
     public static List<Ticket> readTickets (){
 
         List<Ticket> tickets = new LinkedList<>();
 
-        try (Connection con = Database.getConnection()){
+        try (Connection con = DataSource.getConnection()){
 
             String query = "SELECT * FROM Ticket";
             try (PreparedStatement preparedStatement = con.prepareStatement(query);

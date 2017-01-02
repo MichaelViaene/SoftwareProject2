@@ -1,6 +1,8 @@
 package com.ehbrail;
 
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ResourceBundle;
 
 import javax.security.auth.callback.LanguageCallback;
@@ -90,7 +92,7 @@ public class KlantController implements Initializable {
 			AdresDAO.insertAdres(adres);
 			if (adres.getAdres_id() > 0) {
 				Klant klant = new Klant(adres.getAdres_id(), datepicker.getValue(), gsmid.getText(), "", true, naamid.getText(),
-						voornaamid.getText());
+						voornaamid.getText(), LocalDateTime.now(ZoneId.of("Europe/Brussels")));
 				KlantDAO.insertKlant(klant);
 			}
 			clearVelden();

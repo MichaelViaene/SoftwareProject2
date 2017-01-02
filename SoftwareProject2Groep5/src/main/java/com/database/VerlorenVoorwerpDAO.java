@@ -14,7 +14,7 @@ public class VerlorenVoorwerpDAO {
 	public static ArrayList<VerlorenVoorwerp> getAll() {
 
 		ArrayList<VerlorenVoorwerp> list = new ArrayList<>();
-		try (Connection con = Database.getConnection()){
+		try (Connection con = DataSource.getConnection()){
 			try (Statement st = con.createStatement();
 					ResultSet rs = st.executeQuery("SELECT * FROM Verloren_voorwerpen WHERE aanwezig = 1;")){
 				while (rs.next()) {
@@ -41,7 +41,7 @@ public class VerlorenVoorwerpDAO {
 
 		if (id < 0)
 			return false;
-		try (Connection con = Database.getConnection()){
+		try (Connection con = DataSource.getConnection()){
 			try (PreparedStatement st = con.prepareStatement("UPDATE Verloren_voorwerpen SET aanwezig = 0 where verloren_id= ?")){
 				st.setInt(1, id);
 				st.executeUpdate();
@@ -58,7 +58,7 @@ public class VerlorenVoorwerpDAO {
 	public static VerlorenVoorwerp getVoorwerpPerId(int id) {
 		if (id < 0)
 			return null;
-		try (Connection con = Database.getConnection()){
+		try (Connection con = DataSource.getConnection()){
 			try(Statement st = con.createStatement();
 					ResultSet rs = st.executeQuery("SELECT * FROM Verloren_voorwerpen WHERE verloren_id = " + id + ";")){
 				VerlorenVoorwerp voorwerp = new VerlorenVoorwerp();
@@ -84,7 +84,7 @@ public class VerlorenVoorwerpDAO {
 		if (voorwerp == null) {
 			return false;
 		}
-		try (Connection con = Database.getConnection()){
+		try (Connection con = DataSource.getConnection()){
 			String pushStatement = "INSERT INTO Verloren_voorwerpen (naam, omschrijving, datum_aankomst,aanwezig,station) VALUES (?,?,?,?,?);";
 			con.setAutoCommit(false);
 			try (PreparedStatement preparedPush = con.prepareStatement(pushStatement)){
@@ -108,7 +108,7 @@ public class VerlorenVoorwerpDAO {
 	public static ArrayList<VerlorenVoorwerp> getVoorwerpByStation(String station) {
 
 		ArrayList<VerlorenVoorwerp> list = new ArrayList<>();
-		try (Connection con = Database.getConnection()){
+		try (Connection con = DataSource.getConnection()){
 			String query = "SELECT * FROM Verloren_voorwerpen WHERE station=? AND aanwezig=true";
 			try (PreparedStatement preparedStatement = con.prepareStatement(query)){
 				preparedStatement.setString(1, station);
@@ -138,7 +138,7 @@ public class VerlorenVoorwerpDAO {
 		if (voorwerp == null) {
 			return false;
 		}
-		try (Connection con = Database.getConnection()){
+		try (Connection con = DataSource.getConnection()){
 			String pushStatement = "UPDATE Verloren_voorwerpen SET naam=?, omschrijving=?, datum_aankomst=?, station=? WHERE verloren_id=?;";
 
 			con.setAutoCommit(false);

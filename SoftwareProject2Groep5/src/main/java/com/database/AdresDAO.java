@@ -14,7 +14,7 @@ import java.util.List;
 public class AdresDAO {
 	public ArrayList<Adres> getAll() {
 		ArrayList<Adres> adresList = new ArrayList<>();
-		try (Connection con = Database.getConnection()) {
+		try (Connection con = DataSource.getConnection()) {
 			try (Statement st = con.createStatement()) {
 				try (ResultSet rs = st.executeQuery("SELECT * FROM Adres;")) {
 
@@ -43,7 +43,7 @@ public class AdresDAO {
 
 	public static void insertAdres(Adres adres) {
 		AdresDAO adresDAO = new AdresDAO();
-		try (Connection con = Database.getConnection()) {
+		try (Connection con = DataSource.getConnection()) {
 
 			if (adres != null) {
 				// Check of adres al in de DB zit
@@ -80,7 +80,7 @@ public class AdresDAO {
 
 	public ArrayList<Adres> checkAdres(Adres adres) throws SQLException {
 		ArrayList<Adres> adresList = new ArrayList<>();
-		try (Connection con = Database.getConnection()) {
+		try (Connection con = DataSource.getConnection()) {
 			String sql = "SELECT * FROM Adres WHERE plaatsnaam= ? AND straat=? AND huisnr=? AND brievenbus=? AND postcode=?;";
 			try (PreparedStatement preparedStatement = con.prepareStatement(sql)) {
 				preparedStatement.setString(1, adres.getPlaatsnaam());
@@ -126,7 +126,7 @@ public class AdresDAO {
 			return -1;
 
 		int adresid = 0;
-		try (Connection con = Database.getConnection(); Statement st = con.createStatement()) {
+		try (Connection con = DataSource.getConnection(); Statement st = con.createStatement()) {
 			ResultSet rs = st.executeQuery("Select adres_id from Adres where huisnr =" + adres.getHuisnr()
 					+ " AND postcode= " + adres.getPostcode() + " AND brievenbus =\"" + adres.getBrievenbus()
 					+ "\" AND plaatsnaam=\"" + adres.getPlaatsnaam() + "\" AND straat = \"" + adres.getStraat() + "\"");
@@ -144,7 +144,7 @@ public class AdresDAO {
 		AdresDAO adresDAO = new AdresDAO();
 		if (adresid != 0) {
 
-			try (Connection con = Database.getConnection()) {
+			try (Connection con = DataSource.getConnection()) {
 
 				String sql = "Select * from Adres where adres_id=?";
 				try (PreparedStatement preparedStatement = con.prepareStatement(sql)) {
@@ -175,7 +175,7 @@ public class AdresDAO {
 		if (adres== null) {
 			return false;
 		}
-		try (Connection con = Database.getConnection()){
+		try (Connection con = DataSource.getConnection()){
 			String pushStatement = "UPDATE Adres SET plaatsnaam= ?, straat=?, huisnr=?, brievenbus=?, postcode=? WHERE adres_id=?;";
 
 			con.setAutoCommit(false);

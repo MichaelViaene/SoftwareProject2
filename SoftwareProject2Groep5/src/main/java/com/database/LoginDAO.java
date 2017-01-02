@@ -11,7 +11,7 @@ public class LoginDAO {
 
     public Login getLoginByUsername(String username) {
         Login login = new Login();
-        try (Connection con = Database.getConnection()){
+        try (Connection con = DataSource.getConnection()){
             String query = "SELECT * FROM Login WHERE username=? LIMIT 1";
             try (PreparedStatement preparedStatement = con.prepareStatement(query)){
 	            preparedStatement.setString(1, username);
@@ -37,7 +37,7 @@ public class LoginDAO {
     }
 
     public static boolean insertLogin(Login login) {
-        try (Connection con = Database.getConnection()){
+        try (Connection con = DataSource.getConnection()){
             if (login != null) {
                 String query = "INSERT INTO Login (login_id,username,passwoord,bevoegdheid,medewerker_id) VALUES (NULL,?,?,?,?);";
                 con.setAutoCommit(false);
@@ -61,7 +61,7 @@ public class LoginDAO {
     }
 
     public static boolean updateLoginBevoegdheid(Login login) {
-        try (Connection con = Database.getConnection()){
+        try (Connection con = DataSource.getConnection()){
             String query = "Update Login SET bevoegdheid = ? WHERE medewerker_id = ? ";
             try (PreparedStatement preparedStatement = con.prepareStatement(query)){
 	            preparedStatement.setInt(1, login.getBevoegdheidInt());
@@ -78,7 +78,7 @@ public class LoginDAO {
     }
 
     public static boolean changePassbyMedewerker(Login login) {
-        try (Connection con = Database.getConnection()){
+        try (Connection con = DataSource.getConnection()){
             try (PreparedStatement st = con.prepareStatement("UPDATE Login SET passwoord = ? WHERE medewerker_id= ?")){
 	            st.setString(1, login.getPassword());
 	            st.setInt(2, login.getMedewerker_id());
@@ -94,7 +94,7 @@ public class LoginDAO {
     }
 
     public static boolean changePassbyLogin(Login login, String HashedPass) {
-        try (Connection con = Database.getConnection()){
+        try (Connection con = DataSource.getConnection()){
             try (PreparedStatement st = con.prepareStatement("UPDATE Login SET passwoord = ? WHERE login_id= ?")){
 	            st.setString(1, HashedPass);
 	            st.setInt(2, login.getLogin_id());
@@ -111,7 +111,7 @@ public class LoginDAO {
 
     public static Login getLoginByID(int id) {
         Login login = new Login();
-        try (Connection con = Database.getConnection()){
+        try (Connection con = DataSource.getConnection()){
             String query = "SELECT * FROM Login WHERE login_id=? LIMIT 1";
             try (PreparedStatement preparedStatement = con.prepareStatement(query)){
 	            preparedStatement.setInt(1, id);

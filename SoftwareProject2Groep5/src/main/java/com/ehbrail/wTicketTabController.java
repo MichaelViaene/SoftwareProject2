@@ -10,7 +10,9 @@ import net.objecthunter.exp4j.ExpressionBuilder;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
+import java.net.InetAddress;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -293,26 +295,36 @@ public class wTicketTabController implements Initializable {
     }
     
     private double berekenPrijs(String vertrekStation, String eindStation){
-    	double prijs,duur;
-    	double afstand = berekenAfstand(vertrekStation, eindStation);
-    	int aantal=getAantalTussenStations(vertrekStation,eindStation);
-    	duur=getDuratieRoute(vertrekStation,eindStation);
-    	String formule=FormuleDAO.getFormuleActive();
-    	if(!formule.contains("x")){
-    		afstand=0;
-    		formule+="1*x";
-    	}
-    	if(!formule.contains("y")){
-    		aantal=0;
-    		formule+="1*y";
-    	}
-    	if(!formule.contains("z")){
-    		duur=0;
-    		formule+="1*z";
-    	}
-    	Expression e=new ExpressionBuilder(formule).variables("x","y","z").build().setVariable("x", afstand).setVariable("y", aantal).setVariable("z", duur);
-    	prijs=e.evaluate();
-    	return prijs;
+    	double prijs = 0,duur;
+    	try {
+			if(InetAddress.getByName("www.google.com").isReachable(0)){
+				double afstand = berekenAfstand(vertrekStation, eindStation);
+				int aantal=getAantalTussenStations(vertrekStation,eindStation);
+				duur=getDuratieRoute(vertrekStation,eindStation);
+				String formule=FormuleDAO.getFormuleActive();
+				if(!formule.contains("x")){
+					afstand=0;
+					formule+="1*x";
+				}
+				if(!formule.contains("y")){
+					aantal=0;
+					formule+="1*y";
+				}
+				if(!formule.contains("z")){
+					duur=0;
+					formule+="1*z";
+				}
+				Expression e=new ExpressionBuilder(formule).variables("x","y","z").build().setVariable("x", afstand).setVariable("y", aantal).setVariable("z", duur);
+				prijs=e.evaluate();
+			}
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    return prijs;
     }
     
     @FXML private void switchStations(ActionEvent event) throws IOException {
